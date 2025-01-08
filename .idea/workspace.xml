@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="299b5033-5929-4182-920d-fe7f0344559d" name="Changes" comment="" />
+    <list default="true" id="299b5033-5929-4182-920d-fe7f0344559d" name="Changes" comment="ADD - create a repo" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,7 +35,7 @@
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/apolline/Evolos/mobileApp",
+    "last_opened_file_path": "/home/apolline/Evolos/mobileApp/mobile_app",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -65,11 +65,24 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1736351097379</updated>
-      <workItem from="1736351098257" duration="1032000" />
+      <workItem from="1736351098257" duration="1229000" />
     </task>
+    <task id="LOCAL-00001" summary="ADD - create a repo">
+      <option name="closed" value="true" />
+      <created>1736352227390</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1736352227390</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="ADD - create a repo" />
+    <option name="LAST_COMMIT_MESSAGE" value="ADD - create a repo" />
   </component>
 </project>
