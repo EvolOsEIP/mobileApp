@@ -8,12 +8,14 @@
         {
           "id": 1,
           "title": "Course 1",
-          "description": "This is the first course"
+          "description": "This is the first course",
+          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc"
         },
         {
           "id": 2,
           "title": "Course 2",
-          "description": "This is the second course"
+          "description": "This is the second course",
+          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc"
         }
       ]
     },
@@ -25,12 +27,14 @@
         {
           "id": 3,
           "title": "Course 3",
-          "description": "This is the third course"
+          "description": "This is the third course",
+          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc"
         },
         {
           "id": 4,
           "title": "Course 4",
-          "description": "This is the fourth course"
+          "description": "This is the fourth course",
+          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc"
         }
       ]
     },
@@ -42,12 +46,14 @@
         {
           "id": 5,
           "title": "Course 5",
-          "description": "This is the fifth course"
+          "description": "This is the fifth course",
+          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc"
         },
         {
           "id": 6,
           "title": "Course 6",
-          "description": "This is the sixth course"
+          "description": "This is the sixth course",
+          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc"
         }
       ]
     }
