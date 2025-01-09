@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
 
       routes: {
         '/': (context) => const ChapterListPage(),
-        '/chapter': (context) => const ChapterPage(),
+        '/chapter': (context) => const ChapterPage(title: 'Chapter'),
       },
     );
   }
