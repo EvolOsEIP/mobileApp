@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 
 class ChapterListPage extends StatefulWidget {
@@ -7,11 +8,28 @@ class ChapterListPage extends StatefulWidget {
 }
 
 class _ChapterListPageState extends State<ChapterListPage> {
-  List<String> chapters = [
-    "Chapter 1",
-    "Chapter 2",
-    "Chapter 3"
-  ];
+  dynamic data;
+
+  @override
+  void initState() {
+    super.initState();
+    getChapters();
+  }
+
+  Future<void> getChapters() async {
+    try {
+      String dataString = await DefaultAssetBundle.of(context)
+          .loadString('assets/chapters.json');
+
+      setState(() {
+        data = jsonDecode(dataString);
+      });
+
+
+    } catch (e) {
+      print("Error loading the JSON file: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,22 +46,25 @@ class _ChapterListPageState extends State<ChapterListPage> {
 
         ),
       ),
-      body: Center(
-        child: Column(
-          // create a card for each chapter
-          children: chapters.map((chapter) {
-            return Card(
-              child: ListTile(
-                title: Text(chapter),
-                onTap: () {
-                  // navigate to the chapter page
-                  Navigator.pushNamed(context, '/chapter');
-                },
-              ),
-            );
-          }).toList(),
-        ),
-      ),
+      // create a card for each chapter in the list
+      body: data == null
+          ? const Center(
+              child: CircularProgressIndicator(),
+            ) : ListView.builder(
+              itemCount: data["chapters"].length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: ListTile(
+                    title: Text(data["chapters"][index]['title']),
+                    subtitle: Text(data["chapters"][index]['description']),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/chapter',
+                          arguments: data["chapters"][index]['title']);
+                    },
+                  ),
+                );
+              }
+            ),
     );
   }
 }
