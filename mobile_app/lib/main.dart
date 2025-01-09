@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/pages/chapter_list_page.dart';
+import 'package:mobile_app/pages/chapter_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,8 +11,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: ChapterListPage(),
+    return MaterialApp(
+      initialRoute: '/',
+
+      routes: {
+        '/': (context) => const ChapterListPage(),
+        '/chapter': (context) => const ChapterPage(),
+      },
     );
   }
 }
