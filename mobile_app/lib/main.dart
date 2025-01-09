@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/pages/chapter_list_page.dart';
 import 'package:mobile_app/pages/courses_list_page.dart';
+import 'package:mobile_app/pages/course_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const ChapterListPage(),
         '/courses': (context) => const CoursesListPage(chapter: null),
+        '/course_detail': (context) => const CoursePage(courses: null),
       },
     );
   }
