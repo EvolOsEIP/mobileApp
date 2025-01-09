@@ -58,8 +58,8 @@ class _ChapterListPageState extends State<ChapterListPage> {
                     title: Text(data["chapters"][index]['title']),
                     subtitle: Text(data["chapters"][index]['description']),
                     onTap: () {
-                      Navigator.pushNamed(context, '/chapter',
-                          arguments: data["chapters"][index]['title']);
+                      Navigator.pushNamed(context, '/courses',
+                          arguments: data["chapters"][index]);
                     },
                   ),
                 );
