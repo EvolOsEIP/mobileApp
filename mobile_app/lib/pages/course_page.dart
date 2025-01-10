@@ -50,6 +50,7 @@ class _CoursePageState extends State<CoursePage> {
         });
       } else {
         timer.cancel();
+
         setState(() {
           isTyping = false;
         });
@@ -93,17 +94,8 @@ class _CoursePageState extends State<CoursePage> {
         onTap: _onTap,
         child: Stack(
           children: [
-            Center(
-              child: Text(
-                "cours",
-                style: TextStyle(
-                  color: const Color.fromARGB(77, 247, 17, 17),
-                  fontSize: 24,
-                ),
-              ),
-            ),
             Align(
-              alignment: Alignment.topCenter,
+              alignment: Alignment.center,
               child: AnimatedOpacity(
                 opacity: isBlinking ? 0.5 : 1.0,
                 duration: const Duration(milliseconds: 500),
