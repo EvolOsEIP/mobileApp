@@ -8,7 +8,14 @@
         {
           "id": 1,
           "title": "Course 1",
-          "description": "This is the first course"
+          "description": "This is the first course",
+          "dialogs": [
+            "This is the first dialog",
+            "This is the second dialog",
+            "This is the third dialog",
+            "This is the fourth dialog",
+            "This is the fifth dialog"
+          ]
         },
         {
           "id": 2,

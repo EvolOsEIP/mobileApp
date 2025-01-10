@@ -14,7 +14,6 @@ class _CoursesListPageState extends State<CoursesListPage> {
   Widget build(BuildContext context) {
     final chapter = ModalRoute.of(context)!.settings.arguments as dynamic;
 
-
     return Scaffold(
       appBar: AppBar(
         title: Text(chapter['title']),
@@ -22,15 +21,16 @@ class _CoursesListPageState extends State<CoursesListPage> {
       body: ListView.builder(
         itemCount: chapter['courses'].length,
         itemBuilder: (context, index) {
-        return Card(
-          child: ListTile(
-            title: Text(chapter['courses'][index]['title']),
-            subtitle: Text(chapter['courses'][index]['description']),
-            onTap: () {
-              Navigator.pushNamed(context, '/course_detail', arguments: chapter['courses'][index]);
-            },
-          ),
-        );
+          return Card(
+            child: ListTile(
+              title: Text(chapter['courses'][index]['title']),
+              subtitle: Text(chapter['courses'][index]['description']),
+              onTap: () {
+                Navigator.pushNamed(context, '/course_detail',
+                    arguments: chapter['courses'][index]);
+              },
+            ),
+          );
         },
       ),
     );

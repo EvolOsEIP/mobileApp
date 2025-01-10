@@ -14,12 +14,33 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/',
-
       routes: {
-        '/': (context) => const ChapterListPage(),
-        '/courses': (context) => const CoursesListPage(chapter: null),
-        '/course_detail': (context) => const CoursePage(courses: null),
+        // '/': (context) => const ChapterListPage(),
+        // '/courses': (context) => const CoursesListPage(chapter: null),
+        '/': (context) => const CoursePage(courses: null),
+        // '/': (context) => Test(),
       },
     );
+  }
+}
+
+class Test extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Test'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: test,
+          child: const Text('Test'),
+        ),
+      ),
+    );
+  }
+
+  void test() {
+    print("Test");
   }
 }
