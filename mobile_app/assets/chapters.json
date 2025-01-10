@@ -9,13 +9,18 @@
           "id": 1,
           "title": "Course 1",
           "description": "This is the first course",
-          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc"
+          "dialogs": [
+            "This is the first dialog",
+            "This is the second dialog",
+            "This is the third dialog",
+            "This is the fourth dialog",
+            "This is the fifth dialog"
+          ]
         },
         {
           "id": 2,
           "title": "Course 2",
-          "description": "This is the second course",
-          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc"
+          "description": "This is the second course"
         }
       ]
     },
@@ -27,14 +32,12 @@
         {
           "id": 3,
           "title": "Course 3",
-          "description": "This is the third course",
-          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc"
+          "description": "This is the third course"
         },
         {
           "id": 4,
           "title": "Course 4",
-          "description": "This is the fourth course",
-          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc"
+          "description": "This is the fourth course"
         }
       ]
     },
@@ -46,14 +49,12 @@
         {
           "id": 5,
           "title": "Course 5",
-          "description": "This is the fifth course",
-          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc"
+          "description": "This is the fifth course"
         },
         {
           "id": 6,
           "title": "Course 6",
-          "description": "This is the sixth course",
-          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc"
+          "description": "This is the sixth course"
         }
       ]
     }
