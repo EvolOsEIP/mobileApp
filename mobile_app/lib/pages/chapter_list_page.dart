@@ -65,28 +65,6 @@ class _ChapterListPageState extends State<ChapterListPage> {
                       height: 250, // Set the desired height for the cards
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              "assets/images/genetic-data-svgrepo-com.svg",
-                              width: 100,
-                              height: 100,
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: Text(
-                                      data["chapters"][index]['title'],
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: CustomColors.dark_accent
-                                      ),
-=======
                         child: Row(children: [
                           SvgPicture.asset(
                             "assets/images/genetic-data-svgrepo-com.svg",
@@ -105,7 +83,6 @@ class _ChapterListPageState extends State<ChapterListPage> {
                                     style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
->>>>>>> origin/chapter_list_page_front
                                     ),
                                   ),
                                 ),
