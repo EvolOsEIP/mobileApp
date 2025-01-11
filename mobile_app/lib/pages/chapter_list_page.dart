@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'package:mobile_app/utils/colors.dart';
+
 class ChapterListPage extends StatefulWidget {
   const ChapterListPage({super.key});
   @override
@@ -56,6 +58,7 @@ class _ChapterListPageState extends State<ChapterListPage> {
                         arguments: data["chapters"][index]);
                   },
                   child: Card(
+                    color: CustomColors.accent,
                     margin: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 16),
                     child: SizedBox(
@@ -81,6 +84,7 @@ class _ChapterListPageState extends State<ChapterListPage> {
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
+                                        color: CustomColors.dark_accent
                                       ),
                                     ),
                                   ),
