@@ -1,6 +1,6 @@
-import 'dart:convert';
 import "package:flutter/material.dart";
 import 'dart:async';
+import 'dart:convert';
 
 class CoursePage extends StatefulWidget {
   final dynamic courses;
@@ -11,12 +11,8 @@ class CoursePage extends StatefulWidget {
 }
 
 class _CoursePageState extends State<CoursePage> {
-  final List<String> dialogs = [
-    "Welcome to the world of Flutter!",
-    "Here, you'll learn to create amazing apps.",
-    "Let's begin our journey together.",
-    "Good luck, and have fun coding!"
-  ];
+  dynamic data;
+  dynamic dialogs = ["Hello! I'm your assistant."];
 
   int currentDialogIndex = 0;
   String displayedText = "";
@@ -28,6 +24,7 @@ class _CoursePageState extends State<CoursePage> {
   void initState() {
     super.initState();
     _startTypingEffect(dialogs[currentDialogIndex]);
+    getChapters();
   }
 
   @override
@@ -84,6 +81,20 @@ class _CoursePageState extends State<CoursePage> {
       } else {
         Navigator.pop(context);
       }
+    }
+  }
+
+  Future<void> getChapters() async {
+    try {
+      String dataString = await DefaultAssetBundle.of(context)
+          .loadString('assets/chapters.json');
+
+      setState(() {
+        data = jsonDecode(dataString);
+        dialogs = data["chapters"][0]["courses"][0]["dialogs"];
+      });
+    } catch (e) {
+      print("Error loading the JSON file: $e");
     }
   }
 
