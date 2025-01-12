@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -15,7 +14,6 @@ class _CoursesListPageState extends State<CoursesListPage> {
   Widget build(BuildContext context) {
     final chapter = ModalRoute.of(context)!.settings.arguments as dynamic;
 
-
     return Scaffold(
       appBar: AppBar(
         title: Text(chapter['title']),
@@ -23,6 +21,7 @@ class _CoursesListPageState extends State<CoursesListPage> {
       body: ListView.builder(
         itemCount: chapter['courses'].length,
         itemBuilder: (context, index) {
+
           return InkWell(
             onTap: () {
               Navigator.pushNamed(

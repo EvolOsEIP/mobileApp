@@ -15,7 +15,36 @@
             "This is the third dialog",
             "This is the fourth dialog",
             "This is the fifth dialog"
-          ]
+
+          ],
+          "course_pages": [
+            {
+              "id": 0,
+              "images": [],
+              "instructions": [
+                "This is instruction 1",
+                "This is instruction 2",
+                "This is instruction 3",
+                "This is instruction 4",
+                "This is instruction 5",
+                "This is instruction 6"
+              ]
+
+            },
+            {
+              "id": 1,
+              "images": [],
+              "instructions": [
+                "This is instruction 1",
+                "This is instruction 2",
+                "This is instruction 3",
+                "This is instruction 4",
+                "This is instruction 5",
+                "This is instruction 6"
+              ]
+            }
+          ] 
+
         },
         {
           "id": 2,
