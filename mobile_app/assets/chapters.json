@@ -1,0 +1,91 @@
+{
+  "chapters": [
+    {
+      "id": 1,
+      "title": "Chapter 1",
+      "description": "This is the first chapter",
+      "courses": [
+        {
+          "id": 1,
+          "title": "Course 1",
+          "description": "This is the first course",
+          "dialogs": [
+            "This is the first dialog",
+            "This is the second dialog",
+            "This is the third dialog",
+            "This is the fourth dialog",
+            "This is the fifth dialog"
+
+          ],
+          "course_pages": [
+            {
+              "id": 0,
+              "images": [],
+              "instructions": [
+                "This is instruction 1",
+                "This is instruction 2",
+                "This is instruction 3",
+                "This is instruction 4",
+                "This is instruction 5",
+                "This is instruction 6"
+              ]
+
+            },
+            {
+              "id": 1,
+              "images": [],
+              "instructions": [
+                "This is instruction 1",
+                "This is instruction 2",
+                "This is instruction 3",
+                "This is instruction 4",
+                "This is instruction 5",
+                "This is instruction 6"
+              ]
+            }
+          ] 
+
+        },
+        {
+          "id": 2,
+          "title": "Course 2",
+          "description": "This is the second course"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Chapter 2",
+      "description": "This is the second chapter",
+      "courses": [
+        {
+          "id": 3,
+          "title": "Course 3",
+          "description": "This is the third course"
+        },
+        {
+          "id": 4,
+          "title": "Course 4",
+          "description": "This is the fourth course"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Chapter 3",
+      "description": "This is the third chapter",
+      "courses": [
+        {
+          "id": 5,
+          "title": "Course 5",
+          "description": "This is the fifth course"
+        },
+        {
+          "id": 6,
+          "title": "Course 6",
+          "description": "This is the sixth course"
+        }
+      ]
+    }
+  ]
+}
