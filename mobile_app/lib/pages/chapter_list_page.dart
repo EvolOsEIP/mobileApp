@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:mobile_app/utils/colors.dart';
 
 class ChapterListPage extends StatefulWidget {
   const ChapterListPage({super.key});
@@ -24,8 +27,6 @@ class _ChapterListPageState extends State<ChapterListPage> {
       setState(() {
         data = jsonDecode(dataString);
       });
-
-
     } catch (e) {
       print("Error loading the JSON file: $e");
     }
@@ -36,34 +37,68 @@ class _ChapterListPageState extends State<ChapterListPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-
         title: const Text(
           'Chapters',
           style: TextStyle(
             color: Colors.black,
             fontSize: 20,
           ),
-
         ),
       ),
-      // create a card for each chapter in the list
       body: data == null
           ? const Center(
               child: CircularProgressIndicator(),
-            ) : ListView.builder(
+            )
+          : ListView.builder(
               itemCount: data["chapters"].length,
               itemBuilder: (context, index) {
-                return Card(
-                  child: ListTile(
-                    title: Text(data["chapters"][index]['title']),
-                    subtitle: Text(data["chapters"][index]['description']),
-                    onTap: () {
-                      Navigator.pushNamed(context, '/courses',
-                          arguments: data["chapters"][index]);
-                    },
+                return InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/courses',
+                        arguments: data["chapters"][index]);
+                  },
+                  child: Card(
+                    color: CustomColors.accent,
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 16),
+                    child: SizedBox(
+                      height: 250, // Set the desired height for the cards
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(children: [
+                          SvgPicture.asset(
+                            "assets/images/genetic-data-svgrepo-com.svg",
+                            width: 100,
+                            height: 100,
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: Text(
+                                    data["chapters"][index]['title'],
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  data["chapters"][index]['description'],
+                                  style: const TextStyle(fontSize: 14),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ]),
+                      ),
+                    ),
                   ),
                 );
-              }
+              },
             ),
     );
   }
