@@ -22,29 +22,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => const CoursePage(
               courses: 0,
             ),
-        // '/': (context) => Test(),
+        // '/': (context) => VirtualKeyboardApp(),
       },
     );
-  }
-}
-
-class Test extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Test'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: test,
-          child: const Text('Test'),
-        ),
-      ),
-    );
-  }
-
-  void test() {
-    print("Test");
   }
 }

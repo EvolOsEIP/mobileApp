@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import "package:flutter/material.dart";
 import 'dart:async';
 import 'dart:convert';
@@ -13,6 +15,9 @@ class CoursePage extends StatefulWidget {
 class _CoursePageState extends State<CoursePage> {
   dynamic data;
   dynamic dialogs = ["Hello! I'm your assistant."];
+  dynamic currentCoursePage;
+  dynamic courseData;
+  dynamic currentInstruction = "get ready to start the course";
 
   int currentDialogIndex = 0;
   String displayedText = "";
@@ -84,6 +89,42 @@ class _CoursePageState extends State<CoursePage> {
     }
   }
 
+  int currentPageIndex = 0; // Index of the current course page
+  int currentInstructionIndex = 0; // Index of the current instruction
+
+  void _nextInstruction() {
+    setState(() {
+      if (currentInstructionIndex <
+          courseData['course_pages'][currentPageIndex]['instructions'].length -
+              1) {
+        currentInstructionIndex++;
+      } else if (currentPageIndex < courseData['course_pages'].length - 1) {
+        currentInstructionIndex = 0;
+        currentPageIndex++;
+      } else {
+        _showCompletionDialog();
+      }
+    });
+  }
+
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Course Completed"),
+        content: Text("You've completed all the instructions!"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          )
+        ],
+      ),
+    );
+  }
+
   Future<void> getChapters() async {
     try {
       String dataString = await DefaultAssetBundle.of(context)
@@ -92,6 +133,10 @@ class _CoursePageState extends State<CoursePage> {
       setState(() {
         data = jsonDecode(dataString);
         dialogs = data["chapters"][0]["courses"][0]["dialogs"];
+        currentCoursePage =
+            data["chapters"][0]["courses"][0]["course_pages"][0];
+        courseData = data["chapters"][0]["courses"][0];
+        // currentCoursePage['instructions'][currentInstructionIndex];
       });
     } catch (e) {
       print("Error loading the JSON file: $e");
@@ -144,7 +189,29 @@ class _CoursePageState extends State<CoursePage> {
                 ),
               ),
             ),
+            LinearProgressIndicator(
+              value: (currentInstructionIndex + 1) /
+                  currentCoursePage['instructions'].length,
+            ),
+            SizedBox(height: 20),
+            // Display current instruction
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                currentInstruction,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Spacer(),
+            // Interaction Area
+            ElevatedButton(
+              onPressed: _nextInstruction,
+              child: Text("Next"),
+            ),
+            SizedBox(height: 20),
           ],
+          // ],
         ),
       ),
     );
