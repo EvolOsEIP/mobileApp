@@ -17,12 +17,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        // '/': (context) => const ChapterListPage(),
-        // '/courses': (context) => const CoursesListPage(chapter: null),
-        '/': (context) => const CoursePage(
+        '/': (context) => const ChapterListPage(),
+        '/courses': (context) => const CoursesListPage(chapter: null),
+        '/course_detail': (context) => const CoursePage(
               courses: 0,
             ),
-        // '/': (context) => VirtualKeyboardApp(),
       },
     );
   }
