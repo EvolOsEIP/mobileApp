@@ -12,7 +12,6 @@ class TextInputPage extends StatefulWidget {
 class _TextInputPageState extends State<TextInputPage> {
   String text = '';
   bool shiftEnabled = false;
-  bool isNumericMode = false;
   late TextEditingController _controllerText;
 
   @override
@@ -41,38 +40,34 @@ class _TextInputPageState extends State<TextInputPage> {
               style: TextStyle(color: Colors.red),
             ),
             // Switch pour basculer entre le mode numérique et alphanumérique
-            SwitchListTile(
-              title: Text(
-                'Keyboard Type = ' +
-                    (isNumericMode
-                        ? 'VirtualKeyboardType.Numeric'
-                        : 'VirtualKeyboardType.Alphanumeric'),
-              ),
-              value: isNumericMode,
-              onChanged: (val) {
-                setState(() {
-                  isNumericMode = val;
-                });
-              },
-            ),
             Expanded(
               child: Container(),
             ),
             // Clavier virtuel
             Container(
-              color: Colors.deepPurple,
+              color: Colors.grey,
               child: VirtualKeyboard(
-                height: 300,
-                textColor: Colors.white,
-                textController: _controllerText,
-                defaultLayouts: [
-                  VirtualKeyboardDefaultLayouts.English,
-                  VirtualKeyboardDefaultLayouts.Arabic,
-                ],
-                type: isNumericMode
-                    ? VirtualKeyboardType.Numeric
-                    : VirtualKeyboardType.Alphanumeric,
-                postKeyPress: _onKeyPress,
+                // Default height is 300
+                  height: 350,
+                  // Default height is will screen width
+                  width: 600,
+                  // Default is black
+                  textColor: Colors.white,
+                  // Default 14
+                  fontSize: 20,
+                  // the layouts supported
+                  defaultLayouts: [VirtualKeyboardDefaultLayouts.English],
+                  // All types
+                  type: VirtualKeyboardType.Custom,
+                  // Layout separated by rows
+                  keys: const [
+                    ["T", "E", "S", "T"],
+                    ["C", "U", "S", "T", "O", "M"],
+                    ["L", "A", "Y", "O", "U", "T"],
+                    ["RETURN", "SHIFT", "BACKSPACE", "SPACE"],
+                  ],
+                  // Callback for key press event
+                  onKeyPress: _onKeyPress),
               ),
             )
           ],
