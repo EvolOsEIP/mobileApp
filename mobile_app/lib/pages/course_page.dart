@@ -1,8 +1,7 @@
-import 'dart:ffi';
-
-import "package:flutter/material.dart";
 import 'dart:async';
 import 'dart:convert';
+
+import "package:flutter/material.dart";
 
 class CoursePage extends StatefulWidget {
   final dynamic courses;
@@ -17,7 +16,7 @@ class _CoursePageState extends State<CoursePage> {
   dynamic dialogs = ["Hello! I'm your assistant."];
   dynamic currentCoursePage;
   dynamic courseData;
-  dynamic currentInstruction = "get ready to start the course";
+  dynamic currentInstruction = "Get ready to start the course";
 
   int currentDialogIndex = 0;
   String displayedText = "";
@@ -52,7 +51,6 @@ class _CoursePageState extends State<CoursePage> {
         });
       } else {
         timer.cancel();
-
         setState(() {
           isTyping = false;
         });
@@ -62,7 +60,7 @@ class _CoursePageState extends State<CoursePage> {
   }
 
   void _startBlinkingEffect() {
-    blinkTimer?.cancel(); // Cancel any existing timer
+    blinkTimer.cancel();
     blinkTimer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
       setState(() {
         isBlinking = !isBlinking;
@@ -71,7 +69,7 @@ class _CoursePageState extends State<CoursePage> {
   }
 
   void _onTap() {
-    blinkTimer?.cancel(); // Stop blinking on user interaction
+    blinkTimer.cancel(); // Stop blinking on user interaction
     if (isTyping) {
       setState(() {
         displayedText = dialogs[currentDialogIndex];
@@ -84,7 +82,10 @@ class _CoursePageState extends State<CoursePage> {
         });
         _startTypingEffect(dialogs[currentDialogIndex]);
       } else {
-        Navigator.pop(context);
+        setState(() {
+          dialogs =
+              []; // Clear dialogs to indicate the assistant should disappear
+        });
       }
     }
   }
@@ -111,14 +112,14 @@ class _CoursePageState extends State<CoursePage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Course Completed"),
-        content: Text("You've completed all the instructions!"),
+        title: const Text("Course Completed"),
+        content: const Text("You've completed all the instructions!"),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text("OK"),
+            child: const Text("OK"),
           )
         ],
       ),
@@ -136,7 +137,6 @@ class _CoursePageState extends State<CoursePage> {
         currentCoursePage =
             data["chapters"][0]["courses"][0]["course_pages"][0];
         courseData = data["chapters"][0]["courses"][0];
-        // currentCoursePage['instructions'][currentInstructionIndex];
       });
     } catch (e) {
       print("Error loading the JSON file: $e");
@@ -150,68 +150,76 @@ class _CoursePageState extends State<CoursePage> {
         onTap: _onTap,
         child: Stack(
           children: [
-            Align(
-              alignment: Alignment.center,
-              child: AnimatedOpacity(
-                opacity: isBlinking ? 0.5 : 1.0,
-                duration: const Duration(milliseconds: 500),
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color:
-                        const Color.fromARGB(255, 51, 84, 116).withOpacity(0.8),
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(color: Colors.white70, width: 2),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "assistant",
-                        style: TextStyle(
-                          color: Colors.orangeAccent,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
+            if (dialogs.isNotEmpty) ...[
+              Align(
+                alignment: Alignment.center,
+                child: AnimatedOpacity(
+                  opacity: isBlinking ? 0.5 : 1.0,
+                  duration: const Duration(milliseconds: 500),
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    margin: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 51, 84, 116)
+                          .withOpacity(0.8),
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: Colors.white70, width: 2),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          "Assistant",
+                          style: TextStyle(
+                            color: Colors.orangeAccent,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: (isTyping) ? 10 : 0),
-                      Text(
-                        displayedText,
-                        style: TextStyle(
-                          color: const Color.fromARGB(255, 173, 167, 167),
-                          fontSize: 30,
-                          height: 1.5,
+                        SizedBox(height: (isTyping) ? 10 : 0),
+                        Text(
+                          displayedText,
+                          style: const TextStyle(
+                            color: Color.fromARGB(255, 173, 167, 167),
+                            fontSize: 30,
+                            height: 1.5,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            LinearProgressIndicator(
-              value: (currentInstructionIndex + 1) /
-                  currentCoursePage['instructions'].length,
-            ),
-            SizedBox(height: 20),
-            // Display current instruction
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                currentInstruction,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+            ] else ...[
+              // Display course content when dialogs are empty
+              Column(
+                children: [
+                  LinearProgressIndicator(
+                    value: (currentInstructionIndex + 1) /
+                        currentCoursePage['instructions'].length,
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      currentInstruction,
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: ElevatedButton(
+                      onPressed: _nextInstruction,
+                      child: const Text("Next"),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            Spacer(),
-            // Interaction Area
-            ElevatedButton(
-              onPressed: _nextInstruction,
-              child: Text("Next"),
-            ),
-            SizedBox(height: 20),
+            ],
           ],
-          // ],
         ),
       ),
     );
