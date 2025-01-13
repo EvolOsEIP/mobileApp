@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                 elevation: 4,
                 child: InkWell(
                   onTap: () {
-                    print("Voir la liste des modules");
+                    Navigator.pushNamed(context, '/chapters');
                   },
                   child: Center(
                     child: Padding(
