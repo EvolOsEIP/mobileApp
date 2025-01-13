@@ -101,10 +101,9 @@ class _CoursePageState extends State<CoursePage> {
       if (currentInstructionIndex <
           courseData['course_pages'][currentPageIndex]['instructions'].length -
               1) {
+        currentInstruction = courseData['course_pages'][currentPageIndex]
+        ['instructions'][currentInstructionIndex + 1];
         currentInstructionIndex++;
-      } else if (currentPageIndex < courseData['course_pages'].length - 1) {
-        currentInstructionIndex = 0;
-        currentPageIndex++;
       } else {
         _showCompletionDialog();
       }
@@ -138,8 +137,10 @@ class _CoursePageState extends State<CoursePage> {
         data = jsonDecode(dataString);
         dialogs = data["chapters"][0]["courses"][0]["dialogs"];
         currentCoursePage =
-            data["chapters"][0]["courses"][0]["course_pages"][0];
+        data["chapters"][0]["courses"][0]["course_pages"][0];
         courseData = data["chapters"][0]["courses"][0];
+        currentInstruction = courseData['course_pages'][currentPageIndex]
+        ['instructions'][currentInstructionIndex];
       });
     } catch (e) {
       print("Error loading the JSON file: $e");
