@@ -2,54 +2,36 @@
   "chapters": [
     {
       "id": 1,
-      "title": "Chapter 1",
-      "description": "This is the first chapter",
+      "title": "Chapitre 1 : Maîtrise ton clavier comme un pro",
+      "description": "Dans ce chapitre, apprenez à utiliser votre clavier efficacement en commençant par les bases. Découvrez comment taper des lettres, des majuscules, et des signes de ponctuation simples.",
       "courses": [
         {
           "id": 1,
-          "title": "Course 1",
-          "description": "This is the first course",
+          "title": "Cours 1",
+          "description": "Se familiariser avec les lettres de base et apprendre à utiliser les touches correctement.",
           "dialogs": [
-            "This is the first dialog",
-            "This is the second dialog",
-            "This is the third dialog",
-            "This is the fourth dialog",
-            "This is the fifth dialog"
-
+            "Bonjour et bienvenue dans votre premier cours de maîtrise du clavier ! \uD83C\uDF89",
+            "Aujourd'hui, on va commencer doucement : \nvotre mission est de recopier une phrase simple.",
+            "Prêt(e) ? Allez, à vos claviers !"
           ],
           "course_pages": [
             {
               "id": 0,
               "images": [],
               "instructions": [
-                "This is instruction 1",
-                "This is instruction 2",
-                "This is instruction 3",
-                "This is instruction 4",
-                "This is instruction 5",
-                "This is instruction 6"
+                "Étape 1 : \"À vos lettres ! \uD83D\uDD20\"\nConsigne : Tapez le mot affiché à l'écran en utilisant uniquement des lettres minuscules. Prenez votre temps pour trouver les bonnes touches.",
+                "Étape 2 : \"Cap sur les majuscules ! ⬆\uFE0F\uD83D\uDD20\"\nConsigne : Tapez le mot affiché, mais cette fois, commencez avec une majuscule. Utilisez la touche \"Majuscule\" (ou Shift) pour y arriver.",
+                "Étape 3 : \"Espace, le grand voyageur ⎵\"\nConsigne : Tapez la mini phrase affichée à l'écran. Vous devrez inclure des espaces entre les mots pour qu’elle soit correcte.",
+                "Étape 4 : \"La totale : ponctuation et précision ! ⚫\uFE0F\"\nConsigne : Tapez la phrase affichée en respectant les majuscules, les espaces et le point final. Gardez un œil sur chaque détail pour perfectionner votre écriture."
               ]
 
-            },
-            {
-              "id": 1,
-              "images": [],
-              "instructions": [
-                "This is instruction 1",
-                "This is instruction 2",
-                "This is instruction 3",
-                "This is instruction 4",
-                "This is instruction 5",
-                "This is instruction 6"
-              ]
             }
-          ] 
-
+          ]
         },
         {
           "id": 2,
-          "title": "Course 2",
-          "description": "This is the second course"
+          "title": "Cours 2",
+          "description": "Intégrer les majuscules et les signes de ponctuation simples comme la virgule."
         }
       ]
     },
