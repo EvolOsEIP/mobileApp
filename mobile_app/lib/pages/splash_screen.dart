@@ -30,25 +30,6 @@ class SplashScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             // App name or slogan
-            const Text(
-              "Welcome to Your Learning App",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              "Learn. Grow. Succeed.",
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 16,
-                fontStyle: FontStyle.italic,
-              ),
-              textAlign: TextAlign.center,
-            ),
             const SizedBox(height: 30),
             const CircularProgressIndicator(
               color: Colors.orangeAccent,
