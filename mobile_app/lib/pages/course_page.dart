@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import "package:flutter/material.dart";
 
@@ -16,7 +17,9 @@ class _CoursePageState extends State<CoursePage> {
   dynamic dialogs;
   dynamic currentCoursePage;
   dynamic courseData;
-  dynamic currentInstruction = "Get ready to start the course";
+  dynamic currentInstruction;
+  dynamic descriptionInstruction;
+  dynamic expectations;
 
   int currentDialogIndex = 0;
   String displayedText = "";
@@ -86,8 +89,7 @@ class _CoursePageState extends State<CoursePage> {
         _startTypingEffect(dialogs[currentDialogIndex]);
       } else {
         setState(() {
-          dialogs =
-              []; // Clear dialogs to indicate the assistant should disappear
+          dialogs = []; // Clear dialogs to indicate the assistant should disappear
         });
       }
     }
@@ -98,11 +100,10 @@ class _CoursePageState extends State<CoursePage> {
 
   void _nextInstruction() {
     setState(() {
-      if (currentInstructionIndex <
-          courseData['course_pages'][currentPageIndex]['instructions'].length -
-              1) {
-        currentInstruction = courseData['course_pages'][currentPageIndex]
-        ['instructions'][currentInstructionIndex + 1];
+      if (currentInstructionIndex < courseData['course_pages'][currentPageIndex]['instructions'].length - 1) {
+        currentInstruction     = courseData['course_pages'][currentPageIndex]['instructions'][currentInstructionIndex + 1];
+        descriptionInstruction = courseData['course_pages'][currentPageIndex]['descriptions'][currentInstructionIndex + 1];
+        expectations           = courseData['course_pages'][currentPageIndex]['expectations'][currentInstructionIndex + 1];
         currentInstructionIndex++;
       } else {
         _showCompletionDialog();
@@ -134,13 +135,13 @@ class _CoursePageState extends State<CoursePage> {
           .loadString('assets/chapters.json');
 
       setState(() {
-        data = jsonDecode(dataString);
-        dialogs = data["chapters"][0]["courses"][0]["dialogs"];
-        currentCoursePage =
-        data["chapters"][0]["courses"][0]["course_pages"][0];
-        courseData = data["chapters"][0]["courses"][0];
-        currentInstruction = courseData['course_pages'][currentPageIndex]
-        ['instructions'][currentInstructionIndex];
+        data                   = jsonDecode(dataString);
+        dialogs                = data["chapters"][0]["courses"][0]["dialogs"];
+        currentCoursePage      = data["chapters"][0]["courses"][0]["course_pages"][0];
+        courseData             = data["chapters"][0]["courses"][0];
+        currentInstruction     = courseData['course_pages'][currentPageIndex]['instructions'][currentInstructionIndex];
+        descriptionInstruction = courseData['course_pages'][currentPageIndex]['descriptions'][currentInstructionIndex];
+        expectations           = courseData['course_pages'][currentPageIndex]['expectations'][currentInstructionIndex];
       });
     } catch (e) {
       print("Error loading the JSON file: $e");
@@ -202,26 +203,86 @@ class _CoursePageState extends State<CoursePage> {
                     value: (currentInstructionIndex + 1) /
                         currentCoursePage['instructions'].length,
                   ),
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      currentInstruction,
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: ElevatedButton(
-                      onPressed: _nextInstruction,
-                      child: const Text("Next"),
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200], // Fond gris clair
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Column(
+                        children: [
+                          FractionallySizedBox(
+                            widthFactor: 0.95,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  currentInstruction,
+                                  style: const TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                const SizedBox(height: 20.0),
+                                Text(
+                                  descriptionInstruction,
+                                  style: const TextStyle(fontSize: 20),
+                                  textAlign: TextAlign.left,
+                                ),
+                                const SizedBox(height: 20.0),
+                                Container(
+                                  margin: const EdgeInsets.symmetric(vertical: 10.0),
+                                  padding: const EdgeInsets.all(12.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue[50], // Fond légèrement coloré
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    border: Border.all(color: Colors.blue, width: 1.5),
+                                  ),
+                                  child: Text(
+                                    expectations,
+                                    style: const TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.blue,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Spacer(),
+                          FractionallySizedBox(
+                            widthFactor: 0.85,
+                            child: Column(
+                              children: [
+                                TextField(
+                                  decoration: InputDecoration(
+                                    labelText: 'Votre réponse',
+                                    border: OutlineInputBorder(),
+                                  ),
+                                ),
+                                const SizedBox(height: 16.0), // Espacement entre le champ et le bouton
+                                Align(
+                                  alignment: Alignment.centerRight, // Aligne le bouton à droite
+                                  child: ElevatedButton(
+                                    onPressed: _nextInstruction,
+                                    child: const Text("Next"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
+
             ],
           ],
         ),
