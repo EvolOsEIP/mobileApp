@@ -9,6 +9,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      print("Index: $_selectedIndex");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,6 +113,28 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+      ),
+      // navigation bar
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: CustomColors.dark_accent,
+        selectedItemColor: CustomColors.accent,
+        unselectedItemColor: Colors.white,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Acceuil',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.query_stats),
+            label: 'Stats',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
       ),
     );
   }
