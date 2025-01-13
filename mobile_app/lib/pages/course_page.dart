@@ -35,12 +35,19 @@ class _CoursePageState extends State<CoursePage> {
         _startTypingEffect(dialogs[currentDialogIndex]);
       }
     });
+    _inputController.addListener(_onTextChanged);
   }
 
   @override
   void dispose() {
     blinkTimer.cancel();
+    _inputController.removeListener(_onTextChanged);
+    _inputController.dispose();
     super.dispose();
+  }
+
+  void _onTextChanged() {
+    setState(() {});
   }
 
   void _startTypingEffect(String text) {
@@ -97,18 +104,22 @@ class _CoursePageState extends State<CoursePage> {
 
   int currentPageIndex = 0; // Index of the current course page
   int currentInstructionIndex = 0; // Index of the current instruction
+  TextEditingController _inputController = TextEditingController();
 
   void _nextInstruction() {
-    setState(() {
-      if (currentInstructionIndex < courseData['course_pages'][currentPageIndex]['instructions'].length - 1) {
-        currentInstruction     = courseData['course_pages'][currentPageIndex]['instructions'][currentInstructionIndex + 1];
-        descriptionInstruction = courseData['course_pages'][currentPageIndex]['descriptions'][currentInstructionIndex + 1];
-        expectations           = courseData['course_pages'][currentPageIndex]['expectations'][currentInstructionIndex + 1];
-        currentInstructionIndex++;
-      } else {
-        _showCompletionDialog();
-      }
-    });
+    if (_inputController.text.trim() == expectations.trim()) {
+      setState(() {
+        if (currentInstructionIndex < courseData['course_pages'][currentPageIndex]['instructions'].length - 1) {
+          currentInstruction     = courseData['course_pages'][currentPageIndex]['instructions'][currentInstructionIndex + 1];
+          descriptionInstruction = courseData['course_pages'][currentPageIndex]['descriptions'][currentInstructionIndex + 1];
+          expectations           = courseData['course_pages'][currentPageIndex]['expectations'][currentInstructionIndex + 1];
+          currentInstructionIndex++;
+          _inputController.clear();
+        } else {
+          _showCompletionDialog();
+        }
+      });
+    }
   }
 
   void _showCompletionDialog() {
@@ -256,10 +267,11 @@ class _CoursePageState extends State<CoursePage> {
                           ),
                           const Spacer(),
                           FractionallySizedBox(
-                            widthFactor: 0.85,
+                            widthFactor: 0.9,
                             child: Column(
                               children: [
                                 TextField(
+                                  controller: _inputController,
                                   decoration: InputDecoration(
                                     labelText: 'Votre réponse',
                                     border: OutlineInputBorder(),
@@ -270,7 +282,10 @@ class _CoursePageState extends State<CoursePage> {
                                   alignment: Alignment.centerRight, // Aligne le bouton à droite
                                   child: ElevatedButton(
                                     onPressed: _nextInstruction,
-                                    child: const Text("Next"),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: _inputController.text.isNotEmpty ? Colors.lightGreen : Colors.grey
+                                    ),
+                                    child: const Text("Suivant"),
                                   ),
                                 ),
                               ],
