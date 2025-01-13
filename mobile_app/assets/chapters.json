@@ -11,20 +11,18 @@
           "description": "Se familiariser avec les lettres de base et apprendre à utiliser les touches correctement.",
           "dialogs": [
             "Bonjour et bienvenue dans votre premier cours de maîtrise du clavier ! \uD83C\uDF89",
-            "Aujourd'hui, on va commencer doucement : \nvotre mission est de recopier une phrase simple en utilisant uniquement les lettres minuscules et un point.",
-            "Pas de stress, je suis là pour vous aider à chaque étape.\nPrêt(e) ? Allez, à vos claviers !"
+            "Aujourd'hui, on va commencer doucement : \nvotre mission est de recopier une phrase simple.",
+            "Prêt(e) ? Allez, à vos claviers !"
           ],
           "course_pages": [
             {
               "id": 0,
               "images": [],
               "instructions": [
-                "This is instruction 1",
-                "This is instruction 2",
-                "This is instruction 3",
-                "This is instruction 4",
-                "This is instruction 5",
-                "This is instruction 6"
+                "Étape 1 : \"À vos lettres ! \uD83D\uDD20\"\nConsigne : Tapez le mot affiché à l'écran en utilisant uniquement des lettres minuscules. Prenez votre temps pour trouver les bonnes touches.",
+                "Étape 2 : \"Cap sur les majuscules ! ⬆\uFE0F\uD83D\uDD20\"\nConsigne : Tapez le mot affiché, mais cette fois, commencez avec une majuscule. Utilisez la touche \"Majuscule\" (ou Shift) pour y arriver.",
+                "Étape 3 : \"Espace, le grand voyageur ⎵\"\nConsigne : Tapez la mini phrase affichée à l'écran. Vous devrez inclure des espaces entre les mots pour qu’elle soit correcte.",
+                "Étape 4 : \"La totale : ponctuation et précision ! ⚫\uFE0F\"\nConsigne : Tapez la phrase affichée en respectant les majuscules, les espaces et le point final. Gardez un œil sur chaque détail pour perfectionner votre écriture."
               ]
 
             },
