@@ -2,20 +2,17 @@
   "chapters": [
     {
       "id": 1,
-      "title": "Chapter 1",
-      "description": "This is the first chapter",
+      "title": "Chapitre 1 : Maîtrise ton clavier comme un pro",
+      "description": "Dans ce chapitre, apprenez à utiliser votre clavier efficacement en commençant par les bases. Découvrez comment taper des lettres, des majuscules, et des signes de ponctuation simples.",
       "courses": [
         {
           "id": 1,
-          "title": "Course 1",
-          "description": "This is the first course",
+          "title": "Cours 1",
+          "description": "Se familiariser avec les lettres de base et apprendre à utiliser les touches correctement.",
           "dialogs": [
-            "This is the first dialog",
-            "This is the second dialog",
-            "This is the third dialog",
-            "This is the fourth dialog",
-            "This is the fifth dialog"
-
+            "Bonjour et bienvenue dans votre premier cours de maîtrise du clavier ! \uD83C\uDF89",
+            "Aujourd'hui, on va commencer doucement : \nvotre mission est de recopier une phrase simple en utilisant uniquement les lettres minuscules et un point.",
+            "Pas de stress, je suis là pour vous aider à chaque étape.\nPrêt(e) ? Allez, à vos claviers !"
           ],
           "course_pages": [
             {
@@ -48,8 +45,8 @@
         },
         {
           "id": 2,
-          "title": "Course 2",
-          "description": "This is the second course"
+          "title": "Cours 2",
+          "description": "Intégrer les majuscules et les signes de ponctuation simples comme la virgule."
         }
       ]
     },

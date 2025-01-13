@@ -13,7 +13,7 @@ class CoursePage extends StatefulWidget {
 
 class _CoursePageState extends State<CoursePage> {
   dynamic data;
-  dynamic dialogs = ["Hello! I'm your assistant."];
+  dynamic dialogs;
   dynamic currentCoursePage;
   dynamic courseData;
   dynamic currentInstruction = "Get ready to start the course";
@@ -27,8 +27,11 @@ class _CoursePageState extends State<CoursePage> {
   @override
   void initState() {
     super.initState();
-    _startTypingEffect(dialogs[currentDialogIndex]);
-    getChapters();
+    getChapters().then((_) {
+      if (dialogs != null && dialogs.isNotEmpty) {
+        _startTypingEffect(dialogs[currentDialogIndex]);
+      }
+    });
   }
 
   @override
