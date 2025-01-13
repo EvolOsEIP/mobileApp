@@ -1,8 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 
 class CoursePage extends StatefulWidget {
   final dynamic courses;
@@ -13,13 +10,11 @@ class CoursePage extends StatefulWidget {
 }
 
 class _CoursePageState extends State<CoursePage> {
-  dynamic data;
   dynamic dialogs;
-  dynamic currentCoursePage;
-  dynamic courseData;
   dynamic currentInstruction;
   dynamic descriptionInstruction;
   dynamic expectations;
+  dynamic course;
 
   int currentDialogIndex = 0;
   String displayedText = "";
@@ -27,10 +22,25 @@ class _CoursePageState extends State<CoursePage> {
   bool isBlinking = false;
   Timer blinkTimer = Timer(Duration.zero, () {});
 
+  int currentInstructionIndex = 0; // Index of the current instruction
+
   @override
   void initState() {
     super.initState();
-    getChapters().then((_) {
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    course = ModalRoute.of(context)!.settings.arguments as dynamic;
+
+    setState(() {
+      dialogs = course["dialogs"];
+      currentInstruction = course['instructions'][0];
+      descriptionInstruction = course['descriptions'][0];
+      expectations = course['expectations'][0];
+
       if (dialogs != null && dialogs.isNotEmpty) {
         _startTypingEffect(dialogs[currentDialogIndex]);
       }
@@ -47,7 +57,7 @@ class _CoursePageState extends State<CoursePage> {
     setState(() {
       displayedText = "";
       isTyping = true;
-      isBlinking = false; // Stop blinking when new text starts typing
+      isBlinking = false;
     });
 
     Timer.periodic(const Duration(milliseconds: 50), (timer) {
@@ -75,7 +85,7 @@ class _CoursePageState extends State<CoursePage> {
   }
 
   void _onTap() {
-    blinkTimer.cancel(); // Stop blinking on user interaction
+    blinkTimer.cancel();
     if (isTyping) {
       setState(() {
         displayedText = dialogs[currentDialogIndex];
@@ -89,21 +99,20 @@ class _CoursePageState extends State<CoursePage> {
         _startTypingEffect(dialogs[currentDialogIndex]);
       } else {
         setState(() {
-          dialogs = []; // Clear dialogs to indicate the assistant should disappear
+          dialogs = [];
         });
       }
     }
   }
 
-  int currentPageIndex = 0; // Index of the current course page
-  int currentInstructionIndex = 0; // Index of the current instruction
-
   void _nextInstruction() {
     setState(() {
-      if (currentInstructionIndex < courseData['course_pages'][currentPageIndex]['instructions'].length - 1) {
-        currentInstruction     = courseData['course_pages'][currentPageIndex]['instructions'][currentInstructionIndex + 1];
-        descriptionInstruction = courseData['course_pages'][currentPageIndex]['descriptions'][currentInstructionIndex + 1];
-        expectations           = courseData['course_pages'][currentPageIndex]['expectations'][currentInstructionIndex + 1];
+      if (currentInstructionIndex < course['instructions'].length - 1) {
+        currentInstruction =
+            course['instructions'][currentInstructionIndex + 1];
+        descriptionInstruction =
+            course['descriptions'][currentInstructionIndex + 1];
+        expectations = course['expectations'][currentInstructionIndex + 1];
         currentInstructionIndex++;
       } else {
         _showCompletionDialog();
@@ -115,37 +124,18 @@ class _CoursePageState extends State<CoursePage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Course Completed"),
-        content: const Text("You've completed all the instructions!"),
+        title: const Text("Cours complété"),
+        content: Text(course["end"]),
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pushNamed(context, '/home');
             },
             child: const Text("OK"),
           )
         ],
       ),
     );
-  }
-
-  Future<void> getChapters() async {
-    try {
-      String dataString = await DefaultAssetBundle.of(context)
-          .loadString('assets/chapters.json');
-
-      setState(() {
-        data                   = jsonDecode(dataString);
-        dialogs                = data["chapters"][0]["courses"][0]["dialogs"];
-        currentCoursePage      = data["chapters"][0]["courses"][0]["course_pages"][0];
-        courseData             = data["chapters"][0]["courses"][0];
-        currentInstruction     = courseData['course_pages'][currentPageIndex]['instructions'][currentInstructionIndex];
-        descriptionInstruction = courseData['course_pages'][currentPageIndex]['descriptions'][currentInstructionIndex];
-        expectations           = courseData['course_pages'][currentPageIndex]['expectations'][currentInstructionIndex];
-      });
-    } catch (e) {
-      print("Error loading the JSON file: $e");
-    }
   }
 
   @override
@@ -155,7 +145,7 @@ class _CoursePageState extends State<CoursePage> {
         onTap: _onTap,
         child: Stack(
           children: [
-            if (dialogs.isNotEmpty) ...[
+            if (dialogs != null && dialogs.isNotEmpty) ...[
               Align(
                 alignment: Alignment.center,
                 child: AnimatedOpacity(
@@ -196,19 +186,18 @@ class _CoursePageState extends State<CoursePage> {
                 ),
               ),
             ] else ...[
-              // Display course content when dialogs are empty
               Column(
                 children: [
                   LinearProgressIndicator(
                     value: (currentInstructionIndex + 1) /
-                        currentCoursePage['instructions'].length,
+                        course['instructions'].length,
                   ),
                   Expanded(
                     child: Container(
                       margin: const EdgeInsets.all(20.0),
                       padding: const EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200], // Fond gris clair
+                        color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Column(
@@ -234,12 +223,15 @@ class _CoursePageState extends State<CoursePage> {
                                 ),
                                 const SizedBox(height: 20.0),
                                 Container(
-                                  margin: const EdgeInsets.symmetric(vertical: 10.0),
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 10.0),
                                   padding: const EdgeInsets.all(12.0),
                                   decoration: BoxDecoration(
-                                    color: Colors.blue[50], // Fond légèrement coloré
+                                    color: Colors
+                                        .blue[50], // Fond légèrement coloré
                                     borderRadius: BorderRadius.circular(8.0),
-                                    border: Border.all(color: Colors.blue, width: 1.5),
+                                    border: Border.all(
+                                        color: Colors.blue, width: 1.5),
                                   ),
                                   child: Text(
                                     expectations,
@@ -265,9 +257,9 @@ class _CoursePageState extends State<CoursePage> {
                                     border: OutlineInputBorder(),
                                   ),
                                 ),
-                                const SizedBox(height: 16.0), // Espacement entre le champ et le bouton
+                                const SizedBox(height: 16.0),
                                 Align(
-                                  alignment: Alignment.centerRight, // Aligne le bouton à droite
+                                  alignment: Alignment.centerRight,
                                   child: ElevatedButton(
                                     onPressed: _nextInstruction,
                                     child: const Text("Next"),
@@ -282,7 +274,6 @@ class _CoursePageState extends State<CoursePage> {
                   ),
                 ],
               ),
-
             ],
           ],
         ),
