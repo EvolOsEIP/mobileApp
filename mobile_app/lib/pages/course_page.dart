@@ -16,6 +16,7 @@ class _CoursePageState extends State<CoursePage> {
   dynamic expectations;
   dynamic course;
 
+  String errorMessage = '';
   int currentDialogIndex = 0;
   String displayedText = "";
   bool isTyping = false;
@@ -115,8 +116,12 @@ class _CoursePageState extends State<CoursePage> {
   TextEditingController _inputController = TextEditingController();
 
   void _nextInstruction() {
-    if (_inputController.text.trim() == expectations.trim()) {
+    String userResponse = _inputController.text.trim();
+    String expectedResponse = expectations.trim();
+
+    if (userResponse == expectedResponse) {
       setState(() {
+        errorMessage = '';
         if (currentInstructionIndex < course['instructions'].length - 1) {
           currentInstruction     = course['instructions'][currentInstructionIndex + 1];
           descriptionInstruction = course['descriptions'][currentInstructionIndex + 1];
@@ -126,6 +131,10 @@ class _CoursePageState extends State<CoursePage> {
         } else {
           _showCompletionDialog();
         }
+      });
+    } else {
+      setState(() {
+        errorMessage = _generateErrorMessage(userResponse, expectedResponse);
       });
     }
   }
@@ -146,6 +155,26 @@ class _CoursePageState extends State<CoursePage> {
         ],
       ),
     );
+  }
+
+  String _generateErrorMessage(String userResponse, String expectedResponse) {
+    if (userResponse.isEmpty) {
+      return 'Le champ de saisie est vide. Veuillez entrer une réponse.';
+    }
+
+    if (userResponse.toLowerCase() == expectedResponse.toLowerCase()) {
+      return 'Vérifiez la majuscule: il pourrait y avoir des majuscules en trop ou manquants.';
+    }
+
+    if (userResponse.replaceAll(' ', '') == expectedResponse.replaceAll(' ', '')) {
+      return 'Vérifiez les espaces : il pourrait y avoir des espaces en trop ou manquants.';
+    }
+
+    if (!userResponse.endsWith('.') && expectedResponse.endsWith('.')) {
+      return 'Votre réponse manque un point à la fin.';
+    }
+
+    return 'Votre réponse est incorrecte. Veuillez revoir l’instruction.';
   }
 
   @override
@@ -236,7 +265,7 @@ class _CoursePageState extends State<CoursePage> {
                                   margin: const EdgeInsets.symmetric(vertical: 10.0),
                                   padding: const EdgeInsets.all(12.0),
                                   decoration: BoxDecoration(
-                                    color: Colors.blue[50], // Fond légèrement coloré
+                                    color: Colors.blue[50],
                                     borderRadius: BorderRadius.circular(8.0),
                                     border: Border.all(color: Colors.blue, width: 1.5),
                                   ),
@@ -266,6 +295,17 @@ class _CoursePageState extends State<CoursePage> {
                                   ),
                                 ),
                                 const SizedBox(height: 16.0),
+                                if (errorMessage.isNotEmpty)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: Text(
+                                      errorMessage,
+                                      style: const TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                  ),
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: ElevatedButton(

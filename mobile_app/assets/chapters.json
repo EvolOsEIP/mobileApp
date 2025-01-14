@@ -35,7 +35,6 @@
             "Bonjour Pierre."
           ],
           "end" : "Bravo, tu as terminé ton 1er cours !"
-          
         },
         {
           "id": 2,
@@ -53,7 +52,9 @@
             "Étape 3 : La totale : majuscules et virgule ! ⚫\uFE0F"
           ],
           "descriptions": [
-            "Consigne : Tapez le mot affiché à l'écran en utilisant uniquement des lettres minuscules. Prenez votre temps pour trouver les bonnes touches."
+            "Consigne : Tapez le mot affiché à l'écran en utilisant uniquement des lettres minuscules. Prenez votre temps pour trouver les bonnes touches.",
+            "Consigne : Tapez la mini phrase affichée à l'écran. Vous devrez inclure des espaces entre les mots pour qu’elle soit correcte.",
+            "Consigne : Tapez la phrase affichée en respectant les majuscules, les espaces et le point final. Gardez un œil sur chaque détail pour perfectionner votre écriture."
           ],
           "expectations" : [
             "bonjour",
@@ -62,7 +63,6 @@
             "Bonjour Pierre."
           ],
           "end" : "Bravo, tu as terminé ton 2ème cours !"
-          
         }
       ]
     },
