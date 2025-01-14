@@ -45,12 +45,19 @@ class _CoursePageState extends State<CoursePage> {
         _startTypingEffect(dialogs[currentDialogIndex]);
       }
     });
+    _inputController.addListener(_onTextChanged);
   }
 
   @override
   void dispose() {
     blinkTimer.cancel();
+    _inputController.removeListener(_onTextChanged);
+    _inputController.dispose();
     super.dispose();
+  }
+
+  void _onTextChanged() {
+    setState(() {});
   }
 
   void _startTypingEffect(String text) {
@@ -105,19 +112,22 @@ class _CoursePageState extends State<CoursePage> {
     }
   }
 
+  TextEditingController _inputController = TextEditingController();
+
   void _nextInstruction() {
-    setState(() {
-      if (currentInstructionIndex < course['instructions'].length - 1) {
-        currentInstruction =
-            course['instructions'][currentInstructionIndex + 1];
-        descriptionInstruction =
-            course['descriptions'][currentInstructionIndex + 1];
-        expectations = course['expectations'][currentInstructionIndex + 1];
-        currentInstructionIndex++;
-      } else {
-        _showCompletionDialog();
-      }
-    });
+    if (_inputController.text.trim() == expectations.trim()) {
+      setState(() {
+        if (currentInstructionIndex < course['instructions'].length - 1) {
+          currentInstruction     = course['instructions'][currentInstructionIndex + 1];
+          descriptionInstruction = course['descriptions'][currentInstructionIndex + 1];
+          expectations           = course['expectations'][currentInstructionIndex + 1];
+          currentInstructionIndex++;
+          _inputController.clear();
+        } else {
+          _showCompletionDialog();
+        }
+      });
+    }
   }
 
   void _showCompletionDialog() {
@@ -223,15 +233,12 @@ class _CoursePageState extends State<CoursePage> {
                                 ),
                                 const SizedBox(height: 20.0),
                                 Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      vertical: 10.0),
+                                  margin: const EdgeInsets.symmetric(vertical: 10.0),
                                   padding: const EdgeInsets.all(12.0),
                                   decoration: BoxDecoration(
-                                    color: Colors
-                                        .blue[50], // Fond légèrement coloré
+                                    color: Colors.blue[50], // Fond légèrement coloré
                                     borderRadius: BorderRadius.circular(8.0),
-                                    border: Border.all(
-                                        color: Colors.blue, width: 1.5),
+                                    border: Border.all(color: Colors.blue, width: 1.5),
                                   ),
                                   child: Text(
                                     expectations,
@@ -248,10 +255,11 @@ class _CoursePageState extends State<CoursePage> {
                           ),
                           const Spacer(),
                           FractionallySizedBox(
-                            widthFactor: 0.85,
+                            widthFactor: 0.9,
                             child: Column(
                               children: [
                                 TextField(
+                                  controller: _inputController,
                                   decoration: InputDecoration(
                                     labelText: 'Votre réponse',
                                     border: OutlineInputBorder(),
@@ -262,7 +270,10 @@ class _CoursePageState extends State<CoursePage> {
                                   alignment: Alignment.centerRight,
                                   child: ElevatedButton(
                                     onPressed: _nextInstruction,
-                                    child: const Text("Next"),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: _inputController.text.isNotEmpty ? Colors.lightGreen : Colors.grey
+                                    ),
+                                    child: const Text("Suivant"),
                                   ),
                                 ),
                               ],

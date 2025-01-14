@@ -4,8 +4,6 @@ import 'package:mobile_app/pages/courses_list_page.dart';
 import 'package:mobile_app/pages/course_page.dart';
 import 'package:mobile_app/pages/home_page.dart';
 import 'package:mobile_app/pages/splash_screen.dart';
-import 'package:flutter/services.dart';
-import 'dart:convert';
 
 void main() {
   runApp(const MyApp());
