@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: CustomColors.dark_accent,
         title: const Text(
-          'Acceuil',
+          'Accueil',
           style: TextStyle(color: Colors.white),
         ),
       ),
