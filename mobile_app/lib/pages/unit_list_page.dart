@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobile_app/utils/colors.dart';
 
 class UnitListPage extends StatefulWidget {
   const UnitListPage({super.key});
@@ -37,19 +39,59 @@ class _UnitListPageState extends State<UnitListPage> {
         title: Text('Liste des modules'),
       ),
       // hello world body
+
       body: data == null
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : ListView.builder(
-              itemCount: data.length,
+              itemCount: data["units"].length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(data["units"][index]['name']),
+                return InkWell(
                   onTap: () {
                     Navigator.pushNamed(context, '/chapters',
                         arguments: data["units"][index]);
                   },
+                  child: Card(
+                    color: CustomColors.accent,
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 16),
+                    child: SizedBox(
+                      height: 250, // Set the desired height for the cards
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(children: [
+                          SvgPicture.asset(
+                            "assets/images/genetic-data-svgrepo-com.svg",
+                            width: 100,
+                            height: 100,
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: Text(
+                                    data["units"][index]['title'],
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  data["units"][index]["description"],
+                                  style: const TextStyle(fontSize: 14),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ]),
+                      ),
+                    ),
+                  ),
                 );
               },
             ),
