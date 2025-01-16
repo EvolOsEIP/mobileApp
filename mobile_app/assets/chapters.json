@@ -1,102 +1,107 @@
 {
-  "chapters": [
+  "units": [
     {
       "id": 1,
-      "title": "Chapitre 1 : Maîtrise ton clavier comme un pro",
-      "description": "Dans ce chapitre, apprenez à utiliser votre clavier efficacement en commençant par les bases. Découvrez comment taper des lettres, des majuscules, et des signes de ponctuation simples.",
-      "courses": [
+      "title": "Unit 1 : Les bases techniques",
+      "name": "Technical Basics",
+      "chapters": [
         {
           "id": 1,
-          "title": "Cours 1",
-          "description": "Se familiariser avec les lettres de base et apprendre à utiliser les touches correctement.",
-          "dialogs": [
-            "Bonjour et bienvenue dans votre premier cours de maîtrise du clavier ! \uD83C\uDF89",
-            "Aujourd'hui, on va commencer doucement : \nvotre mission est de recopier une phrase simple.",
-            "Prêt(e) ? Allez, à vos claviers !"
-          ],
-          
-          "images": [],
-          "instructions": [
-            "Étape 1 : À vos lettres ! \uD83D\uDD20",
-            "Étape 2 : Cap sur les majuscules ! ⬆\uFE0F\uD83D\uDD20",
-            "Étape 3 : Espace, le grand voyageur ⎵",
-            "Étape 4 : La totale : ponctuation et précision ! ⚫\uFE0F"
-          ],
-          "descriptions": [
-            "Consigne : Tapez le mot affiché à l'écran en utilisant uniquement des lettres minuscules. Prenez votre temps pour trouver les bonnes touches.",
-            "Consigne : Tapez le mot affiché, mais cette fois, commencez avec une majuscule. Utilisez la touche Majuscule (ou Shift) pour y arriver.",
-            "Consigne : Tapez la mini phrase affichée à l'écran. Vous devrez inclure des espaces entre les mots pour qu’elle soit correcte.",
-            "Consigne : Tapez la phrase affichée en respectant les majuscules, les espaces et le point final. Gardez un œil sur chaque détail pour perfectionner votre écriture."
-          ],
-          "expectations" : [
-            "bonjour",
-            "Bonjour",
-            "Bonjour mon ami",
-            "Bonjour Pierre."
-          ],
-          "end" : "Bravo, tu as terminé ton 1er cours !"
+          "title": "Chapitre 1 : Maîtrise ton clavier comme un pro",
+          "description": "Dans ce chapitre, apprenez à utiliser votre clavier efficacement en commençant par les bases. Découvrez comment taper des lettres, des majuscules, et des signes de ponctuation simples.",
+          "courses": [
+            {
+              "id": 1,
+              "title": "Cours 1",
+              "description": "Se familiariser avec les lettres de base et apprendre à utiliser les touches correctement.",
+              "dialogs": [
+                "Bonjour et bienvenue dans votre premier cours de maîtrise du clavier ! \uD83C\uDF89",
+                "Aujourd'hui, on va commencer doucement : \nvotre mission est de recopier une phrase simple.",
+                "Prêt(e) ? Allez, à vos claviers !"
+              ],
+              "images": [],
+              "instructions": [
+                "Étape 1 : À vos lettres ! \uD83D\uDD20",
+                "Étape 2 : Cap sur les majuscules ! ⬆\uFE0F\uD83D\uDD20",
+                "Étape 3 : Espace, le grand voyageur ⎵",
+                "Étape 4 : La totale : ponctuation et précision ! ⚫\uFE0F"
+              ],
+              "descriptions": [
+                "Consigne : Tapez le mot affiché à l'écran en utilisant uniquement des lettres minuscules. Prenez votre temps pour trouver les bonnes touches.",
+                "Consigne : Tapez le mot affiché, mais cette fois, commencez avec une majuscule. Utilisez la touche Majuscule (ou Shift) pour y arriver.",
+                "Consigne : Tapez la mini phrase affichée à l'écran. Vous devrez inclure des espaces entre les mots pour qu’elle soit correcte.",
+                "Consigne : Tapez la phrase affichée en respectant les majuscules, les espaces et le point final. Gardez un œil sur chaque détail pour perfectionner votre écriture."
+              ],
+              "expectations": [
+                "bonjour",
+                "Bonjour",
+                "Bonjour mon ami",
+                "Bonjour Pierre."
+              ],
+              "end": "Bravo, tu as terminé ton 1er cours !"
+            },
+            {
+              "id": 2,
+              "title": "Cours 2",
+              "description": "Intégrer les majuscules et les signes de ponctuation simples comme la virgule.",
+              "dialogs": [
+                "Bienvenue dans ce deuxième cours de maîtrise du clavier ! \uD83C\uDF89",
+                "Aujourd'hui, on va continuer sur notre lancée : \nvotre mission est de recopier une phrase un peu plus complexe."
+              ],
+              "images": [],
+              "instructions": [
+                "Étape 1 : Les majuscules, toujours ! ⬆\uFE0F\uD83D\uDD20",
+                "Étape 2 : La virgule, un signe de ponctuation simple ,",
+                "Étape 3 : La totale : majuscules et virgule ! ⚫\uFE0F"
+              ],
+              "descriptions": [
+                "Consigne : Tapez le mot affiché à l'écran en utilisant uniquement des lettres minuscules. Prenez votre temps pour trouver les bonnes touches.",
+                "Consigne : Tapez la mini phrase affichée à l'écran. Vous devrez inclure des espaces entre les mots pour qu’elle soit correcte.",
+                "Consigne : Tapez la phrase affichée en respectant les majuscules, les espaces et le point final. Gardez un œil sur chaque détail pour perfectionner votre écriture."
+              ],
+              "expectations": [
+                "bonjour",
+                "Bonjour",
+                "Bonjour mon ami",
+                "Bonjour Pierre."
+              ],
+              "end": "Bravo, tu as terminé ton 2ème cours !"
+            }
+          ]
         },
         {
           "id": 2,
-          "title": "Cours 2",
-          "description": "Intégrer les majuscules et les signes de ponctuation simples comme la virgule.",
-          "dialogs": [
-            "Bienvenue dans ce deuxième cours de maîtrise du clavier ! \uD83C\uDF89",
-            "Aujourd'hui, on va continuer sur notre lancée : \nvotre mission est de recopier une phrase un peu plus complexe."
-
-          ],
-          "images": [],
-          "instructions": [
-            "Étape 1 : Les majuscules, toujours ! ⬆\uFE0F\uD83D\uDD20",
-            "Étape 2 : La virgule, un signe de ponctuation simple ,",
-            "Étape 3 : La totale : majuscules et virgule ! ⚫\uFE0F"
-          ],
-          "descriptions": [
-            "Consigne : Tapez le mot affiché à l'écran en utilisant uniquement des lettres minuscules. Prenez votre temps pour trouver les bonnes touches.",
-            "Consigne : Tapez la mini phrase affichée à l'écran. Vous devrez inclure des espaces entre les mots pour qu’elle soit correcte.",
-            "Consigne : Tapez la phrase affichée en respectant les majuscules, les espaces et le point final. Gardez un œil sur chaque détail pour perfectionner votre écriture."
-          ],
-          "expectations" : [
-            "bonjour",
-            "Bonjour",
-            "Bonjour mon ami",
-            "Bonjour Pierre."
-          ],
-          "end" : "Bravo, tu as terminé ton 2ème cours !"
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "title": "Chapter 2",
-      "description": "This is the second chapter",
-      "courses": [
+          "title": "Chapter 2",
+          "description": "This is the second chapter",
+          "courses": [
+            {
+              "id": 3,
+              "title": "Course 3",
+              "description": "This is the third course"
+            },
+            {
+              "id": 4,
+              "title": "Course 4",
+              "description": "This is the fourth course"
+            }
+          ]
+        },
         {
           "id": 3,
-          "title": "Course 3",
-          "description": "This is the third course"
-        },
-        {
-          "id": 4,
-          "title": "Course 4",
-          "description": "This is the fourth course"
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "title": "Chapter 3",
-      "description": "This is the third chapter",
-      "courses": [
-        {
-          "id": 5,
-          "title": "Course 5",
-          "description": "This is the fifth course"
-        },
-        {
-          "id": 6,
-          "title": "Course 6",
-          "description": "This is the sixth course"
+          "title": "Chapter 3",
+          "description": "This is the third chapter",
+          "courses": [
+            {
+              "id": 5,
+              "title": "Course 5",
+              "description": "This is the fifth course"
+            },
+            {
+              "id": 6,
+              "title": "Course 6",
+              "description": "This is the sixth course"
+            }
+          ]
         }
       ]
     }
