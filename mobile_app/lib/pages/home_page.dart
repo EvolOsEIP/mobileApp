@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                 elevation: 4,
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/chapters');
+                    Navigator.pushNamed(context, '/units');
                   },
                   child: Center(
                     child: Padding(

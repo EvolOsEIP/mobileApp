@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/pages/unit_list_page.dart';
 import 'package:mobile_app/pages/chapter_list_page.dart';
 import 'package:mobile_app/pages/courses_list_page.dart';
 import 'package:mobile_app/pages/course_page.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/home': (context) => const HomePage(),
+        '/units': (context) => const UnitListPage(),
         '/chapters': (context) => const ChapterListPage(),
         '/courses': (context) => const CoursesListPage(chapter: null),
         '/course_detail': (context) => const CoursePage(
