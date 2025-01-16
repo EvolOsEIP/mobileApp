@@ -9,7 +9,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -121,12 +121,12 @@ class _HomePageState extends State<HomePage> {
         unselectedItemColor: Colors.white,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Acceuil',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.query_stats),
             label: 'Stats',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Acceuil',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
