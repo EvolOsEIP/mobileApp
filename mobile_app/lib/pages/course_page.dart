@@ -116,7 +116,6 @@ class _CoursePageState extends State<CoursePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
-        // onTap: _onTap,
         child: Stack(
           children: [
             Column(

@@ -1,8 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+/// A reusable widget that displays a dialog-style assistant.
+/// The assistant sequentially types out a list of dialogs with a blinking effect at the end.
 class Assistant extends StatefulWidget {
+  /// The list of dialogs to be displayed sequentially.
   final List<dynamic> dialogs;
+
+  /// A callback function triggered when all dialogs have been displayed.
   final VoidCallback? onComplete;
 
   const Assistant({
@@ -16,15 +21,26 @@ class Assistant extends StatefulWidget {
 }
 
 class _AssistantState extends State<Assistant> {
+  /// The index of the currently displayed dialog in the list.
   int currentDialogIndex = 0;
+
+  /// The text currently being displayed, updated incrementally for typing effect.
   String displayedText = "";
+
+  /// Indicates if the typing animation is currently in progress.
   bool isTyping = false;
+
+  /// Indicates if the blinking effect is currently visible.
   bool isBlinking = false;
+
+  /// A timer used to handle the blinking effect.
   Timer blinkTimer = Timer(Duration.zero, () {});
 
   @override
   void initState() {
     super.initState();
+
+    // Start typing the first dialog if the dialog list is not empty.
     if (widget.dialogs.isNotEmpty) {
       _startTypingEffect(widget.dialogs[currentDialogIndex]);
     }
@@ -32,60 +48,69 @@ class _AssistantState extends State<Assistant> {
 
   @override
   void dispose() {
+    // Cancel the blinking timer to avoid memory leaks.
     blinkTimer.cancel();
     super.dispose();
   }
 
+  /// Starts the typing animation for the provided text.
   void _startTypingEffect(String text) {
     setState(() {
-      displayedText = "";
-      isTyping = true;
-      isBlinking = false;
+      displayedText = ""; // Clear the displayed text.
+      isTyping = true; // Set typing flag to true.
+      isBlinking = false; // Stop blinking while typing.
     });
 
+    // Timer to incrementally add characters to the displayed text.
     Timer.periodic(const Duration(milliseconds: 50), (timer) {
       if (displayedText.length < text.length) {
         setState(() {
           displayedText += text[displayedText.length];
         });
       } else {
-        timer.cancel();
+        timer.cancel(); // Stop the timer when the text is fully displayed.
         setState(() {
-          isTyping = false;
+          isTyping = false; // Typing animation is complete.
         });
-        _startBlinkingEffect();
+        _startBlinkingEffect(); // Start the blinking effect.
       }
     });
   }
 
+  /// Starts the blinking animation for the displayed text.
   void _startBlinkingEffect() {
-    blinkTimer.cancel();
+    blinkTimer.cancel(); // Ensure no other blinking timer is running.
     blinkTimer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
       setState(() {
-        isBlinking = !isBlinking;
+        isBlinking = !isBlinking; // Toggle the blinking state.
       });
     });
   }
 
+  /// Handles the user tap gesture to skip typing or move to the next dialog.
   void _onTap() {
-    blinkTimer.cancel();
+    blinkTimer.cancel(); // Stop the blinking timer.
+
     if (isTyping) {
+      // If typing is in progress, display the full dialog immediately.
       setState(() {
         displayedText = widget.dialogs[currentDialogIndex];
         isTyping = false;
       });
     } else {
+      // Move to the next dialog if available.
       if (currentDialogIndex < widget.dialogs.length - 1) {
         setState(() {
           currentDialogIndex++;
         });
         _startTypingEffect(widget.dialogs[currentDialogIndex]);
       } else {
+        // Trigger the onComplete callback when all dialogs are done.
         if (widget.onComplete != null) {
           widget.onComplete!();
         }
         setState(() {
-          displayedText = "";
+          displayedText = ""; // Clear the displayed text.
         });
       }
     }
@@ -94,14 +119,17 @@ class _AssistantState extends State<Assistant> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _onTap,
+      onTap: _onTap, // Handle user tap gestures.
       child: Stack(
         children: [
           if (widget.dialogs.isNotEmpty) ...[
             Align(
-              alignment: Alignment.center,
+              alignment:
+                  Alignment.center, // Center the assistant box on the screen.
               child: AnimatedOpacity(
-                opacity: isBlinking ? 0.5 : 1.0,
+                opacity: isBlinking
+                    ? 0.5
+                    : 1.0, // Adjust opacity for blinking effect.
                 duration: const Duration(milliseconds: 500),
                 child: Container(
                   padding: const EdgeInsets.all(20),
