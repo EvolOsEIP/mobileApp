@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 
 /// State class for HomePage, maintaining the current index of the bottom navigation bar.
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0; // Tracks the currently selected tab in the bottom navigation bar.
+  int _selectedIndex = 1; // Tracks the currently selected tab in the bottom navigation bar.
 
   /// Updates the selected index and triggers a rebuild of the widget.
   void _onItemTapped(int index) {
@@ -130,12 +130,12 @@ class _HomePageState extends State<HomePage> {
         unselectedItemColor: Colors.white, // White color for unselected items.
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home), // Home icon.
-            label: 'Acceuil', // Label for the home tab.
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.query_stats), // Stats icon.
             label: 'Stats', // Label for the stats tab.
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home), // Home icon.
+            label: 'Acceuil', // Label for the home tab.
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person), // Profile icon.
