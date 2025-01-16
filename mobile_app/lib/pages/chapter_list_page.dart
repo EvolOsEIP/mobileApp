@@ -5,35 +5,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_app/utils/colors.dart';
 
 class ChapterListPage extends StatefulWidget {
-  const ChapterListPage({super.key});
+  final dynamic units;
+  const ChapterListPage({super.key, required this.units});
+
   @override
   _ChapterListPageState createState() => _ChapterListPageState();
 }
 
 class _ChapterListPageState extends State<ChapterListPage> {
-  dynamic data;
-
-  @override
-  void initState() {
-    super.initState();
-    getChapters();
-  }
-
-  Future<void> getChapters() async {
-    try {
-      String dataString = await DefaultAssetBundle.of(context)
-          .loadString('assets/chapters.json');
-
-      setState(() {
-        data = jsonDecode(dataString);
-      });
-    } catch (e) {
-      print("Error loading the JSON file: $e");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final units = ModalRoute.of(context)!.settings.arguments as dynamic;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -45,17 +28,17 @@ class _ChapterListPageState extends State<ChapterListPage> {
           ),
         ),
       ),
-      body: data == null
+      body: units == null
           ? const Center(
               child: CircularProgressIndicator(),
             )
           : ListView.builder(
-              itemCount: data["chapters"].length,
+              itemCount: units["chapters"].length,
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
                     Navigator.pushNamed(context, '/courses',
-                        arguments: data["chapters"][index]);
+                        arguments: units["chapters"][index]);
                   },
                   child: Card(
                     color: CustomColors.accent,
@@ -79,7 +62,7 @@ class _ChapterListPageState extends State<ChapterListPage> {
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 8.0),
                                   child: Text(
-                                    data["chapters"][index]['title'],
+                                    units["chapters"][index]['title'],
                                     style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -87,7 +70,7 @@ class _ChapterListPageState extends State<ChapterListPage> {
                                   ),
                                 ),
                                 Text(
-                                  data["chapters"][index]['description'],
+                                  units["chapters"][index]['description'],
                                   style: const TextStyle(fontSize: 14),
                                 ),
                               ],
