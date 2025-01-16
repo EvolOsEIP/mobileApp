@@ -1,6 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:mobile_app/utils/colors.dart';
 
+import 'package:flutter/material.dart'; // Flutter framework for UI components.
+import 'package:mobile_app/utils/colors.dart'; // Custom color definitions for the app.
+
+/// HomePage widget serves as the main screen of the app.
+/// It displays navigation options and interacts with other screens.
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -8,13 +11,15 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+/// State class for HomePage, maintaining the current index of the bottom navigation bar.
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 0; // Tracks the currently selected tab in the bottom navigation bar.
 
+  /// Updates the selected index and triggers a rebuild of the widget.
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      print("Index: $_selectedIndex");
+      print("Index: $_selectedIndex"); // Logs the selected index for debugging.
     });
   }
 
@@ -22,38 +27,39 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: CustomColors.dark_accent,
+        backgroundColor: CustomColors.dark_accent, // Sets a custom background color for the AppBar.
         title: const Text(
-          'Accueil',
-          style: TextStyle(color: Colors.white),
+          'Accueil', // AppBar title.
+          style: TextStyle(color: Colors.white), // White text color for better contrast.
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0), // Adds padding around the body content.
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch, // Stretch children to fill the width.
           children: [
-            const SizedBox(height: 16.0),
-            // Row with two cards
+            const SizedBox(height: 16.0), // Adds spacing at the top of the body.
+
+            // Row containing two cards side by side.
             Row(
               children: [
-                // Second card
+                // First card: "Profile"
                 Expanded(
                   child: SizedBox(
-                    height: 200,
+                    height: 200, // Fixed height for the card.
                     child: Card(
-                      elevation: 4,
+                      elevation: 4, // Adds a shadow effect.
                       child: InkWell(
                         onTap: () {
-                          print("Profile");
+                          print("Profile"); // Logs "Profile" when tapped.
                         },
                         child: Center(
                           child: Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.all(16.0), // Uniform padding inside the card.
                             child: Text(
-                              'Profile',
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.bodyLarge,
+                              'Profile', // Card text.
+                              textAlign: TextAlign.center, // Center-align the text.
+                              style: Theme.of(context).textTheme.bodyLarge, // Uses the app's theme for styling.
                             ),
                           ),
                         ),
@@ -61,24 +67,25 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 16.0),
-                // Third card
+                const SizedBox(width: 16.0), // Space between the two cards.
+
+                // Second card: "Voir ma progression" (View Progress).
                 Expanded(
                   child: SizedBox(
-                    height: 200,
+                    height: 200, // Fixed height for the card.
                     child: Card(
-                      elevation: 4,
+                      elevation: 4, // Adds a shadow effect.
                       child: InkWell(
                         onTap: () {
-                          print("Voir ma progression");
+                          print("Voir ma progression"); // Logs "Voir ma progression" when tapped.
                         },
                         child: Center(
                           child: Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.all(16.0), // Uniform padding inside the card.
                             child: Text(
-                              'Voir ma progression',
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.bodyLarge,
+                              'Voir ma progression', // Card text.
+                              textAlign: TextAlign.center, // Center-align the text.
+                              style: Theme.of(context).textTheme.bodyLarge, // Uses the app's theme for styling.
                             ),
                           ),
                         ),
@@ -88,23 +95,24 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            const SizedBox(height: 16.0),
-            // First card
+            const SizedBox(height: 16.0), // Adds spacing below the row.
+
+            // Third card: "Voir la liste des modules" (View the list of modules).
             SizedBox(
-              height: 200,
+              height: 200, // Fixed height for the card.
               child: Card(
-                elevation: 4,
+                elevation: 4, // Adds a shadow effect.
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/units');
+                    Navigator.pushNamed(context, '/units'); // Navigates to the '/units' page when tapped.
                   },
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16.0), // Uniform padding inside the card.
                       child: Text(
-                        'Voir la liste des modules',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        'Voir la liste des modules', // Card text.
+                        textAlign: TextAlign.center, // Center-align the text.
+                        style: Theme.of(context).textTheme.bodyLarge, // Uses the app's theme for styling.
                       ),
                     ),
                   ),
@@ -114,27 +122,28 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      // navigation bar
+
+      // Bottom navigation bar for navigating between sections of the app.
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: CustomColors.dark_accent,
-        selectedItemColor: CustomColors.accent,
-        unselectedItemColor: Colors.white,
+        backgroundColor: CustomColors.dark_accent, // Custom background color for the navigation bar.
+        selectedItemColor: CustomColors.accent, // Highlight color for the selected item.
+        unselectedItemColor: Colors.white, // White color for unselected items.
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Acceuil',
+            icon: Icon(Icons.home), // Home icon.
+            label: 'Acceuil', // Label for the home tab.
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.query_stats),
-            label: 'Stats',
+            icon: Icon(Icons.query_stats), // Stats icon.
+            label: 'Stats', // Label for the stats tab.
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.person), // Profile icon.
+            label: 'Profile', // Label for the profile tab.
           ),
         ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+        currentIndex: _selectedIndex, // Highlights the currently selected tab.
+        onTap: _onItemTapped, // Updates the selected index when a tab is tapped.
       ),
     );
   }
