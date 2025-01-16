@@ -47,8 +47,8 @@ class _UnitListPageState extends State<UnitListPage> {
                 return ListTile(
                   title: Text(data["units"][index]['name']),
                   onTap: () {
-                    Navigator.pushNamed(context, '/units',
-                        arguments: data[index]);
+                    Navigator.pushNamed(context, '/chapters',
+                        arguments: data["units"][index]);
                   },
                 );
               },
