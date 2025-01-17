@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+// A page to display a list of courses for a selected chapter
 class CoursesListPage extends StatefulWidget {
-  final dynamic chapter;
+  final dynamic chapter; // Holds the data for the current chapter
   const CoursesListPage({super.key, required this.chapter});
 
   @override
@@ -12,13 +13,16 @@ class CoursesListPage extends StatefulWidget {
 class _CoursesListPageState extends State<CoursesListPage> {
   @override
   Widget build(BuildContext context) {
+    // Retrieves the chapter details passed through the navigation route
     final chapter = ModalRoute.of(context)!.settings.arguments as dynamic;
 
     return Scaffold(
       appBar: AppBar(
+        // Sets the AppBar title to the chapter's title
         title: Text(chapter['title']),
       ),
       body: ListView.builder(
+        // Creates a scrollable list with one item per course in the chapter
         itemCount: chapter['courses'].length,
         itemBuilder: (context, index) {
           return InkWell(
