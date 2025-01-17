@@ -119,6 +119,16 @@ class _CoursePageState extends State<CoursePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   title: const Text(
+      //     'Chapters',
+      //     style: TextStyle(
+      //       color: Colors.black,
+      //       fontSize: 20,
+      //     ),
+      //   ),
+      // ),
       body: GestureDetector(
         child: Stack(
           children: [
