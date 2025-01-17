@@ -16,6 +16,8 @@ class _CoursePageState extends State<CoursePage> {
   dynamic descriptionInstruction;
   dynamic expectations;
   dynamic course;
+  dynamic chapter;
+  dynamic args;
 
   String errorMessage = '';
   int currentDialogIndex = 0;
@@ -35,7 +37,9 @@ class _CoursePageState extends State<CoursePage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    course = ModalRoute.of(context)!.settings.arguments as dynamic;
+    args = ModalRoute.of(context)!.settings.arguments as dynamic;
+    chapter = args['chapter'];
+    course = chapter['courses'][args['index']];
 
     setState(() {
       dialogs = course["dialogs"];
@@ -82,7 +86,7 @@ class _CoursePageState extends State<CoursePage> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/home');
+              Navigator.pushNamed(context, '/courses', arguments: chapter);
             },
             child: const Text("OK"),
           )
@@ -115,8 +119,17 @@ class _CoursePageState extends State<CoursePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   title: const Text(
+      //     'Chapters',
+      //     style: TextStyle(
+      //       color: Colors.black,
+      //       fontSize: 20,
+      //     ),
+      //   ),
+      // ),
       body: GestureDetector(
-        // onTap: _onTap,
         child: Stack(
           children: [
             Column(

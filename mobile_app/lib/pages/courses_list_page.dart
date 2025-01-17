@@ -25,57 +25,50 @@ class _CoursesListPageState extends State<CoursesListPage> {
         // Creates a scrollable list with one item per course in the chapter
         itemCount: chapter['courses'].length,
         itemBuilder: (context, index) {
-          // Build a clickable card for each course
           return InkWell(
             onTap: () {
-              // Navigates to the course detail page, passing the selected course data
-              Navigator.pushNamed(
-                context,
-                '/course_detail',
-                arguments: chapter['courses'][index],
-              );
+              Navigator.pushNamed(context, '/course_detail', arguments: {
+                'chapter': chapter,
+                'index': index
+              } //chapter['courses'][index],
+
+                  );
             },
             child: Card(
-              margin: const EdgeInsets.symmetric(
-                  vertical: 10, horizontal: 16), // Adds margin around the card
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
               child: SizedBox(
-                height: 250, // Sets a fixed height for the card
+                height: 250, // Set the desired height for the cards
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0), // Adds padding inside the card
-                  child: Row(
-                    children: [
-                      // Displays an SVG icon (useful for representing the course visually)
-                      SvgPicture.asset(
-                        "assets/images/genetic-data-svgrepo-com.svg",
-                        width: 100,
-                        height: 100,
-                      ),
-                      const SizedBox(width: 16), // Adds space between the image and text
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start, // Aligns text to the start
-                          children: [
-                            // Course title displayed in bold text
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: Text(
-                                chapter['courses'][index]['title'],
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(children: [
+                    SvgPicture.asset(
+                      "assets/images/genetic-data-svgrepo-com.svg",
+                      width: 100,
+                      height: 100,
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Text(
+                              chapter['courses'][index]['title'],
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            // Course description displayed in regular text
-                            Text(
-                              chapter['courses'][index]['description'],
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                          ],
-                        ),
+                          ),
+                          Text(
+                            chapter['courses'][index]['description'],
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ]),
                 ),
               ),
             ),
