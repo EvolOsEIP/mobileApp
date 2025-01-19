@@ -105,6 +105,38 @@ class _ChapterListPageState extends State<ChapterListPage> {
                                     units["chapters"][index]['description'],
                                     style: const TextStyle(fontSize: 14), // Smaller font size for description.
                                   ),
+                                  Spacer(),
+                                  // add text for the status of the chapter ("En cours", "Terminé" or "À venir"), and the number of courses completed
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Status: ",
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          Text(
+                                            units["chapters"][index]['status'],
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+
+                                      Text(
+                                        units["chapters"][index]['completedCourses'].toString() + " / " + units["chapters"][index]['totalCourses'].toString(),
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
                                 ],
                               ),
                             ),
