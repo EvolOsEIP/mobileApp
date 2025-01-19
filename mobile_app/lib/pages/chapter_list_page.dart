@@ -1,4 +1,3 @@
-
 import 'dart:convert'; // Provides JSON encoding and decoding utilities.
 import 'package:flutter/material.dart'; // Flutter framework for UI components.
 import 'package:flutter_svg/flutter_svg.dart'; // Library to handle SVG images.
@@ -65,10 +64,9 @@ class _ChapterListPageState extends State<ChapterListPage> {
                                   height: 100, // Image height.
                                 ),
                                 const SizedBox(height: 16),
-                                // add three stars
+                                // Add three stars
                                 Row(
-                                  //mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
+                                  children: const [
                                     Icon(
                                       Icons.star,
                                       color: Colors.yellow,
@@ -90,41 +88,47 @@ class _ChapterListPageState extends State<ChapterListPage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start, // Align text to the start.
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0), // Space below the title.
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
                                           units["chapters"][index]['title'], // Chapter title.
                                           style: const TextStyle(
                                             fontSize: 18, // Font size for the title.
                                             fontWeight: FontWeight.bold, // Bold font for emphasis.
                                           ),
+                                          softWrap: true, // Allow text to wrap to the next line if it exceeds the width.
+                                          overflow: TextOverflow.ellipsis, // Ellipsis for overflow text.
+                                          maxLines: 2, // Maximum of 2 lines for the title.
                                         ),
-                                        // add a button to show the chapter details
-                                        const Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Colors.black,
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                      const Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.black,
+                                      ),
+                                    ],
                                   ),
                                   // Chapter description text.
                                   Text(
                                     units["chapters"][index]['description'],
-                                    style: const TextStyle(fontSize: 14), // Smaller font size for description.
+                                    style: const TextStyle(
+                                      fontSize: 14
+                                    ), // Smaller font size for description.
+                                    overflow: TextOverflow.ellipsis, // Ellipsis for overflow text.
+                                    maxLines: 5, // Maximum of 3 lines for the description.
                                   ),
-                                  Spacer(),
-                                  // add text for the status of the chapter ("En cours", "Terminé" or "À venir"), and the number of courses completed
+                                  const Spacer(),
+                                  // Add text for the status of the chapter ("En cours", "Terminé" or "À venir"), and the number of courses completed
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
+                                          const Text(
                                             "Status: ",
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -137,9 +141,8 @@ class _ChapterListPageState extends State<ChapterListPage> {
                                           ),
                                         ],
                                       ),
-
                                       Text(
-                                        units["chapters"][index]['completedCourses'].toString() + " / " + units["chapters"][index]['totalCourses'].toString(),
+                                        "${units["chapters"][index]['completedCourses']} / ${units["chapters"][index]['totalCourses']}",
                                         style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
@@ -147,7 +150,6 @@ class _ChapterListPageState extends State<ChapterListPage> {
                                       ),
                                     ],
                                   ),
-
                                 ],
                               ),
                             ),
