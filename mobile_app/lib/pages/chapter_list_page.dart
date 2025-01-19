@@ -56,11 +56,34 @@ class _ChapterListPageState extends State<ChapterListPage> {
                         padding: const EdgeInsets.all(16.0), // Uniform padding for the card content.
                         child: Row(
                           children: [
-                            // SVG image displayed as an icon for the chapter.
-                            SvgPicture.asset(
-                              "assets/images/genetic-data-svgrepo-com.svg",
-                              width: 100, // Image width.
-                              height: 100, // Image height.
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SvgPicture.asset(
+                                  "assets/images/genetic-data-svgrepo-com.svg",
+                                  width: 100, // Image width.
+                                  height: 100, // Image height.
+                                ),
+                                const SizedBox(height: 16),
+                                // add three stars
+                                Row(
+                                  //mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                             const SizedBox(width: 16), // Space between the image and text.
                             Expanded(
