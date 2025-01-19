@@ -92,12 +92,22 @@ class _ChapterListPageState extends State<ChapterListPage> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: 8.0), // Space below the title.
-                                    child: Text(
-                                      units["chapters"][index]['title'], // Chapter title.
-                                      style: const TextStyle(
-                                        fontSize: 18, // Font size for the title.
-                                        fontWeight: FontWeight.bold, // Bold font for emphasis.
-                                      ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          units["chapters"][index]['title'], // Chapter title.
+                                          style: const TextStyle(
+                                            fontSize: 18, // Font size for the title.
+                                            fontWeight: FontWeight.bold, // Bold font for emphasis.
+                                          ),
+                                        ),
+                                        // add a button to show the chapter details
+                                        const Icon(
+                                          Icons.arrow_forward_ios,
+                                          color: Colors.black,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   // Chapter description text.
@@ -132,6 +142,7 @@ class _ChapterListPageState extends State<ChapterListPage> {
                                         units["chapters"][index]['completedCourses'].toString() + " / " + units["chapters"][index]['totalCourses'].toString(),
                                         style: const TextStyle(
                                           fontSize: 14,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ],
