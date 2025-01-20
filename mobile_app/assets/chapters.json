@@ -8,6 +8,9 @@
       "chapters": [
         {
           "id": 1,
+          "status": "Terminé",
+          "completedCourses": 2,
+          "totalCourses": 2,
           "title": "Chapitre 1 : Maîtrise ton clavier comme un pro",
           "description": "Dans ce chapitre, apprenez à utiliser votre clavier efficacement en commençant par les bases. Découvrez comment taper des lettres, des majuscules, et des signes de ponctuation simples.",
           "courses": [
@@ -72,7 +75,10 @@
         },
         {
           "id": 2,
+          "status": "En cours",
           "title": "Chapter 2",
+          "completedCourses": 1,
+          "totalCourses": 2,
           "description": "This is the second chapter",
           "courses": [
             {
@@ -89,7 +95,10 @@
         },
         {
           "id": 3,
+          "status": "À venir",
           "title": "Chapter 3",
+          "completedCourses": 0,
+          "totalCourses": 2,
           "description": "This is the third chapter",
           "courses": [
             {
