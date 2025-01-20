@@ -2,9 +2,10 @@
   "units": [
     {
       "id": 1,
-      "title": "Unit 1 : Les bases techniques",
+      "title": "1 : Les bases techniques",
       "name": "Technical Basics",
-      "description": "Dans cette unité, apprenez les bases techniques pour maîtriser votre clavier et votre souris. Découvrez comment taper des lettres, des chiffres, et des signes de ponctuation simples.",
+      "available": "true",
+      "description": "Tu veux apprendre à utiliser ton appareil comme un pro ?\nCe module est fait pour toi ! On te montre comment maîtriser le clavier, comprendre les touches, et découvrir tous les gestes tactiles qui te permettent d’interagir avec ton écran.",
       "chapters": [
         {
           "id": 1,
@@ -44,7 +45,7 @@
             {
               "id": 2,
               "title": "Cours 2",
-              "description": "Intégrer les majuscules et les signes de ponctuation simples comme la virgule.",
+              "description": " ... ",
               "dialogs": [
                 "Bienvenue dans ce deuxième cours de maîtrise du clavier ! \uD83C\uDF89",
                 "Aujourd'hui, on va continuer sur notre lancée : \nvotre mission est de recopier une phrase un peu plus complexe."
@@ -72,8 +73,8 @@
         },
         {
           "id": 2,
-          "title": "Chapter 2",
-          "description": "This is the second chapter",
+          "title": "Chapitre 2 : Toucher, glisser, maîtriser",
+          "description": "Plongez dans l'univers des interactions tactiles et apprenez à maîtriser les gestes essentiels comme le toucher, le glisser ou le maintenir. Ce chapitre vous guidera pour naviguer en toute fluidité sur les écrans modernes.",
           "courses": [
             {
               "id": 3,
@@ -86,21 +87,74 @@
               "description": "This is the fourth course"
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "id" : 2,
+      "title": "2 : Décoder une interface numérique",
+      "name": "Technical Interface",
+      "available": "true",
+      "description": "Tu te demandes à quoi servent toutes ces icônes sur ton écran ?\nDans ce module, tu apprendras à repérer et comprendre les essentiels comme le Wi-Fi, la batterie ou encore la luminosité. Ton appareil n'aura plus de secret pour toi !",
+      "chapters": [
         {
-          "id": 3,
-          "title": "Chapter 3",
-          "description": "This is the third chapter",
+          "id": 1,
+          "title": "Chapitre 1 : ",
+          "description": "",
           "courses": [
             {
-              "id": 5,
-              "title": "Course 5",
-              "description": "This is the fifth course"
-            },
+              "id": 1,
+              "title": "Cours 1",
+              "description": "",
+              "dialogs": [
+                ""
+              ],
+              "images": [],
+              "instructions": [
+                ""
+              ],
+              "descriptions": [
+                ""
+              ],
+              "expectations": [
+                ""
+              ],
+              "end": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id" : 3,
+      "title": "3 : Aller plus loin avec son appareil",
+      "name": "System",
+      "available": "false",
+      "description": "Ce module combine les compétences acquises dans les deux premiers modules pour une utilisation intermédiaire des appareils numériques.\nIl te montrera comment activer le Wi-Fi, lancer et organiser tes applications, télécharger ou désinstaller des outils, et même déplacer tes fichiers.",
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Chapitre 1 : ",
+          "description": "",
+          "courses": [
             {
-              "id": 6,
-              "title": "Course 6",
-              "description": "This is the sixth course"
+              "id": 1,
+              "title": "Cours 1",
+              "description": "",
+              "dialogs": [
+                ""
+              ],
+              "images": [],
+              "instructions": [
+                ""
+              ],
+              "descriptions": [
+                ""
+              ],
+              "expectations": [
+                ""
+              ],
+              "end": ""
             }
           ]
         }
