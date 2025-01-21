@@ -2,8 +2,11 @@
   "units": [
     {
       "id": 1,
+      "status": "En cours",
       "title": "Unit 1 : Les bases techniques",
       "name": "Technical Basics",
+      "completedChapters": 1,
+      "totalChapters": 3,
       "description": "Dans cette unité, apprenez les bases techniques pour maîtriser votre clavier et votre souris. Découvrez comment taper des lettres, des chiffres, et des signes de ponctuation simples.",
       "chapters": [
         {
