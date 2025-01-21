@@ -19,6 +19,7 @@
           "courses": [
             {
               "id": 1,
+              "status": "Terminé",
               "title": "Cours 1",
               "description": "Se familiariser avec les lettres de base et apprendre à utiliser les touches correctement.",
               "dialogs": [
@@ -50,6 +51,7 @@
             {
               "id": 2,
               "title": "Cours 2",
+              "status": "Terminé",
               "description": "Intégrer les majuscules et les signes de ponctuation simples comme la virgule.",
               "dialogs": [
                 "Bienvenue dans ce deuxième cours de maîtrise du clavier ! \uD83C\uDF89",
@@ -86,11 +88,13 @@
           "courses": [
             {
               "id": 3,
+              "status": "Terminé",
               "title": "Course 3",
               "description": "This is the third course"
             },
             {
               "id": 4,
+              "status": "En cours",
               "title": "Course 4",
               "description": "This is the fourth course"
             }
@@ -106,11 +110,13 @@
           "courses": [
             {
               "id": 5,
+              "status": "À venir",
               "title": "Course 5",
               "description": "This is the fifth course"
             },
             {
               "id": 6,
+              "status": "À venir",
               "title": "Course 6",
               "description": "This is the sixth course"
             }
