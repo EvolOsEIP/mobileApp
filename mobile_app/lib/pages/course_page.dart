@@ -27,10 +27,21 @@ class _CoursePageState extends State<CoursePage> {
   Timer blinkTimer = Timer(Duration.zero, () {});
 
   int currentInstructionIndex = 0; // Index of the current instruction
+  TextEditingController _inputController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _inputController.addListener(() { // listener to check if the value of the variable has changed
+      setState(() { // update the variable
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _inputController.dispose(); // delete the listener to avoid memory link
+    super.dispose();
   }
 
   @override
@@ -49,7 +60,6 @@ class _CoursePageState extends State<CoursePage> {
     });
   }
 
-  TextEditingController _inputController = TextEditingController();
 
   void _nextInstruction() {
     String userResponse = _inputController.text.trim();
@@ -119,16 +129,16 @@ class _CoursePageState extends State<CoursePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   title: const Text(
-      //     'Chapters',
-      //     style: TextStyle(
-      //       color: Colors.black,
-      //       fontSize: 20,
-      //     ),
-      //   ),
-      // ),
+      appBar: AppBar(
+        elevation: 0,
+        title: const Text(
+          'Chapters',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+          ),
+        ),
+      ),
       body: GestureDetector(
         child: Stack(
           children: [
@@ -220,8 +230,7 @@ class _CoursePageState extends State<CoursePage> {
                                 child: ElevatedButton(
                                   onPressed: _nextInstruction,
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          _inputController.text.isNotEmpty
+                                      backgroundColor: _inputController.text.isNotEmpty
                                               ? Colors.lightGreen
                                               : Colors.grey),
                                   child: const Text("Suivant"),
