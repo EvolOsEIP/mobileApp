@@ -26,5 +26,5 @@ jobs:
       run: cd mobile_app && flutter pub get
 
     - name: Generate Documentation
-      run: dart doc
+      run: cd mobile_app ; dart doc
 
