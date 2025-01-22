@@ -5,9 +5,9 @@
       "status": "En cours",
       "title": "1 : Les bases techniques",
       "name": "Technical Basics",
+      "available": "true",
       "completedChapters": 1,
       "totalChapters": 3,
-      "available": "true",
       "description": "Tu veux apprendre à utiliser ton appareil comme un pro ?\nCe module est fait pour toi ! On te montre comment maîtriser le clavier, comprendre les touches, et découvrir tous les gestes tactiles qui te permettent d’interagir avec ton écran.",
       "chapters": [
         {
@@ -83,99 +83,34 @@
           "id": 2,
           "title": "Chapitre 2 : Toucher, glisser, maîtriser",
           "description": "Plongez dans l'univers des interactions tactiles et apprenez à maîtriser les gestes essentiels comme le toucher, le glisser ou le maintenir. Ce chapitre vous guidera pour naviguer en toute fluidité sur les écrans modernes.",
-          "status": "En cours",
-          "completedCourses": 1,
-          "totalCourses": 2,
-          "courses": [
-            {
-              "id": 3,
-              "status": "Terminé",
-              "title": "Course 3",
-              "description": "This is the third course"
-            },
-            {
-              "id": 4,
-              "status": "En cours",
-              "title": "Course 4",
-              "description": "This is the fourth course"
-            }
-          ]
+          "status": "Bientôt disponnible",
+          "completedCourses": 0,
+          "totalCourses": 0,
+          "courses": []
         }
       ]
     },
     {
       "id" : 2,
+      "status": "Pas commencé",
       "title": "2 : Décoder une interface numérique",
       "name": "Technical Interface",
       "available": "true",
+      "completedChapters": 1,
+      "totalChapters": 3,
       "description": "Tu te demandes à quoi servent toutes ces icônes sur ton écran ?\nDans ce module, tu apprendras à repérer et comprendre les essentiels comme le Wi-Fi, la batterie ou encore la luminosité. Ton appareil n'aura plus de secret pour toi !",
-      "chapters": [
-        {
-          "id": 1,
-          "title": "Chapitre 1 : ",
-          "description": "",
-          "courses": [
-            {
-              "id": 1,
-              "title": "Cours 1",
-              "description": "",
-              "dialogs": [
-                ""
-              ],
-              "images": [],
-              "instructions": [
-                ""
-              ],
-              "descriptions": [
-                ""
-              ],
-              "expectations": [
-                ""
-              ],
-              "end": ""
-            }
-          ]
-        }
-      ]
+      "chapters": []
     },
     {
       "id" : 3,
+      "status": "Pas commencé",
       "title": "3 : Aller plus loin avec son appareil",
       "name": "System",
       "available": "false",
+      "completedChapters": 0,
+      "totalChapters": 1,
       "description": "Ce module combine les compétences acquises dans les deux premiers modules pour une utilisation intermédiaire des appareils numériques.\nIl te montrera comment activer le Wi-Fi, lancer et organiser tes applications, télécharger ou désinstaller des outils, et même déplacer tes fichiers.",
-      "chapters": [
-        {
-          "id": 1,
-          "title": "Chapitre 1 : ",
-          "description": "",
-          "status": "À venir",
-          "completedCourses": 0,
-          "totalCourses": 2,
-          "courses": [
-            {
-              "id": 1,
-              "title": "Cours 1",
-              "status": "À venir",
-              "description": "",
-              "dialogs": [
-                ""
-              ],
-              "images": [],
-              "instructions": [
-                ""
-              ],
-              "descriptions": [
-                ""
-              ],
-              "expectations": [
-                ""
-              ],
-              "end": ""
-            }
-          ]
-        }
-      ]
+      "chapters": []
     }
   ]
 }
