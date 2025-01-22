@@ -1,42 +1,64 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobile_app/utils/colors.dart';
 
-// A page to display a list of courses for a selected chapter
-class CoursesListPage extends StatefulWidget {
-  final dynamic chapter; // Holds the data for the current chapter
-  const CoursesListPage({super.key, required this.chapter});
+import 'dart:convert'; // For decoding JSON data
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart'; // For displaying SVG images
+import 'package:mobile_app/utils/colors.dart'; // Custom colors used in the app
+
+// A page that displays a list of units loaded from a local JSON file
+class UnitListPage extends StatefulWidget {
+  const UnitListPage({super.key});
 
   @override
-  _CoursesListPageState createState() => _CoursesListPageState();
+  _UnitListPageState createState() => _UnitListPageState();
 }
 
-class _CoursesListPageState extends State<CoursesListPage> {
+class _UnitListPageState extends State<UnitListPage> {
+  dynamic data; // Holds the JSON data for units
+
+  @override
+  void initState() {
+    super.initState();
+    getDatas(); // Fetches data when the widget is initialized
+  }
+
+  // Asynchronous method to load and parse JSON data from the assets folder
+  Future<void> getDatas() async {
+    try {
+      // Loads the JSON file as a string
+      String dataString = await DefaultAssetBundle.of(context)
+          .loadString('assets/chapters.json');
+
+      // Parses the JSON string into a Dart object and updates the state
+      setState(() {
+        data = jsonDecode(dataString);
+      });
+    } catch (e) {
+      // Logs an error if the JSON file could not be loaded
+      print("Error loading the JSON file: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Retrieves the chapter details passed through the navigation route
-    final chapter = ModalRoute.of(context)!.settings.arguments as dynamic;
-
     return Scaffold(
       appBar: AppBar(
-        // Sets the AppBar title to the chapter's title
-        title: Text(chapter['title']),
+        // AppBar with a title for the page
+        title: const Text('Liste des modules'),
       ),
 
-      body: chapter == null
+      body: data == null
           ? const Center(
               child: CircularProgressIndicator(), // Show a loader if data is null.
             )
           : ListView.builder(
-              // Dynamically builds a list of courses based on the number of items.
-              itemCount: chapter["courses"].length, // Total number of courses.
+              // Dynamically builds a list of units  based on the number of items.
+              itemCount: data["units"].length, // Total number of units.
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/course_detail', arguments: {
-                      'chapter': chapter,
-                      'index': index
-                    });
+                    // Navigate to the courses page, passing the selected chapter as an argument.
+                    Navigator.pushNamed(context, '/chapters',
+                        arguments: data["units"][index]);
                   },
                   child: Card(
                     color: CustomColors.accent, // Use custom accent color for the card.
@@ -87,7 +109,7 @@ class _CoursesListPageState extends State<CoursesListPage> {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          chapter["courses"][index]['title'], // Chapter title.
+                                          data["units"][index]['title'], // Unit title.
                                           style: const TextStyle(
                                             fontSize: 18, // Font size for the title.
                                             fontWeight: FontWeight.bold, // Bold font for emphasis.
@@ -105,7 +127,7 @@ class _CoursesListPageState extends State<CoursesListPage> {
                                   ),
                                   // Chapter description text.
                                   Text(
-                                    chapter["courses"][index]['description'],
+                                    data["units"][index]['description'],
                                     style: const TextStyle(
                                       fontSize: 14
                                     ), // Smaller font size for description.
@@ -127,12 +149,19 @@ class _CoursesListPageState extends State<CoursesListPage> {
                                             ),
                                           ),
                                           Text(
-                                            chapter["courses"][index]['status'],
+                                            data["units"][index]['status'],
                                             style: const TextStyle(
                                               fontSize: 14,
                                             ),
                                           ),
                                         ],
+                                      ),
+                                      Text(
+                                        "${data['units'][index]['completedChapters']} / ${data['units'][index]['totalChapters']}",
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ],
                                   ),

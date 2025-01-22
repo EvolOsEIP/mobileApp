@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../utils/assistant.dart';
 
 class CoursePage extends StatefulWidget {
   final dynamic courses;
@@ -15,6 +16,8 @@ class _CoursePageState extends State<CoursePage> {
   dynamic descriptionInstruction;
   dynamic expectations;
   dynamic course;
+  dynamic chapter;
+  dynamic args;
 
   String errorMessage = '';
   int currentDialogIndex = 0;
@@ -34,83 +37,16 @@ class _CoursePageState extends State<CoursePage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    course = ModalRoute.of(context)!.settings.arguments as dynamic;
+    args = ModalRoute.of(context)!.settings.arguments as dynamic;
+    chapter = args['chapter'];
+    course = chapter['courses'][args['index']];
 
     setState(() {
       dialogs = course["dialogs"];
       currentInstruction = course['instructions'][0];
       descriptionInstruction = course['descriptions'][0];
       expectations = course['expectations'][0];
-
-      if (dialogs != null && dialogs.isNotEmpty) {
-        _startTypingEffect(dialogs[currentDialogIndex]);
-      }
     });
-    _inputController.addListener(_onTextChanged);
-  }
-
-  @override
-  void dispose() {
-    blinkTimer.cancel();
-    _inputController.removeListener(_onTextChanged);
-    _inputController.dispose();
-    super.dispose();
-  }
-
-  void _onTextChanged() {
-    setState(() {});
-  }
-
-  void _startTypingEffect(String text) {
-    setState(() {
-      displayedText = "";
-      isTyping = true;
-      isBlinking = false;
-    });
-
-    Timer.periodic(const Duration(milliseconds: 50), (timer) {
-      if (displayedText.length < text.length) {
-        setState(() {
-          displayedText += text[displayedText.length];
-        });
-      } else {
-        timer.cancel();
-        setState(() {
-          isTyping = false;
-        });
-        _startBlinkingEffect();
-      }
-    });
-  }
-
-  void _startBlinkingEffect() {
-    blinkTimer.cancel();
-    blinkTimer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
-      setState(() {
-        isBlinking = !isBlinking;
-      });
-    });
-  }
-
-  void _onTap() {
-    blinkTimer.cancel();
-    if (isTyping) {
-      setState(() {
-        displayedText = dialogs[currentDialogIndex];
-        isTyping = false;
-      });
-    } else {
-      if (currentDialogIndex < dialogs.length - 1) {
-        setState(() {
-          currentDialogIndex++;
-        });
-        _startTypingEffect(dialogs[currentDialogIndex]);
-      } else {
-        setState(() {
-          dialogs = [];
-        });
-      }
-    }
   }
 
   TextEditingController _inputController = TextEditingController();
@@ -123,9 +59,11 @@ class _CoursePageState extends State<CoursePage> {
       setState(() {
         errorMessage = '';
         if (currentInstructionIndex < course['instructions'].length - 1) {
-          currentInstruction     = course['instructions'][currentInstructionIndex + 1];
-          descriptionInstruction = course['descriptions'][currentInstructionIndex + 1];
-          expectations           = course['expectations'][currentInstructionIndex + 1];
+          currentInstruction =
+              course['instructions'][currentInstructionIndex + 1];
+          descriptionInstruction =
+              course['descriptions'][currentInstructionIndex + 1];
+          expectations = course['expectations'][currentInstructionIndex + 1];
           currentInstructionIndex++;
           _inputController.clear();
         } else {
@@ -148,7 +86,7 @@ class _CoursePageState extends State<CoursePage> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/home');
+              Navigator.pushNamed(context, '/courses', arguments: chapter);
             },
             child: const Text("OK"),
           )
@@ -166,7 +104,8 @@ class _CoursePageState extends State<CoursePage> {
       return 'Vérifiez la majuscule: il pourrait y avoir des majuscules en trop ou manquants.';
     }
 
-    if (userResponse.replaceAll(' ', '') == expectedResponse.replaceAll(' ', '')) {
+    if (userResponse.replaceAll(' ', '') ==
+        expectedResponse.replaceAll(' ', '')) {
       return 'Vérifiez les espaces : il pourrait y avoir des espaces en trop ou manquants.';
     }
 
@@ -180,152 +119,132 @@ class _CoursePageState extends State<CoursePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   title: const Text(
+      //     'Chapters',
+      //     style: TextStyle(
+      //       color: Colors.black,
+      //       fontSize: 20,
+      //     ),
+      //   ),
+      // ),
       body: GestureDetector(
-        onTap: _onTap,
         child: Stack(
           children: [
-            if (dialogs != null && dialogs.isNotEmpty) ...[
-              Align(
-                alignment: Alignment.center,
-                child: AnimatedOpacity(
-                  opacity: isBlinking ? 0.5 : 1.0,
-                  duration: const Duration(milliseconds: 500),
+            Column(
+              children: [
+                LinearProgressIndicator(
+                  value: (currentInstructionIndex + 1) /
+                      course['instructions'].length,
+                ),
+                Expanded(
                   child: Container(
-                    padding: const EdgeInsets.all(20),
-                    margin: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 51, 84, 116)
-                          .withOpacity(0.8),
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(color: Colors.white70, width: 2),
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text(
-                          "Assistant",
-                          style: TextStyle(
-                            color: Colors.orangeAccent,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                        FractionallySizedBox(
+                          widthFactor: 0.95,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                currentInstruction,
+                                style: const TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                              const SizedBox(height: 20.0),
+                              Text(
+                                descriptionInstruction,
+                                style: const TextStyle(fontSize: 20),
+                                textAlign: TextAlign.left,
+                              ),
+                              const SizedBox(height: 20.0),
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                padding: const EdgeInsets.all(12.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue[50],
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  border: Border.all(
+                                      color: Colors.blue, width: 1.5),
+                                ),
+                                child: Text(
+                                  expectations,
+                                  style: const TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.blue,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        SizedBox(height: (isTyping) ? 10 : 0),
-                        Text(
-                          displayedText,
-                          style: const TextStyle(
-                            color: Color.fromARGB(255, 173, 167, 167),
-                            fontSize: 30,
-                            height: 1.5,
+                        const Spacer(),
+                        FractionallySizedBox(
+                          widthFactor: 0.9,
+                          child: Column(
+                            children: [
+                              TextField(
+                                controller: _inputController,
+                                decoration: InputDecoration(
+                                  labelText: 'Votre réponse',
+                                  border: OutlineInputBorder(),
+                                ),
+                              ),
+                              const SizedBox(height: 16.0),
+                              if (errorMessage.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: Text(
+                                    errorMessage,
+                                    style: const TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                                ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: ElevatedButton(
+                                  onPressed: _nextInstruction,
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          _inputController.text.isNotEmpty
+                                              ? Colors.lightGreen
+                                              : Colors.grey),
+                                  child: const Text("Suivant"),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
+              ],
+            ),
+            if (course['dialogs'] != null && course['dialogs'].isNotEmpty)
+              Assistant(
+                dialogs: course['dialogs'],
+                onComplete: () {
+                  setState(() {
+                    course['dialogs'] = [];
+                  });
+                },
               ),
-            ] else ...[
-              Column(
-                children: [
-                  LinearProgressIndicator(
-                    value: (currentInstructionIndex + 1) /
-                        course['instructions'].length,
-                  ),
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.all(20.0),
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Column(
-                        children: [
-                          FractionallySizedBox(
-                            widthFactor: 0.95,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  currentInstruction,
-                                  style: const TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                const SizedBox(height: 20.0),
-                                Text(
-                                  descriptionInstruction,
-                                  style: const TextStyle(fontSize: 20),
-                                  textAlign: TextAlign.left,
-                                ),
-                                const SizedBox(height: 20.0),
-                                Container(
-                                  margin: const EdgeInsets.symmetric(vertical: 10.0),
-                                  padding: const EdgeInsets.all(12.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.blue[50],
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    border: Border.all(color: Colors.blue, width: 1.5),
-                                  ),
-                                  child: Text(
-                                    expectations,
-                                    style: const TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.blue,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Spacer(),
-                          FractionallySizedBox(
-                            widthFactor: 0.9,
-                            child: Column(
-                              children: [
-                                TextField(
-                                  controller: _inputController,
-                                  decoration: InputDecoration(
-                                    labelText: 'Votre réponse',
-                                    border: OutlineInputBorder(),
-                                  ),
-                                ),
-                                const SizedBox(height: 16.0),
-                                if (errorMessage.isNotEmpty)
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: Text(
-                                      errorMessage,
-                                      style: const TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 16.0,
-                                      ),
-                                    ),
-                                  ),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: ElevatedButton(
-                                    onPressed: _nextInstruction,
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: _inputController.text.isNotEmpty ? Colors.lightGreen : Colors.grey
-                                    ),
-                                    child: const Text("Suivant"),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
           ],
         ),
       ),
