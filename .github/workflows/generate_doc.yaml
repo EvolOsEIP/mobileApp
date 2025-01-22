@@ -14,11 +14,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set Up Flutter
+    - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.5.4'
-        channel: 'stable'
+        channel: stable
+        flutter-version-file: ./mobile_app/pubspec.yaml # path to pubspec.yaml
+
+    - run: flutter --version
 
     - name: Install dependencies
       run: cd mobile_app && flutter pub get
