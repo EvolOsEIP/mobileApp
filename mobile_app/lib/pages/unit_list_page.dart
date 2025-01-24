@@ -57,8 +57,7 @@ class _UnitListPageState extends State<UnitListPage> {
                 return InkWell(
                   onTap: () {
                     // Navigate to the courses page, passing the selected chapter as an argument.
-                    Navigator.pushNamed(context, '/chapters',
-                        arguments: data["units"][index]);
+                    Navigator.pushNamed(context, '/chapters');
                   },
                   child: Card(
                     color: CustomColors.accent, // Use custom accent color for the card.
