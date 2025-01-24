@@ -99,7 +99,37 @@
       "completedChapters": 0,
       "totalChapters": 0,
       "description": "Tu te demandes à quoi servent toutes ces icônes sur ton écran ?\nDans ce module, tu apprendras à repérer et comprendre les essentiels comme le Wi-Fi, la batterie ou encore la luminosité. Ton appareil n'aura plus de secret pour toi !",
-      "chapters": []
+      "chapters": [
+        {
+          "id": 3,
+          "status": "À venir",
+          "title": "Chapter 3",
+          "completedCourses": 0,
+          "totalCourses": 2,
+          "description": "This is the third chapter",
+          "courses": [
+            {
+              "id": 1,
+              "title": "Cours 1",
+              "description": "",
+              "dialogs": [
+                ""
+              ],
+              "images": [],
+              "instructions": [
+                ""
+              ],
+              "descriptions": [
+                ""
+              ],
+              "expectations": [
+                ""
+              ],
+              "end": ""
+            }
+          ]
+        }
+      ]
     },
     {
       "id" : 3,
