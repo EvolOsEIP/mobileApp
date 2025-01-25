@@ -2,6 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../utils/assistant.dart';
 import 'course_page_utils.dart';
+import 'dart:convert'; // Provides JSON encoding and decoding utilities.
+import 'package:http/http.dart' as http; // Library for making HTTP requests.
+import 'package:flutter_dotenv/flutter_dotenv.dart'; // Library to read configuration from a .env file.
 
 /// This part is used to load courses content.
 ///
@@ -10,7 +13,6 @@ import 'course_page_utils.dart';
 ///
 
 class CoursePage extends StatefulWidget {
-
   /// Courses load from the json file is load here.
   final dynamic courses;
 
@@ -64,8 +66,34 @@ class _CoursePageState extends State<CoursePage> {
   /// ???
   Timer blinkTimer = Timer(Duration.zero, () {});
 
+  dynamic units;
+
   /// Controller to check the field input.
   final _inputController = TextEditingController();
+
+  Future<void> _fetchUnits(String endpoint) async {
+    try {
+      final response = await http.get(
+        Uri.parse(endpoint),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode == 200) {
+        setState(() {
+          units = jsonDecode(response.body);
+        });
+      } else {
+        setState(() {
+          units = null;
+        });
+        print('Failed to load chapters');
+      }
+    } catch (e) {
+      print('Failed to load chapters');
+      print(e);
+    }
+  }
 
   /// Initialize the widget.
   ///
@@ -75,8 +103,7 @@ class _CoursePageState extends State<CoursePage> {
     super.initState();
     _inputController.addListener(() {
       /// update the variable
-      setState(() {
-      });
+      setState(() {});
     });
   }
 
@@ -94,6 +121,8 @@ class _CoursePageState extends State<CoursePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
+    String api_url = dotenv.env['API_URL'].toString();
 
     args = ModalRoute.of(context)!.settings.arguments as dynamic;
     chapter = args['chapter'];
@@ -134,7 +163,8 @@ class _CoursePageState extends State<CoursePage> {
       });
     } else {
       setState(() {
-        errorMessage = ErrorUtils.generateErrorMessage(userResponse, expectedResponse);
+        errorMessage =
+            ErrorUtils.generateErrorMessage(userResponse, expectedResponse);
       });
     }
   }
@@ -181,130 +211,130 @@ class _CoursePageState extends State<CoursePage> {
     return 'Votre réponse est incorrecte. Veuillez revoir l’instruction.';
   }
 
-
-
-
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      elevation: 0,
-      title: const Text(
-        'Chapters',
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 20,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        title: const Text(
+          'Chapters',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+          ),
         ),
       ),
-    ),
-    body: SafeArea(
-      child: Stack(
-        children: [
-          // Main exercise content
-          Column(
-            children: [
-              LinearProgressIndicator(
-                value: (currentInstructionIndex + 1) / course['instructions'].length,
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    margin: const EdgeInsets.all(20.0),
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          currentInstruction,
-                          style: const TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 20.0),
-                        Text(
-                          descriptionInstruction,
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                        const SizedBox(height: 20.0),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10.0),
-                          padding: const EdgeInsets.all(12.0),
-                          decoration: BoxDecoration(
-                            color: Colors.blue[50],
-                            borderRadius: BorderRadius.circular(8.0),
-                            border: Border.all(color: Colors.blue, width: 1.5),
-                          ),
-                          child: Text(
-                            expectations,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            // Main exercise content
+            Column(
+              children: [
+                LinearProgressIndicator(
+                  value: (currentInstructionIndex + 1) /
+                      course['instructions'].length,
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Container(
+                      margin: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            currentInstruction,
                             style: const TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.blue,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
                             ),
-                            textAlign: TextAlign.center,
                           ),
-                        ),
-                        const SizedBox(height: 16.0),
-                        TextField(
-                          controller: _inputController,
-                          decoration: InputDecoration(
-                            labelText: 'Votre réponse',
-                            border: OutlineInputBorder(),
+                          const SizedBox(height: 20.0),
+                          Text(
+                            descriptionInstruction,
+                            style: const TextStyle(fontSize: 20),
                           ),
-                        ),
-                        if (errorMessage.isNotEmpty)
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
+                          const SizedBox(height: 20.0),
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 10.0),
+                            padding: const EdgeInsets.all(12.0),
+                            decoration: BoxDecoration(
+                              color: Colors.blue[50],
+                              borderRadius: BorderRadius.circular(8.0),
+                              border:
+                                  Border.all(color: Colors.blue, width: 1.5),
+                            ),
                             child: Text(
-                              errorMessage,
+                              expectations,
                               style: const TextStyle(
-                                color: Colors.red,
-                                fontSize: 16.0,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.blue,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          const SizedBox(height: 16.0),
+                          TextField(
+                            controller: _inputController,
+                            decoration: InputDecoration(
+                              labelText: 'Votre réponse',
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          if (errorMessage.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text(
+                                errorMessage,
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 16.0,
+                                ),
                               ),
                             ),
-                          ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: ElevatedButton(
-                            onPressed: _nextInstruction,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: _inputController.text.isNotEmpty
-                                  ? Colors.lightGreen
-                                  : Colors.grey,
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: ElevatedButton(
+                              onPressed: _nextInstruction,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    _inputController.text.isNotEmpty
+                                        ? Colors.lightGreen
+                                        : Colors.grey,
+                              ),
+                              child: const Text("Suivant"),
                             ),
-                            child: const Text("Suivant"),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          // Assistant widget, overlaid on top of the content
-          if (course['dialogs'] != null && course['dialogs'].isNotEmpty)
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Assistant(
-                dialogs: course['dialogs'],
-                onComplete: () {
-                  setState(() {
-                    course['dialogs'] = [];
-                  });
-                },
-              ),
+              ],
             ),
-        ],
+            // Assistant widget, overlaid on top of the content
+            if (course['dialogs'] != null && course['dialogs'].isNotEmpty)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Assistant(
+                  dialogs: course['dialogs'],
+                  onComplete: () {
+                    setState(() {
+                      course['dialogs'] = [];
+                    });
+                  },
+                ),
+              ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

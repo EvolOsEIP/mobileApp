@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const HomePage(),
         '/units': (context) => const UnitListPage(),
         '/chapters': (context) => const ChapterListPage(),
-        //'/courses': (context) => const CoursesListPage(chapter: null),
+        '/courses': (context) => const CoursesListPage(chapter: null),
         '/course_detail': (context) => const CoursePage(
               courses: 0,
             ),

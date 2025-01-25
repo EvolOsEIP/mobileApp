@@ -6,7 +6,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart'; // Library to read configur
 
 import 'package:mobile_app/utils/colors.dart'; // Custom color definitions for the app.
 
-
 /// A StatefulWidget to display a list of chapters in a unit.
 class ChapterListPage extends StatefulWidget {
   const ChapterListPage({super.key});
@@ -19,16 +18,15 @@ class ChapterListPage extends StatefulWidget {
 class _ChapterListPageState extends State<ChapterListPage> {
   dynamic units = null; // Variable to store the list of chapters.
 
-
   /// Fetches the list of chapters from the API.
   Future<void> _fetchUnits() async {
     try {
       final response = await http.get(
         Uri.parse(dotenv.env['API_URL'].toString() + '/chapters'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-        );
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
       if (response.statusCode == 200) {
         setState(() {
           units = jsonDecode(response.body);
@@ -50,9 +48,11 @@ class _ChapterListPageState extends State<ChapterListPage> {
     super.initState();
     _fetchUnits();
   }
+
   @override
   Widget build(BuildContext context) {
     print(dotenv.env['API_URL']);
+    print(units);
     return Scaffold(
       appBar: AppBar(
         elevation: 0, // Removes the shadow under the AppBar.
@@ -66,7 +66,8 @@ class _ChapterListPageState extends State<ChapterListPage> {
       ),
       body: units == null
           ? const Center(
-              child: CircularProgressIndicator(), // Show a loader if data is null.
+              child:
+                  CircularProgressIndicator(), // Show a loader if data is null.
             )
           : ListView.builder(
               // Dynamically builds a list of chapters based on the number of items.
@@ -75,17 +76,19 @@ class _ChapterListPageState extends State<ChapterListPage> {
                 return InkWell(
                   onTap: () {
                     // Navigate to the courses page, passing the selected chapter as an argument.
-                   // Navigator.pushNamed(context, '/courses',
-                   //     arguments: units[index]);
+                    Navigator.pushNamed(context, '/courses',
+                        arguments: units[index]);
                   },
                   child: Card(
-                    color: CustomColors.accent, // Use custom accent color for the card.
+                    color: CustomColors
+                        .accent, // Use custom accent color for the card.
                     margin: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 16), // Card spacing.
                     child: SizedBox(
                       height: 250, // Set a fixed height for the cards.
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0), // Uniform padding for the card content.
+                        padding: const EdgeInsets.all(
+                            16.0), // Uniform padding for the card content.
                         child: Row(
                           children: [
                             Column(
@@ -116,25 +119,35 @@ class _ChapterListPageState extends State<ChapterListPage> {
                                 ),
                               ],
                             ),
-                            const SizedBox(width: 16), // Space between the image and text.
+                            const SizedBox(
+                                width: 16), // Space between the image and text.
                             Expanded(
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start, // Align text to the start.
+                                crossAxisAlignment: CrossAxisAlignment
+                                    .start, // Align text to the start.
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          units[index]['title'], // Chapter title.
+                                          units[index]
+                                              ['title'], // Chapter title.
                                           style: const TextStyle(
-                                            fontSize: 18, // Font size for the title.
-                                            fontWeight: FontWeight.bold, // Bold font for emphasis.
+                                            fontSize:
+                                                18, // Font size for the title.
+                                            fontWeight: FontWeight
+                                                .bold, // Bold font for emphasis.
                                           ),
-                                          softWrap: true, // Allow text to wrap to the next line if it exceeds the width.
-                                          overflow: TextOverflow.ellipsis, // Ellipsis for overflow text.
-                                          maxLines: 2, // Maximum of 2 lines for the title.
+                                          softWrap:
+                                              true, // Allow text to wrap to the next line if it exceeds the width.
+                                          overflow: TextOverflow
+                                              .ellipsis, // Ellipsis for overflow text.
+                                          maxLines:
+                                              2, // Maximum of 2 lines for the title.
                                         ),
                                       ),
                                       const Icon(
@@ -147,15 +160,18 @@ class _ChapterListPageState extends State<ChapterListPage> {
                                   Text(
                                     units[index]['description'],
                                     style: const TextStyle(
-                                      fontSize: 14
-                                    ), // Smaller font size for description.
-                                    overflow: TextOverflow.ellipsis, // Ellipsis for overflow text.
-                                    maxLines: 5, // Maximum of 3 lines for the description.
+                                        fontSize:
+                                            14), // Smaller font size for description.
+                                    overflow: TextOverflow
+                                        .ellipsis, // Ellipsis for overflow text.
+                                    maxLines:
+                                        5, // Maximum of 3 lines for the description.
                                   ),
                                   const Spacer(),
                                   // Add text for the status of the chapter ("En cours", "Terminé" or "À venir"), and the number of courses completed
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         children: [
