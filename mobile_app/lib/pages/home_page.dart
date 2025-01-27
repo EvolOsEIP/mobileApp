@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
           //Navigator.pushNamed(context, '/stats');
           break;
         case 2:
-          Navigator.pushNamed(context, '/profile');
+          Navigator.pushReplacementNamed(context, '/profile');
           break;
       }
       print("Index: $_selectedIndex"); // Logs the selected index for debugging.
