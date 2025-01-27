@@ -19,6 +19,18 @@ class _HomePageState extends State<HomePage> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      // navigate to the corresponding page based on the selected index.
+      switch (index) {
+        case 0:
+          //Navigator.pushNamed(context, '/stats');
+          break;
+        case 1:
+          Navigator.pushNamed(context, '/home');
+          break;
+        case 2:
+          Navigator.pushNamed(context, '/profile');
+          break;
+      }
       print("Index: $_selectedIndex"); // Logs the selected index for debugging.
     });
   }
@@ -51,6 +63,7 @@ class _HomePageState extends State<HomePage> {
                       elevation: 4, // Adds a shadow effect.
                       child: InkWell(
                         onTap: () {
+                          Navigator.pushNamed(context, '/profile'); // Navigates to the '/profile' page when tapped.
                           print("Profile"); // Logs "Profile" when tapped.
                         },
                         child: Center(
