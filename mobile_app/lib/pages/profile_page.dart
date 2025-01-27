@@ -16,9 +16,14 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        elevation: 0,
+
+        title: const Text(
+          'Profile',
+          style: TextStyle(color: Colors.white),
+          ),
         backgroundColor: CustomColors.dark_accent,
-        centerTitle: true,
+        centerTitle: false,
       ),
       body: SingleChildScrollView(
         child: Padding(
