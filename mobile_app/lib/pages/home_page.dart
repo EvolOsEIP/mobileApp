@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart'; // Flutter framework for UI components.
 import 'package:mobile_app/utils/colors.dart'; // Custom color definitions for the app.
+import 'package:mobile_app/utils/navbar.dart'; // Custom navigation bar for the app.
 
 /// HomePage widget serves as the main screen of the app.
 /// It displays navigation options and interacts with other screens.
@@ -15,22 +16,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 1; // Tracks the currently selected tab in the bottom navigation bar.
 
-  /// Updates the selected index and triggers a rebuild of the widget.
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      // navigate to the corresponding page based on the selected index.
-      switch (index) {
-        case 0:
-          //Navigator.pushNamed(context, '/stats');
-          break;
-        case 2:
-          Navigator.pushReplacementNamed(context, '/profile');
-          break;
-      }
-      print("Index: $_selectedIndex"); // Logs the selected index for debugging.
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,26 +119,8 @@ class _HomePageState extends State<HomePage> {
       ),
 
       // Bottom navigation bar for navigating between sections of the app.
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: CustomColors.dark_accent, // Custom background color for the navigation bar.
-        selectedItemColor: CustomColors.accent, // Highlight color for the selected item.
-        unselectedItemColor: Colors.white, // White color for unselected items.
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.query_stats), // Stats icon.
-            label: 'Stats', // Label for the stats tab.
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home), // Home icon.
-            label: 'Acceuil', // Label for the home tab.
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person), // Profile icon.
-            label: 'Profile', // Label for the profile tab.
-          ),
-        ],
-        currentIndex: _selectedIndex, // Highlights the currently selected tab.
-        onTap: _onItemTapped, // Updates the selected index when a tab is tapped.
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: _selectedIndex,
       ),
     );
   }
