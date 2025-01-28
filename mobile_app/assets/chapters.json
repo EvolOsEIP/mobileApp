@@ -28,7 +28,7 @@
                 "Aujourd'hui, on va commencer doucement : \nvotre mission est de recopier une phrase simple.",
                 "Prêt(e) ? Allez, à vos claviers !"
               ],
-              "images": ["assets/images/keyboard.png"],
+              "images": ["assets/images/modules/1_basics/ch1/course1/step1.png"],
               "instructions": [
                 "Étape 1 : À vos lettres ! \uD83D\uDD20",
                 "Étape 2 : Cap sur les majuscules ! ⬆\uFE0F\uD83D\uDD20",
