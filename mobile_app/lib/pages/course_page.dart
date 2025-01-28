@@ -125,11 +125,12 @@ class _CoursePageState extends State<CoursePage> {
       setState(() {
         errorMessage = '';
         if (currentInstructionIndex < course['instructions'].length - 1) {
-          currentInstruction =
-              course['instructions'][currentInstructionIndex + 1];
-          descriptionInstruction =
-              course['descriptions'][currentInstructionIndex + 1];
+          currentInstruction = course['instructions'][currentInstructionIndex + 1];
+          descriptionInstruction = course['descriptions'][currentInstructionIndex + 1];
           expectations = course['expectations'][currentInstructionIndex + 1];
+          if (course['images'][currentInstructionIndex + 1] != null) {
+            currentInstructionImage = course['images'][currentInstructionIndex + 1];
+          }
           currentInstructionIndex++;
           _inputController.clear();
         } else {
