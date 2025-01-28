@@ -160,30 +160,6 @@ class _CoursePageState extends State<CoursePage> {
     );
   }
 
-  String _generateErrorMessage(String userResponse, String expectedResponse) {
-    if (userResponse.isEmpty) {
-      return 'Le champ de saisie est vide. Veuillez entrer une réponse.';
-    }
-
-    if (userResponse.toLowerCase() == expectedResponse.toLowerCase()) {
-      return 'Vérifiez la majuscule: il pourrait y avoir des majuscules en trop ou manquants.';
-    }
-
-    if (userResponse.replaceAll(' ', '') ==
-        expectedResponse.replaceAll(' ', '')) {
-      return 'Vérifiez les espaces : il pourrait y avoir des espaces en trop ou manquants.';
-    }
-
-    if (!userResponse.endsWith('.') && expectedResponse.endsWith('.')) {
-      return 'Votre réponse manque un point à la fin.';
-    }
-
-    return 'Votre réponse est incorrecte. Veuillez revoir l’instruction.';
-  }
-
-
-
-
 @override
 Widget build(BuildContext context) {
   return Scaffold(

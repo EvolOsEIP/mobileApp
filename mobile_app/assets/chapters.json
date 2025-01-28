@@ -15,14 +15,14 @@
           "status": "Terminé",
           "completedCourses": 2,
           "totalCourses": 2,
-          "title": "Chapitre 1 : Maîtrise ton clavier comme un pro",
-          "description": "Dans ce chapitre, apprenez à utiliser votre clavier efficacement en commençant par les bases. Découvrez comment taper des lettres, des majuscules, et des signes de ponctuation simples.",
+          "title": "Chapitre 1 : Dompte ton clavier!",
+          "description": "Découvre les bases de la saisie et maîtrise ton clavier pour naviguer en toute confiance.",
           "courses": [
             {
               "id": 1,
               "status": "Terminé",
               "title": "Cours 1",
-              "description": "Se familiariser avec les lettres de base et apprendre à utiliser les touches correctement.",
+              "description": "Apprends à taper des mots simples comme \"bonjour\", puis passe à des phrases pour intégrer les espaces et majuscules. C’est la première étape pour transformer ton clavier en allié du quotidien !",
               "dialogs": [
                 "Bonjour et bienvenue dans votre premier cours de maîtrise du clavier ! \uD83C\uDF89",
                 "Aujourd'hui, on va commencer doucement : \nvotre mission est de recopier une phrase simple.",
@@ -33,55 +33,148 @@
                 "Étape 1 : À vos lettres ! \uD83D\uDD20",
                 "Étape 2 : Cap sur les majuscules ! ⬆\uFE0F\uD83D\uDD20",
                 "Étape 3 : Espace, le grand voyageur ⎵",
-                "Étape 4 : La totale : ponctuation et précision ! ⚫\uFE0F"
+                "Étape 4 : La totale ! ⚫\uFE0F"
               ],
               "descriptions": [
                 "Consigne : Tapez le mot affiché à l'écran en utilisant uniquement des lettres minuscules. Prenez votre temps pour trouver les bonnes touches.",
                 "Consigne : Tapez le mot affiché, mais cette fois, commencez avec une majuscule. Utilisez la touche Majuscule (ou Shift) pour y arriver.",
                 "Consigne : Tapez la mini phrase affichée à l'écran. Vous devrez inclure des espaces entre les mots pour qu’elle soit correcte.",
-                "Consigne : Tapez la phrase affichée en respectant les majuscules, les espaces et le point final. Gardez un œil sur chaque détail pour perfectionner votre écriture."
+                "Consigne : Tapez la phrase affichée en respectant les majuscules et les espaces."
               ],
               "expectations": [
                 "bonjour",
                 "Bonjour",
-                "Bonjour mon ami",
-                "Bonjour Pierre."
+                "bonjour mon ami",
+                "Bonjour Pierre"
               ],
               "end": "Bravo, tu as terminé ton 1er cours !"
             },
             {
               "id": 2,
-              "title": "Cours 2",
+              "title": "Cours 2 : Mets de la ponctuation dans ta vie !",
               "status": "Terminé",
-              "description": " ... ",
+              "description": "Explore les subtilités des apostrophes, guillemets, accents et ponctuations. Ces petits détails te permettront d’écrire avec clarté et précision, tout en soignant tes messages.",
               "dialogs": [
                 "Bienvenue dans ce deuxième cours de maîtrise du clavier ! \uD83C\uDF89",
                 "Aujourd'hui, on va continuer sur notre lancée : \nvotre mission est de recopier une phrase un peu plus complexe."
               ],
               "images": [],
               "instructions": [
-                "Étape 1 : Les majuscules, toujours ! ⬆\uFE0F\uD83D\uDD20",
+                "Étape 1 : Ajoutons des points",
                 "Étape 2 : La virgule, un signe de ponctuation simple ,",
                 "Étape 3 : La totale : majuscules et virgule ! ⚫\uFE0F"
               ],
               "descriptions": [
-                "Consigne : Tapez le mot affiché à l'écran en utilisant uniquement des lettres minuscules. Prenez votre temps pour trouver les bonnes touches.",
-                "Consigne : Tapez la mini phrase affichée à l'écran. Vous devrez inclure des espaces entre les mots pour qu’elle soit correcte.",
-                "Consigne : Tapez la phrase affichée en respectant les majuscules, les espaces et le point final. Gardez un œil sur chaque détail pour perfectionner votre écriture."
+                "Consigne : Tapez la phrase affiché à l'écran, prenez votre temps et n'oubliez pas la ponctuation.",
+                "Consigne : Tapez la mini phrase affichée à l'écran. Vous devrez inclure des espaces entre les mots pour qu’elle soit correcte ainsi que la ponctuation.",
+                "Consigne : La virgule",
+                "Consigne : La virgule + ?"
               ],
               "expectations": [
-                "bonjour",
-                "Bonjour",
-                "Bonjour mon ami",
-                "Bonjour Pierre."
+                "bonjour.",
+                "Bonjour Gilles!",
+                "Bonjour, Pierre.",
+                "Bonjour mon ami, comment vas-tu ?"
               ],
               "end": "Bravo, tu as terminé ton 2ème cours !"
+            },
+            {
+              "id" : 3,
+              "title": "Cours 3",
+              "status" : "?",
+              "description" : "Familiarise-toi avec la saisie des nombres et découvre des caractères essentiels comme +, -, et =. Idéal pour les calculs simples ou les codes, tu seras prêt à tout.",
+              "dialogs": [
+                "Bienvenue dans ce troisième cours ! \uD83C\uDF89",
+                "On passe aux choses sérieuses : on découvre comment utiliser les chiffres et les caractères spéciaux associés.",
+                "Prêt(e) à relever le défi ? Allez, à toi de jouer !"
+              ],
+              "images": [],
+              "instructions": [
+                "Étape 1 : Saisie des chiffres \u0031\u0032\u0033...",
+                "Étape 2 : Découverte des caractères +, -, et =.",
+                "Étape 3 : Combine chiffres et symboles pour des calculs simples."
+
+              ],
+              "descriptions": [
+                "Consigne : Tape le chiffre affiché à l'écran. Utilise la ligne supérieure du clavier (ou le pavé numérique si disponible).",
+                "Consigne : Découvre les touches spéciales (+, -, =) et tape les symboles affichés.",
+                "Consigne : Réalise des combinaisons simples, comme \"2+2=4\" ou \"5-3=2\", pour t'entraîner à utiliser les chiffres et les symboles."
+
+              ],
+              "expectations": [
+                "1",
+                "+",
+                "2+2=4"
+              ],
+              "end": "Super travail ! Tu maîtrises maintenant les chiffres et les symboles de ton clavier. \uD83C\uDFC6"
             }
           ]
         },
         {
           "id": 2,
-          "title": "Chapitre 2 : Toucher, glisser, maîtriser",
+          "title": "Chapitre 2 : .",
+          "description": "...",
+          "status": "Bientôt disponnible",
+          "completedCourses": 0,
+          "totalCourses": 0,
+          "courses": [
+            {
+              "id": 1,
+              "title": "Cours 1 : Découvre les bases de l'authentification",
+              "status": "En cours",
+              "description": "Apprends les bases pour utiliser des identifiants et des mots de passe. On t’explique leur importance et où les utiliser. Découvre aussi l’arobase (@) grâce aux adresses e-mail !",
+              "dialogs": [
+                "Bienvenue dans le monde de l'authentification ! \uD83D\uDE80",
+                "Aujourd'hui, tu vas découvrir ce qu'est un identifiant et un mot de passe, et pourquoi ils sont indispensables pour naviguer en sécurité sur Internet.",
+                "On va aussi parler du fameux arobase (@) et de son rôle dans les adresses e-mail. Allez, c’est parti !"
+              ],
+              "images": [],
+              "instructions": [
+                "Étape 1 : Découvre ce qu'est un identifiant.",
+                "Étape 2 : Apprends à quoi sert un mot de passe et pourquoi il est important.",
+                "Étape 3 : Découvre le symbole @ avec un exemple d’adresse e-mail comme identifiant."
+              ],
+              "descriptions": [
+                "Consigne : Lis les exemples et identifie les parties importantes d’une adresse e-mail (nom, arobase, domaine).",
+                "Consigne : Tape un exemple d'adresse e-mail (par ex. : utilisateur@test.com) pour t’entraîner."
+              ],
+              "expectations": [
+                "utilisateur@test.com"
+              ],
+              "end": "Bravo, tu sais maintenant ce qu'est un identifiant et un mot de passe, ainsi que leur importance !"
+            },
+            {
+              "id": 3,
+              "title": "Cours 3 : Connecte-toi comme un pro",
+              "status": "En cours",
+              "description": "Mets en pratique tout ce que tu as appris ! Simule une connexion avec identifiant et mot de passe, et découvre des conseils pour bien gérer tes mots de passe.",
+              "dialogs": [
+                "C'est le moment de passer à la pratique ! \uD83D\uDE80",
+                "Tu vas t’entraîner à te connecter à un compte en utilisant un identifiant et un mot de passe.",
+                "On terminera avec des astuces pour gérer facilement tes mots de passe. C’est parti !"
+              ],
+              "images": [],
+              "instructions": [
+                "Étape 1 : Tape l’identifiant affiché à l’écran.",
+                "Étape 2 : Saisis le mot de passe associé.",
+                "Étape 3 : Valide ta connexion.",
+                "Étape 4 : Découvre les astuces pour bien gérer tes mots de passe (utiliser un gestionnaire de mots de passe, éviter de réutiliser les mêmes, etc.)."
+              ],
+              "descriptions": [
+                "Consigne : Entre les informations demandées pour simuler une connexion (identifiant + mot de passe).",
+                "Consigne : Découvre les conseils pour améliorer la gestion de tes mots de passe."
+              ],
+              "expectations": [
+                "Identifiant : utilisateur@test.com",
+                "Mot de passe : MotDePasse!2023"
+              ],
+              "end": "Super ! Tu maîtrises la connexion et tu sais comment gérer tes mots de passe en toute sécurité. \uD83D\uDD13"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "Chapitre 3 : Toucher, glisser, maîtriser",
           "description": "Plongez dans l'univers des interactions tactiles et apprenez à maîtriser les gestes essentiels comme le toucher, le glisser ou le maintenir. Ce chapitre vous guidera pour naviguer en toute fluidité sur les écrans modernes.",
           "status": "Bientôt disponnible",
           "completedCourses": 0,
