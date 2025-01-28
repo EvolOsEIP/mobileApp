@@ -10,7 +10,6 @@ import 'course_page_utils.dart';
 ///
 
 class CoursePage extends StatefulWidget {
-
   /// Courses load from the json file is load here.
   final dynamic courses;
 
@@ -42,6 +41,9 @@ class _CoursePageState extends State<CoursePage> {
 
   /// ???
   dynamic args;
+
+  /// Image used for the courses content
+  dynamic currentInstructionImage;
 
   /// Error message display if the user's answer is not correct.
   String errorMessage = '';
@@ -75,8 +77,7 @@ class _CoursePageState extends State<CoursePage> {
     super.initState();
     _inputController.addListener(() {
       /// update the variable
-      setState(() {
-      });
+      setState(() {});
     });
   }
 
@@ -104,6 +105,7 @@ class _CoursePageState extends State<CoursePage> {
       currentInstruction = course['instructions'][0];
       descriptionInstruction = course['descriptions'][0];
       expectations = course['expectations'][0];
+      currentInstructionImage = course['images'][0];
     });
   }
 
@@ -134,7 +136,8 @@ class _CoursePageState extends State<CoursePage> {
       });
     } else {
       setState(() {
-        errorMessage = ErrorUtils.generateErrorMessage(userResponse, expectedResponse);
+        errorMessage =
+            ErrorUtils.generateErrorMessage(userResponse, expectedResponse);
       });
     }
   }
@@ -160,10 +163,6 @@ class _CoursePageState extends State<CoursePage> {
     );
   }
 
-  /// Builds the UI for the course page.
-  ///
-  /// Starts with the assistant's dialog.
-  /// Displays the current step of the course, the progress bar and the completion dialog at the end of the course.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -177,9 +176,10 @@ class _CoursePageState extends State<CoursePage> {
           ),
         ),
       ),
-      body: GestureDetector(
+      body: SafeArea(
         child: Stack(
           children: [
+            // Main exercise content
             Column(
               children: [
                 LinearProgressIndicator(
@@ -187,110 +187,114 @@ class _CoursePageState extends State<CoursePage> {
                       course['instructions'].length,
                 ),
                 Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.all(20.0),
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Column(
-                      children: [
-                        FractionallySizedBox(
-                          widthFactor: 0.95,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                currentInstruction,
+                  child: SingleChildScrollView(
+                    child: Container(
+                      margin: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            currentInstruction,
+                            style: const TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 20.0),
+                          Text(
+                            descriptionInstruction,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                          const SizedBox(height: 20.0),
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 10.0),
+                            padding: const EdgeInsets.all(12.0),
+                            decoration: BoxDecoration(
+                              color: Colors.blue[50],
+                              borderRadius: BorderRadius.circular(8.0),
+                              border:
+                                  Border.all(color: Colors.blue, width: 1.5),
+                            ),
+                            child: Text(
+                              expectations,
+                              style: const TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.blue,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          if (currentInstructionImage != null)
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 16.0),
+                              child: Image.asset(
+                                currentInstructionImage!,
+                                fit: BoxFit.contain,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.25,
+                                width: double.infinity,
+                              ),
+                            ),
+                          const SizedBox(height: 16.0),
+                          TextField(
+                            controller: _inputController,
+                            decoration: const InputDecoration(
+                              labelText: 'Votre réponse',
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          if (errorMessage.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text(
+                                errorMessage,
                                 style: const TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                              const SizedBox(height: 20.0),
-                              Text(
-                                descriptionInstruction,
-                                style: const TextStyle(fontSize: 20),
-                                textAlign: TextAlign.left,
-                              ),
-                              const SizedBox(height: 20.0),
-                              Container(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 10.0),
-                                padding: const EdgeInsets.all(12.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.blue[50],
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  border: Border.all(
-                                      color: Colors.blue, width: 1.5),
-                                ),
-                                child: Text(
-                                  expectations,
-                                  style: const TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.blue,
-                                  ),
-                                  textAlign: TextAlign.center,
+                                  color: Colors.red,
+                                  fontSize: 16.0,
                                 ),
                               ),
-                            ],
+                            ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: ElevatedButton(
+                              onPressed: _nextInstruction,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    _inputController.text.isNotEmpty
+                                        ? Colors.lightGreen
+                                        : Colors.grey,
+                              ),
+                              child: const Text("Suivant"),
+                            ),
                           ),
-                        ),
-                        const Spacer(),
-                        FractionallySizedBox(
-                          widthFactor: 0.9,
-                          child: Column(
-                            children: [
-                              TextField(
-                                controller: _inputController,
-                                decoration: const InputDecoration(
-                                  labelText: 'Votre réponse',
-                                  border: OutlineInputBorder(),
-                                ),
-                              ),
-                              const SizedBox(height: 16.0),
-                              if (errorMessage.isNotEmpty)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text(
-                                    errorMessage,
-                                    style: const TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 16.0,
-                                    ),
-                                  ),
-                                ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: ElevatedButton(
-                                  onPressed: _nextInstruction,
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: _inputController.text.isNotEmpty
-                                              ? Colors.lightGreen
-                                              : Colors.grey),
-                                  child: const Text("Suivant"),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
+            // Assistant widget, overlaid on top of the content
             if (course['dialogs'] != null && course['dialogs'].isNotEmpty)
-              Assistant(
-                dialogs: course['dialogs'],
-                onComplete: () {
-                  setState(() {
-                    course['dialogs'] = [];
-                  });
-                },
+              Positioned(
+                top: 150, //ICI POUR CHANGER LA POSITION DE L'ASSISTANT
+                left: 0,
+                right: 0,
+                child: Assistant(
+                  dialogs: course['dialogs'],
+                  onComplete: () {
+                    setState(() {
+                      course['dialogs'] = [];
+                    });
+                  },
+                ),
               ),
           ],
         ),
