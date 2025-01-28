@@ -81,7 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   _buildStatCard("Modules complétés", "12", Icons.school),
-                  _buildStatCard("Progression", "75%", Icons.trending_up),
+                  _buildStatCard("Progression", "", Icons.lightbulb),
                   _buildStatCard("Badges gagnés", "5", Icons.emoji_events),
                   _buildStatCard("Temps passé", "15h", Icons.timer),
                 ],

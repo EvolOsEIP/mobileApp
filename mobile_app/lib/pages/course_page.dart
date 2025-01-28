@@ -284,7 +284,7 @@ class _CoursePageState extends State<CoursePage> {
             // Assistant widget, overlaid on top of the content
             if (course['dialogs'] != null && course['dialogs'].isNotEmpty)
               Positioned(
-                top: 150,
+                top: 150, //ICI POUR CHANGER LA POSITION DE L'ASSISTANT
                 left: 0,
                 right: 0,
                 child: Assistant(

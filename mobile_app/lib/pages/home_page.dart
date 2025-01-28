@@ -72,8 +72,7 @@ class _HomePageState extends State<HomePage> {
                     title: 'Voir ma progression',
                     icon: Icons.bar_chart,
                     onTap: () {
-                      print('Voir ma progression');
-                      // Navigator.pushNamed(context, '/');
+                      Navigator.pushNamed(context, '/userprogress');
                     },
                   ),
                 ),
