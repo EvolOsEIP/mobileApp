@@ -10,7 +10,6 @@ import 'course_page_utils.dart';
 ///
 
 class CoursePage extends StatefulWidget {
-
   /// Courses load from the json file is load here.
   final dynamic courses;
 
@@ -78,8 +77,7 @@ class _CoursePageState extends State<CoursePage> {
     super.initState();
     _inputController.addListener(() {
       /// update the variable
-      setState(() {
-      });
+      setState(() {});
     });
   }
 
@@ -138,7 +136,8 @@ class _CoursePageState extends State<CoursePage> {
       });
     } else {
       setState(() {
-        errorMessage = ErrorUtils.generateErrorMessage(userResponse, expectedResponse);
+        errorMessage =
+            ErrorUtils.generateErrorMessage(userResponse, expectedResponse);
       });
     }
   }
@@ -164,137 +163,142 @@ class _CoursePageState extends State<CoursePage> {
     );
   }
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      elevation: 0,
-      title: const Text(
-        'Chapters',
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 20,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        title: const Text(
+          'Chapters',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+          ),
         ),
       ),
-    ),
-    body: SafeArea(
-      child: Stack(
-        children: [
-          // Main exercise content
-          Column(
-            children: [
-              LinearProgressIndicator(
-                value: (currentInstructionIndex + 1) / course['instructions'].length,
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    margin: const EdgeInsets.all(20.0),
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          currentInstruction,
-                          style: const TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 20.0),
-                        Text(
-                          descriptionInstruction,
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                        const SizedBox(height: 20.0),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10.0),
-                          padding: const EdgeInsets.all(12.0),
-                          decoration: BoxDecoration(
-                            color: Colors.blue[50],
-                            borderRadius: BorderRadius.circular(8.0),
-                            border: Border.all(color: Colors.blue, width: 1.5),
-                          ),
-                          child: Text(
-                            expectations,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            // Main exercise content
+            Column(
+              children: [
+                LinearProgressIndicator(
+                  value: (currentInstructionIndex + 1) /
+                      course['instructions'].length,
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Container(
+                      margin: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            currentInstruction,
                             style: const TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.blue,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        if (currentInstructionImage != null)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            child: Image.asset(
-                              currentInstructionImage!,
-                              fit: BoxFit.contain,
-                              height: MediaQuery.of(context).size.height * 0.25,
-                              width: double.infinity,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        const SizedBox(height: 16.0),
-                        TextField(
-                          controller: _inputController,
-                          decoration: const InputDecoration(
-                            labelText: 'Votre réponse',
-                            border: OutlineInputBorder(),
+                          const SizedBox(height: 20.0),
+                          Text(
+                            descriptionInstruction,
+                            style: const TextStyle(fontSize: 20),
                           ),
-                        ),
-                        if (errorMessage.isNotEmpty)
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
+                          const SizedBox(height: 20.0),
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 10.0),
+                            padding: const EdgeInsets.all(12.0),
+                            decoration: BoxDecoration(
+                              color: Colors.blue[50],
+                              borderRadius: BorderRadius.circular(8.0),
+                              border:
+                                  Border.all(color: Colors.blue, width: 1.5),
+                            ),
                             child: Text(
-                              errorMessage,
+                              expectations,
                               style: const TextStyle(
-                                color: Colors.red,
-                                fontSize: 16.0,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.blue,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          if (currentInstructionImage != null)
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 16.0),
+                              child: Image.asset(
+                                currentInstructionImage!,
+                                fit: BoxFit.contain,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.25,
+                                width: double.infinity,
                               ),
                             ),
-                          ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: ElevatedButton(
-                            onPressed: _nextInstruction,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: _inputController.text.isNotEmpty
-                                  ? Colors.lightGreen
-                                  : Colors.grey,
+                          const SizedBox(height: 16.0),
+                          TextField(
+                            controller: _inputController,
+                            decoration: const InputDecoration(
+                              labelText: 'Votre réponse',
+                              border: OutlineInputBorder(),
                             ),
-                            child: const Text("Suivant"),
                           ),
-                        ),
-                      ],
+                          if (errorMessage.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text(
+                                errorMessage,
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                            ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: ElevatedButton(
+                              onPressed: _nextInstruction,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    _inputController.text.isNotEmpty
+                                        ? Colors.lightGreen
+                                        : Colors.grey,
+                              ),
+                              child: const Text("Suivant"),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          // Assistant widget, overlaid on top of the content
-          if (course['dialogs'] != null && course['dialogs'].isNotEmpty)
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Assistant(
-                dialogs: course['dialogs'],
-                onComplete: () {
-                  setState(() {
-                    course['dialogs'] = [];
-                  });
-                },
-              ),
+              ],
             ),
-        ],
+            // Assistant widget, overlaid on top of the content
+            if (course['dialogs'] != null && course['dialogs'].isNotEmpty)
+              Positioned(
+                top: 150, //ICI POUR CHANGER LA POSITION DE L'ASSISTANT
+                left: 0,
+                right: 0,
+                child: Assistant(
+                  dialogs: course['dialogs'],
+                  onComplete: () {
+                    setState(() {
+                      course['dialogs'] = [];
+                    });
+                  },
+                ),
+              ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

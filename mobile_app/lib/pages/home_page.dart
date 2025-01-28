@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/utils/colors.dart';
+import 'dart:convert';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,6 +11,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 1;
+  dynamic data;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -17,8 +19,26 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future<void> getDatas() async {
+    try {
+      // Loads the JSON file as a string
+      String dataString = await DefaultAssetBundle.of(context)
+          .loadString('assets/chapters.json');
+
+      // Parses the JSON string into a Dart object and updates the state
+      setState(() {
+        data = jsonDecode(dataString);
+        // print(data);
+      });
+    } catch (e) {
+      // Logs an error if the JSON file could not be loaded
+      print("Error loading the JSON file: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    getDatas(); // Fetches data when the widget is initialized
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColors.dark_accent,
@@ -52,8 +72,7 @@ class _HomePageState extends State<HomePage> {
                     title: 'Voir ma progression',
                     icon: Icons.bar_chart,
                     onTap: () {
-                      print('Voir ma progression');
-                      // Navigator.pushNamed(context, '/');
+                      Navigator.pushNamed(context, '/userprogress');
                     },
                   ),
                 ),
@@ -65,6 +84,17 @@ class _HomePageState extends State<HomePage> {
               icon: Icons.list,
               onTap: () {
                 Navigator.pushNamed(context, '/units');
+              },
+            ),
+            const SizedBox(height: 20.0),
+            _buildCard(
+              title: 'Voir le cours 1',
+              icon: Icons.book,
+              onTap: () {
+                Navigator.pushNamed(context, '/course_detail', arguments: {
+                  'chapter': data["units"][0]["chapters"][0],
+                  'index': 0
+                }); //data["units"][0]["chapters"][0]["courses"][0]);
               },
             ),
           ],
