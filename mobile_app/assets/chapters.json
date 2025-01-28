@@ -28,7 +28,7 @@
                 "Aujourd'hui, on va commencer doucement : \nvotre mission est de recopier une phrase simple.",
                 "Prêt(e) ? Allez, à vos claviers !"
               ],
-              "images": [],
+              "images": ["assets/images/keyboard.png"],
               "instructions": [
                 "Étape 1 : À vos lettres ! \uD83D\uDD20",
                 "Étape 2 : Cap sur les majuscules ! ⬆\uFE0F\uD83D\uDD20",
@@ -58,7 +58,7 @@
                 "Bienvenue dans ce deuxième cours de maîtrise du clavier ! \uD83C\uDF89",
                 "Aujourd'hui, on va continuer sur notre lancée : \nvotre mission est de recopier une phrase un peu plus complexe."
               ],
-              "images": [],
+            "images": ["assets/images/keyboard.png"],
               "instructions": [
                 "Étape 1 : Ajoutons des points",
                 "Étape 2 : La virgule, un signe de ponctuation simple ,",
@@ -88,7 +88,7 @@
                 "On passe aux choses sérieuses : on découvre comment utiliser les chiffres et les caractères spéciaux associés.",
                 "Prêt(e) à relever le défi ? Allez, à toi de jouer !"
               ],
-              "images": [],
+            "images": ["assets/images/keyboard.png"],
               "instructions": [
                 "Étape 1 : Saisie des chiffres \u0031\u0032\u0033...",
                 "Étape 2 : Découverte des caractères +, -, et =.",
@@ -128,7 +128,7 @@
                 "Aujourd'hui, tu vas découvrir ce qu'est un identifiant et un mot de passe, et pourquoi ils sont indispensables pour naviguer en sécurité sur Internet.",
                 "On va aussi parler du fameux arobase (@) et de son rôle dans les adresses e-mail. Allez, c’est parti !"
               ],
-              "images": [],
+              "images": ["assets/images/keyboard.png"],
               "instructions": [
                 "Étape 1 : Découvre ce qu'est un identifiant.",
                 "Étape 2 : Apprends à quoi sert un mot de passe et pourquoi il est important.",
@@ -144,6 +144,35 @@
               "end": "Bravo, tu sais maintenant ce qu'est un identifiant et un mot de passe, ainsi que leur importance !"
             },
             {
+              "id": 2,
+              "title": "Cours 2: Ton mot de passe, ton bouclier",
+              "status": "En cours",
+              "description" : "Apprends à reconnaître un mot de passe sécurisé avec des exercices simples et amusants. Puis, crée un mot de passe imbattable qui protège efficacement tes comptes.",
+              "dialogs": [
+                "On passe à une étape cruciale : la sécurité de tes mots de passe. \uD83D\uDD12",
+                "Tu vas apprendre à reconnaître un mot de passe sécurisé et à en créer un facilement. C’est essentiel pour garder tes données en sécurité.",
+                "Prêt(e) ? Allez, c’est parti !"
+              ],
+              "images": [""],
+              "instructions": [
+                "Étape 1 : Identifie si les mots de passe affichés sont sécurisés (réponds par Oui ou Non).",
+                "Étape 2 : Crée un mot de passe sécurisé en respectant ces critères : au moins 8 caractères, lettres majuscules et minuscules, chiffres et symboles spéciaux.",
+                "Étape 3 : Entraîne-toi à taper ton mot de passe sans erreur."
+              ],
+              "descriptions": [
+                "Consigne : Analyse les mots de passe proposés et réponds par Oui ou Non pour indiquer s'ils sont sécurisés.",
+                "Consigne : Crée un mot de passe unique en respectant les critères donnés.",
+                "Consigne : Répète plusieurs fois la saisie de ton mot de passe pour bien le mémoriser."
+              ],
+              "expectations": [
+                "Oui",
+                "Non",
+                "MotDePasse!2023"
+              ],
+              "end": "Excellent ! Tu sais maintenant créer et reconnaître un mot de passe sécurisé. \uD83C\uDF89"
+
+            },
+            {
               "id": 3,
               "title": "Cours 3 : Connecte-toi comme un pro",
               "status": "En cours",
@@ -153,7 +182,7 @@
                 "Tu vas t’entraîner à te connecter à un compte en utilisant un identifiant et un mot de passe.",
                 "On terminera avec des astuces pour gérer facilement tes mots de passe. C’est parti !"
               ],
-              "images": [],
+            "images": ["assets/images/keyboard.png"],
               "instructions": [
                 "Étape 1 : Tape l’identifiant affiché à l’écran.",
                 "Étape 2 : Saisis le mot de passe associé.",
@@ -208,7 +237,7 @@
               "dialogs": [
                 ""
               ],
-              "images": [],
+            "images": ["assets/images/keyboard.png"],
               "instructions": [
                 ""
               ],

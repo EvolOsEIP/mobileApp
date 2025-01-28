@@ -43,6 +43,9 @@ class _CoursePageState extends State<CoursePage> {
   /// ???
   dynamic args;
 
+  /// Image used for the courses content
+  dynamic currentInstructionImage;
+
   /// Error message display if the user's answer is not correct.
   String errorMessage = '';
 
@@ -104,6 +107,7 @@ class _CoursePageState extends State<CoursePage> {
       currentInstruction = course['instructions'][0];
       descriptionInstruction = course['descriptions'][0];
       expectations = course['expectations'][0];
+      currentInstructionImage = course['images'][0];
     });
   }
 
@@ -225,10 +229,20 @@ Widget build(BuildContext context) {
                             textAlign: TextAlign.center,
                           ),
                         ),
+                        if (currentInstructionImage != null)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: Image.asset(
+                              currentInstructionImage!,
+                              fit: BoxFit.contain,
+                              height: MediaQuery.of(context).size.height * 0.25,
+                              width: double.infinity,
+                            ),
+                          ),
                         const SizedBox(height: 16.0),
                         TextField(
                           controller: _inputController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Votre réponse',
                             border: OutlineInputBorder(),
                           ),
