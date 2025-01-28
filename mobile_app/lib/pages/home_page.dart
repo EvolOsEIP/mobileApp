@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Expanded(
                   child: _buildCard(
-                    title: 'Profile',
+                    title: 'Profil',
                     icon: Icons.person,
                     onTap: () {
                       Navigator.pushNamed(context, '/profile');
