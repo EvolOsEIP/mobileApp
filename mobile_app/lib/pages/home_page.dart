@@ -1,9 +1,117 @@
+// import 'package:flutter/material.dart';
+// import 'package:mobile_app/utils/colors.dart';
 
-import 'package:flutter/material.dart'; // Flutter framework for UI components.
-import 'package:mobile_app/utils/colors.dart'; // Custom color definitions for the app.
+// class HomePage extends StatefulWidget {
+//   const HomePage({super.key});
 
-/// HomePage widget serves as the main screen of the app.
-/// It displays navigation options and interacts with other screens.
+//   @override
+//   _HomePageState createState() => _HomePageState();
+// }
+
+// class _HomePageState extends State<HomePage> {
+//   int _selectedIndex = 1;
+
+//   void _onItemTapped(int index) {
+//     setState(() {
+//       _selectedIndex = index;
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         backgroundColor: CustomColors.dark_accent,
+//         title: const Text(
+//           'Accueil',
+//           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22),
+//         ),
+//         centerTitle: true,
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.stretch,
+//           children: [
+//             const SizedBox(height: 20.0),
+//             Row(
+//               children: [
+//                 Expanded(
+//                   child: _buildCard(
+//                     title: 'Profile',
+//                     icon: Icons.person,
+//                     onTap: () {
+//                       print("Profile");
+//                     },
+//                   ),
+//                 ),
+//                 const SizedBox(width: 16.0),
+//                 Expanded(
+//                   child: _buildCard(
+//                     title: 'Voir ma progression',
+//                     icon: Icons.bar_chart,
+//                     onTap: () {
+//                       print("Voir ma progression");
+//                     },
+//                   ),
+//                 ),
+//               ],
+//             ),
+//             const SizedBox(height: 20.0),
+//             _buildCard(
+//               title: 'Voir la liste des modules',
+//               icon: Icons.list,
+//               onTap: () {
+//                 Navigator.pushNamed(context, '/units');
+//               },
+//             ),
+//           ],
+//         ),
+//       ),
+//       bottomNavigationBar: BottomNavigationBar(
+//         backgroundColor: CustomColors.dark_accent,
+//         selectedItemColor: CustomColors.accent,
+//         unselectedItemColor: Colors.white,
+//         items: const <BottomNavigationBarItem>[
+//           BottomNavigationBarItem(icon: Icon(Icons.query_stats), label: 'Stats'),
+//           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
+//           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+//         ],
+//         currentIndex: _selectedIndex,
+//         onTap: _onItemTapped,
+//       ),
+//     );
+//   }
+
+//   Widget _buildCard({required String title, required IconData icon, required VoidCallback onTap}) {
+//     return GestureDetector(
+//       onTap: onTap,
+//       child: Card(
+//         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+//         elevation: 5,
+//         color: Colors.white,
+//         child: Container(
+//           padding: const EdgeInsets.all(20),
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               Icon(icon, size: 40, color: CustomColors.dark_accent),
+//               const SizedBox(height: 10),
+//               Text(
+//                 title,
+//                 textAlign: TextAlign.center,
+//                 style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+import 'package:flutter/material.dart';
+import 'package:mobile_app/utils/colors.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -11,15 +119,12 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-/// State class for HomePage, maintaining the current index of the bottom navigation bar.
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 1; // Tracks the currently selected tab in the bottom navigation bar.
+  int _selectedIndex = 1;
 
-  /// Updates the selected index and triggers a rebuild of the widget.
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      print("Index: $_selectedIndex"); // Logs the selected index for debugging.
     });
   }
 
@@ -27,123 +132,96 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: CustomColors.dark_accent, // Sets a custom background color for the AppBar.
+        backgroundColor: CustomColors.dark_accent,
         title: const Text(
-          'Accueil', // AppBar title.
-          style: TextStyle(color: Colors.white), // White text color for better contrast.
+          'Accueil',
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22),
         ),
+        centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0), // Adds padding around the body content.
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch, // Stretch children to fill the width.
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 16.0), // Adds spacing at the top of the body.
-
-            // Row containing two cards side by side.
+            const SizedBox(height: 20.0),
             Row(
               children: [
-                // First card: "Profile"
                 Expanded(
-                  child: SizedBox(
-                    height: 200, // Fixed height for the card.
-                    child: Card(
-                      elevation: 4, // Adds a shadow effect.
-                      child: InkWell(
-                        onTap: () {
-                          print("Profile"); // Logs "Profile" when tapped.
-                        },
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0), // Uniform padding inside the card.
-                            child: Text(
-                              'Profile', // Card text.
-                              textAlign: TextAlign.center, // Center-align the text.
-                              style: Theme.of(context).textTheme.bodyLarge, // Uses the app's theme for styling.
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  child: _buildCard(
+                    title: 'Profile',
+                    icon: Icons.person,
+                    onTap: () {
+                      print("Profile");
+                    },
                   ),
                 ),
-                const SizedBox(width: 16.0), // Space between the two cards.
-
-                // Second card: "Voir ma progression" (View Progress).
+                const SizedBox(width: 16.0),
                 Expanded(
-                  child: SizedBox(
-                    height: 200, // Fixed height for the card.
-                    child: Card(
-                      elevation: 4, // Adds a shadow effect.
-                      child: InkWell(
-                        onTap: () {
-                          print("Voir ma progression"); // Logs "Voir ma progression" when tapped.
-                        },
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0), // Uniform padding inside the card.
-                            child: Text(
-                              'Voir ma progression', // Card text.
-                              textAlign: TextAlign.center, // Center-align the text.
-                              style: Theme.of(context).textTheme.bodyLarge, // Uses the app's theme for styling.
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  child: _buildCard(
+                    title: 'Voir ma progression',
+                    icon: Icons.bar_chart,
+                    onTap: () {
+                      print("Voir ma progression");
+                    },
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16.0), // Adds spacing below the row.
-
-            // Third card: "Voir la liste des modules" (View the list of modules).
-            SizedBox(
-              height: 200, // Fixed height for the card.
-              child: Card(
-                elevation: 4, // Adds a shadow effect.
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/units'); // Navigates to the '/units' page when tapped.
-                  },
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0), // Uniform padding inside the card.
-                      child: Text(
-                        'Voir la liste des modules', // Card text.
-                        textAlign: TextAlign.center, // Center-align the text.
-                        style: Theme.of(context).textTheme.bodyLarge, // Uses the app's theme for styling.
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            const SizedBox(height: 20.0),
+            _buildCard(
+              title: 'Voir la liste des modules',
+              icon: Icons.list,
+              onTap: () {
+                Navigator.pushNamed(context, '/units');
+              },
             ),
           ],
         ),
       ),
-
-      // Bottom navigation bar for navigating between sections of the app.
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: CustomColors.dark_accent, // Custom background color for the navigation bar.
-        selectedItemColor: CustomColors.accent, // Highlight color for the selected item.
-        unselectedItemColor: Colors.white, // White color for unselected items.
+        backgroundColor: CustomColors.dark_accent,
+        selectedItemColor: CustomColors.accent,
+        unselectedItemColor: Colors.white,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.query_stats), // Stats icon.
-            label: 'Stats', // Label for the stats tab.
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home), // Home icon.
-            label: 'Acceuil', // Label for the home tab.
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person), // Profile icon.
-            label: 'Profile', // Label for the profile tab.
-          ),
+              icon: Icon(Icons.query_stats), label: 'Stats'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
-        currentIndex: _selectedIndex, // Highlights the currently selected tab.
-        onTap: _onItemTapped, // Updates the selected index when a tab is tapped.
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+
+  Widget _buildCard(
+      {required String title,
+      required IconData icon,
+      required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        elevation: 5,
+        color: Colors.white,
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 40, color: CustomColors.dark_accent),
+              const SizedBox(height: 10),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
