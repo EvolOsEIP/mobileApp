@@ -18,11 +18,10 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-
         title: const Text(
           'Profile',
           style: TextStyle(color: Colors.white),
-          ),
+        ),
         backgroundColor: CustomColors.dark_accent,
         centerTitle: false,
       ),
@@ -39,13 +38,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     CircleAvatar(
                       radius: 50,
                       backgroundColor: Colors.redAccent,
-                      child: const Icon(Icons.person, size: 50, color: Colors.white),
+                      child: const Icon(Icons.person,
+                          size: 50, color: Colors.white),
                     ),
                     const SizedBox(height: 10),
                     // Name
                     const Text(
                       "Michel Dupont",
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     // Username
@@ -115,9 +116,6 @@ class _ProfilePageState extends State<ProfilePage> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: 2,
       ),
     );
   }
