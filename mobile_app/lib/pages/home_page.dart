@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/utils/colors.dart';
 import 'dart:convert';
+import 'package:mobile_app/utils/navbar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -99,6 +100,12 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(10.0), // Marge autour de la navbar
+        child: CustomNavbar(
+            profileImageUrl:
+                "https://randomuser.me/api/portraits/women/44.jpg"),
       ),
     );
   }
