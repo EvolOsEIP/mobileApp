@@ -1,4 +1,3 @@
-
 import 'dart:convert'; // For decoding JSON data
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart'; // For displaying SVG images
@@ -61,13 +60,16 @@ class _UnitListPageState extends State<UnitListPage> {
                         arguments: data["units"][index]);
                   },
                   child: Card(
-                    color: CustomColors.accent, // Custom background color for the card
+                    color: CustomColors
+                        .accent, // Custom background color for the card
                     margin: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 16), // Adds margin around each card
+                        vertical: 10,
+                        horizontal: 16), // Adds margin around each card
                     child: SizedBox(
                       height: 250, // Sets a fixed height for each card
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0), // Adds padding inside the card
+                        padding: const EdgeInsets.all(
+                            16.0), // Adds padding inside the card
                         child: Row(
                           children: [
                             // Displays an SVG icon for each unit
@@ -76,10 +78,13 @@ class _UnitListPageState extends State<UnitListPage> {
                               width: 100,
                               height: 100,
                             ),
-                            const SizedBox(width: 16), // Adds spacing between the image and text
+                            const SizedBox(
+                                width:
+                                    16), // Adds spacing between the image and text
                             Expanded(
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start, // Aligns text to the start
+                                crossAxisAlignment: CrossAxisAlignment
+                                    .start, // Aligns text to the start
                                 children: [
                                   // Displays the unit title in bold
                                   Padding(
