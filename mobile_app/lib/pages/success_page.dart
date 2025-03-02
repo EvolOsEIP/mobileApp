@@ -45,6 +45,30 @@ class SuccessPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
+            // Divider
+            Container(
+              height: 1,
+              color: Colors.grey[300],
+            ),
+            const SizedBox(height: 20),
+            // filter button
+            Align(
+              alignment: Alignment.centerRight,
+              child:
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  // #227C9D
+                  side: BorderSide(color: Color.fromRGBO(34, 124, 157, 1)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: const Text("Filtres"),
+              ),
+            ),
+            const SizedBox(height: 20),
             BadgeSection(title: "Île 1", progress: 3, total: 7),
             BadgeSection(title: "Île 2", progress: 1, total: 10),
             BadgeSection(title: "Île 3", progress: 0, total: 5),
@@ -86,13 +110,29 @@ class BadgeSection extends StatelessWidget {
                 backgroundColor: Colors.grey[300],
               ),
             ),
+            const SizedBox(width: 5),
             Text("$progress/$total"),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
+            const SizedBox(width: 10),
+            Container(
+              width: 100,
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                  // borderRadius
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: const Text(
+                  "Voir le module",
+                  style: TextStyle(
+                    color: Colors.black,
+
+                    ),
+
+                  ),
               ),
-              child: const Text("voir le module"),
             ),
           ],
         ),
