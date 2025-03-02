@@ -1,0 +1,48 @@
+[
+  {
+    "course_id": 1,
+    "all_step" : 3,
+    "step_id": 1,
+    "step_name": "step 1",
+    "instruction": "blabla 1",
+    "widgets": {
+      "instructions": [
+        {
+          "type": "image",
+          "data" : "un naffaire.png",
+          "description" : "cette image montre un singe qui se pendouille LOLILOL"
+        }
+      ],
+      "actions": [
+        {
+          "type" : "input_text",
+          "expected_value" : "je veux ca et pas autre chose.",
+          "description" : "si t'es aveugle en gros j'attends que tu écrives ${expected_value} ici"
+        }
+      ]
+    }
+  },
+  {
+    "course_id": 1,
+    "all_steps" : 3,
+    "step_id": 2,
+    "step_name": "step 2",
+    "instruction": "blabla 2",
+    "widgets": {
+      "instructions": [
+        {
+          "type": "input_text",
+          "expected_value" : "je veux ca et pas autre chose.",
+          "description" : "si t'es aveugle en gros j'attends que tu écrives ${expected_value} ici"
+        }
+      ],
+      "actions": [
+        {
+          "type" : "image",
+          "data" : "un naffaire.png",
+          "description" : "cette image montre un singe qui se pendouille LOLILOL"
+        }
+      ]
+    }
+  }
+]
