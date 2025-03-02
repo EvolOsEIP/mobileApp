@@ -12,24 +12,47 @@ class _SuccessPageState extends State<SuccessPage> {
   // load json data
   Map<String, dynamic> data = {};
   bool isLoading = true;
+  int total_achievements_unlocked = 0;
+  int total_achievements = 0;
+
 
   void loadJsonData() async {
     String jsonString = await DefaultAssetBundle.of(context).loadString("assets/json/success.json");
-    data = json.decode(jsonString);
-    print(data);
     setState(() {
+      data = json.decode(jsonString);
       isLoading = false;
+    });
+
+    calculateTotalAchievements();
+  }
+
+  void calculateTotalAchievements() {
+    if (data == null || data["islands"] == null) {
+      print("JSON data is null");
+      return;
+    }
+
+    print(data); // debug
+
+    int unlocked = 0;
+    int total = 0;
+
+    for (var island in data["islands"]) {
+      unlocked += (island["unlocked_achievements"] ?? 0) as int;
+      total += (island["total_achievements"] ?? 0) as int;
+    }
+
+    setState(() {
+      total_achievements_unlocked = unlocked;
+      total_achievements = total;
     });
   }
 
   @override
   void initState() {
     super.initState();
-
-    // load the data
     loadJsonData();
   }
-
   @override
   Widget build(BuildContext context) {
     return (isLoading) ? const Center(child: CircularProgressIndicator())
@@ -63,8 +86,8 @@ class _SuccessPageState extends State<SuccessPage> {
                       border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Text(
-                      "4 / 22\nCOLLECTION TOTALE",
+                    child: Text(
+                      "$total_achievements_unlocked / $total_achievements\nCOLLECTION TOTALE",
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
