@@ -1,7 +1,7 @@
 [
   {
     "course_id": 1,
-    "all_step" : 3,
+    "all_steps" : 3,
     "step_id": 1,
     "step_name": "step 1",
     "instruction": "blabla 1",
@@ -9,9 +9,15 @@
       "instructions": [
         {
           "type": "image",
-          "data" : "un naffaire.png",
+          "data" : "unNaffaire.png",
           "description" : "cette image montre un singe qui se pendouille LOLILOL"
+        },
+        {
+          "type": "image",
+          "data" : "un naffaire2.png",
+          "description" : "cette image montre un singe qui se pendouille LOLILOL2"
         }
+
       ],
       "actions": [
         {

@@ -28,19 +28,23 @@ class _CoursePage extends State<CoursePage> {
 
   Future<void> loadData() async {
     try {
-      // Charger le fichier JSON
-      String jsonString = await rootBundle.loadString('mobile_app/assets/courses_page_exemple.json');
-      Map<String, dynamic> jsonData = json.decode(jsonString);
+      String jsonString = await rootBundle.loadString('assets/courses_page_example.json');
+      List<dynamic> jsonData = jsonDecode(jsonString);
 
-      setState(() {
-        stepName = jsonData["step_name"] ?? '';
-        stepId = jsonData["step_id"] ?? 0;
-        allSteps = jsonData["all_steps"] ?? 1;
-        instructionDescription = jsonData["instruction_description"] ?? '';
-        widgetInstructions = List<Map<String, dynamic>>.from(jsonData["widget_instructions"] ?? []);
-        widgetActions = List<Map<String, dynamic>>.from(jsonData["widget_actions"] ?? []);
-        isDataLoaded = true;
-      });
+      if (jsonData.isNotEmpty) {
+        Map<String, dynamic> step = jsonData[0]; // l'id de la page /step
+
+        setState(() {
+          print("set state");
+          stepId = step["step_id"] ?? 0;
+          allSteps = step["all_steps"] ?? 1;
+          stepName = step["step_name"] ?? "";
+          instructionDescription = step["instruction"] ?? "";
+          widgetInstructions = List<Map<String, dynamic>>.from(step["widgets"]["instructions"] ?? []);
+          widgetActions = List<Map<String, dynamic>>.from(step["widgets"]["actions"] ?? []);
+          isDataLoaded = true;
+        });
+      }
     } catch (e) {
       print("Erreur lors du chargement des données : $e");
     }
@@ -116,6 +120,7 @@ class _CoursePage extends State<CoursePage> {
     );
   }
   Widget displayWidget(Map<String, dynamic> widgetData) {
+    print('Display un widget de type : $widgetData["type"]');
     switch (widgetData["type"]) {
       case "image":
         return imageWidget(widgetData["data"], widgetData["description"]);
