@@ -66,6 +66,8 @@ flutter:
     - assets/chapters.json
     - assets/images/
     - assets/images/modules/1_basics/ch1/course1/
+    - assets/json/success.json
+    - assets/images/achievements.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
