@@ -97,22 +97,24 @@ class BadgeSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: List.generate(
-            total,
-                (index) => Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: index < progress ? Colors.orange : Colors.grey,
-                  borderRadius: BorderRadius.circular(8),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: List.generate(
+              total,
+              (index) => Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: index < progress ? Colors.orange : Colors.grey,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: index >= progress
+                      ? const Icon(Icons.lock, color: Colors.black)
+                      : null,
                 ),
-                child: index >= progress
-                    ? const Icon(Icons.lock, color: Colors.black)
-                    : null,
               ),
             ),
           ),
