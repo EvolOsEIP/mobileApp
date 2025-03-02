@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:mobile_app/utils/actionsWidgets.dart';
+import 'package:mobile_app/utils/instructionsWidgets.dart';
 
 class CoursePage extends StatefulWidget {
   const CoursePage({super.key});
@@ -98,13 +100,13 @@ class _CoursePage extends State<CoursePage> {
                           for (var instruction in widgetInstructions)
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 16.0),
-                              child: displayWidget(instruction),
+                              child: displayWidget(instruction, context),
                             ),
                           const SizedBox(height: 16.0),
                           for (var action in widgetActions)
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 16.0),
-                              child: displayWidget(action),
+                              child: displayWidget(action, context),
                             ),
                         ],
                       ),
@@ -119,63 +121,16 @@ class _CoursePage extends State<CoursePage> {
           : const Center(child: CircularProgressIndicator()),
     );
   }
-  Widget displayWidget(Map<String, dynamic> widgetData) {
-    print('Display un widget de type : $widgetData["type"]');
+
+  Widget displayWidget(Map<String, dynamic> widgetData, BuildContext context) {
+    print('Display un widget : $widgetData');
     switch (widgetData["type"]) {
       case "image":
-        return imageWidget(widgetData["data"], widgetData["description"]);
+        return imageWidget(context, widgetData["data"], widgetData["description"]);
       case "input_text":
-        return inputTextWidget(widgetData["expected_value"], widgetData["description"]);
+        return inputTextWidget(context, widgetData["expected_value"], widgetData["description"]);
       default:
         return const SizedBox(); // Widget vide si type inconnu
     }
-  }
-
-  Widget imageWidget(String imagePath, String description) {
-    return Column(
-      children: [
-        Image.asset(
-          imagePath,
-          fit: BoxFit.contain,
-          height: MediaQuery.of(context).size.height * 0.25,
-          width: double.infinity,
-        ),
-        const SizedBox(height: 10),
-        Text(
-          description,
-          style: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
-        ),
-      ],
-    );
-  }
-
-  Widget inputTextWidget(String expectedValue, String description) {
-    TextEditingController controller = TextEditingController();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(description, style: const TextStyle(fontSize: 16)),
-        const SizedBox(height: 5),
-        TextField(
-          controller: controller,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            hintText: "Entrez votre réponse ici...",
-          ),
-          onSubmitted: (value) {
-            if (value == expectedValue) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Bonne réponse ! 🎉"))
-              );
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Mauvaise réponse. Réessayez ! ❌"))
-              );
-            }
-          },
-        ),
-      ],
-    );
   }
 }
