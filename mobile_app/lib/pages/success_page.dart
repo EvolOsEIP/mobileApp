@@ -19,16 +19,16 @@ class SuccessPage extends StatelessWidget {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 30),
             Center(
-              child: Column(
+              child: Row(
                 children: [
                   Icon(Icons.person, size: 50),
                   const Text(
                     "éclaireur",
                     style: TextStyle(fontSize: 16),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(width: 50),
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
