@@ -1,11 +1,39 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class SuccessPage extends StatelessWidget {
+class SuccessPage extends StatefulWidget {
   const SuccessPage({super.key});
 
   @override
+  _SuccessPageState createState() => _SuccessPageState();
+}
+
+class _SuccessPageState extends State<SuccessPage> {
+  // load json data
+  Map<String, dynamic> data = {};
+  bool isLoading = true;
+
+  void loadJsonData() async {
+    String jsonString = await DefaultAssetBundle.of(context).loadString("assets/json/success.json");
+    data = json.decode(jsonString);
+    print(data);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    // load the data
+    loadJsonData();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return (isLoading) ? const Center(child: CircularProgressIndicator())
+    : Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -69,9 +97,24 @@ class SuccessPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            BadgeSection(title: "Île 1", progress: 3, total: 7),
-            BadgeSection(title: "Île 2", progress: 1, total: 10),
-            BadgeSection(title: "Île 3", progress: 0, total: 5),
+            // badges
+            Expanded(
+              child: data["islands"] != null && data["islands"].isNotEmpty
+                ? ListView.builder(
+                    itemCount: data["islands"]?.length,
+                    itemBuilder: (context, index) {
+                      Map<String, dynamic>? value = data["islands"]?[index];
+                      return BadgeSection(
+                        title: value?["name"] ?? "Unknown Island",
+                        description: value?["description"] ?? "No description available",
+                        progress: value?["unlocked_achievements"] ?? 0,
+                        total: value?["total_achievements"] ?? 0,
+                        achievements: value?["achievements"] ?? [],
+                      );
+                    },
+                  )
+                : Center(child: Text('No islands data available')),
+            ),
           ],
         ),
       ),
@@ -80,16 +123,62 @@ class SuccessPage extends StatelessWidget {
 }
 
 class BadgeSection extends StatelessWidget {
-  final String title;
-  final int progress;
-  final int total;
+  final String? title;
+  final String? description;
+  final int? progress;
+  final int? total;
+  final List<dynamic>? achievements;
 
   const BadgeSection({
     required this.title,
+    required this.description,
     required this.progress,
     required this.total,
+    required this.achievements,
     super.key,
   });
+
+  void displayDialog(BuildContext context, int? index, String? title, String? description, bool unlocked, String? unlockDate, String? logo) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+            side: const BorderSide(color: Color.fromRGBO(55, 190, 240, 1)),
+          ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "$title",
+                textAlign: TextAlign.center,
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(Icons.close),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset("$logo"),
+              const SizedBox(height: 10),
+              Text((unlocked) ? "Débloqué" : "Verrouillé"),
+              const SizedBox(height: 10),
+              Text("$description"),
+              const SizedBox(height: 10),
+              Text((unlocked) ? "Obtenu le $unlockDate" : "Pour le débloquer, il faut faire ça"),
+              const SizedBox(height: 10),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +194,7 @@ class BadgeSection extends StatelessWidget {
           children: [
             Expanded(
               child: LinearProgressIndicator(
-                value: progress / total,
+                value: (total != null && total! > 0) ? (progress! / total!) : 0.0,
                 color: Colors.orange,
                 backgroundColor: Colors.grey[300],
               ),
@@ -130,7 +219,6 @@ class BadgeSection extends StatelessWidget {
                     color: Colors.black,
 
                     ),
-
                   ),
               ),
             ),
@@ -141,19 +229,25 @@ class BadgeSection extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: List.generate(
-              total,
+              total!,
               (index) => Padding(
                 padding: const EdgeInsets.all(4.0),
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: index < progress ? Colors.orange : Colors.grey,
-                    borderRadius: BorderRadius.circular(8),
+                child: GestureDetector(
+                  onTap: () {
+                    print("Badge $index");
+                    displayDialog(context, index, achievements?[index]["name"], achievements?[index]["description"], (index! < progress!) ? true : false, achievements?[index]["unlock_date"], achievements?[index]["logo"]);
+                  },
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: (index! < progress!) ? Colors.orange : Colors.grey[300],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: index! >= progress!
+                        ? const Icon(Icons.lock, color: Colors.black)
+                        : null,
                   ),
-                  child: index >= progress
-                      ? const Icon(Icons.lock, color: Colors.black)
-                      : null,
                 ),
               ),
             ),
