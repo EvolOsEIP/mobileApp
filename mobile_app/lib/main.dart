@@ -31,13 +31,14 @@ class MyApp extends StatelessWidget {
       home: const SplashScreen(),
       initialRoute: '/',
       routes: {
-        '/home': (context) => RoadmapPage(),
+        '/home': (context) => const HomePage(),
+        '/roadmap': (context) => RoadmapPage(),
         '/units': (context) => const UnitListPage(),
         '/chapters': (context) => const ChapterListPage(units: null),
         '/courses': (context) => const CoursesListPage(chapter: null),
         '/course_detail': (context) => const CoursePage(courses: 0),
         '/profile': (context) => const ProfilePage(),
-        '/userprogress': (context) => SuccessPage()
+        '/userprogress': (context) => const SuccessPage()
       },
     );
   }

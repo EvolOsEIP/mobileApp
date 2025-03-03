@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
               title: 'Voir le cours 1',
               icon: Icons.book,
               onTap: () {
-                Navigator.pushNamed(context, '/course_detail', arguments: {
+                Navigator.pushNamed(context, '/roadmap', arguments: {
                   'chapter': data["units"][0]["chapters"][0],
                   'index': 0
                 }); //data["units"][0]["chapters"][0]["courses"][0]);
