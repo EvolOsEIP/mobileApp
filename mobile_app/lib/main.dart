@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'package:mobile_app/pages/roadmap_page.dart';
 import 'package:mobile_app/pages/unit_list_page.dart';
 import 'package:mobile_app/pages/chapter_list_page.dart';
 import 'package:mobile_app/pages/courses_list_page.dart';
@@ -10,7 +13,9 @@ import 'package:mobile_app/pages/splash_screen.dart';
 import 'package:mobile_app/pages/profile_page.dart';
 import 'package:mobile_app/pages/success_page.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
+
   runApp(const MyApp());
 }
 
@@ -26,7 +31,7 @@ class MyApp extends StatelessWidget {
       home: const SplashScreen(),
       initialRoute: '/',
       routes: {
-        '/home': (context) => const HomePage(),
+        '/home': (context) => RoadmapPage(),
         '/units': (context) => const UnitListPage(),
         '/chapters': (context) => const ChapterListPage(units: null),
         '/courses': (context) => const CoursesListPage(chapter: null),
