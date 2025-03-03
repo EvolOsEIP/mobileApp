@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Widget pour le champ de texte
-Widget inputTextWidget(BuildContext context, String expectedValue, String description) {
+Widget inputTextWidget(BuildContext context, String expectedValue, String description, VoidCallback nextStep) {
   TextEditingController controller = TextEditingController();
 
   return Column(
@@ -20,6 +20,7 @@ Widget inputTextWidget(BuildContext context, String expectedValue, String descri
             ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text("Bonne réponse ! 🎉"))
             );
+            nextStep();
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text("Mauvaise réponse. Réessayez ! ❌"))

@@ -5,7 +5,11 @@ import 'package:mobile_app/utils/actionsWidgets.dart';
 import 'package:mobile_app/utils/instructionsWidgets.dart';
 
 class CoursePage extends StatefulWidget {
-  const CoursePage({super.key});
+
+  // temporaire juste pour avoir le truc de fin
+  final dynamic courses;
+
+  const CoursePage({super.key, required this.courses});
 
   @override
   _CoursePage createState() => _CoursePage();
@@ -15,10 +19,17 @@ class CoursePage extends StatefulWidget {
 class _CoursePage extends State<CoursePage> {
   String stepName = '';
   int stepId = 0;
-  int allSteps = 0;
+  int allSteps = 0; // mettre dans le truc d'info cours plutot que dans chaque step
+  int currentStep = 0; // mettre dans le truc cours info egalement
   String instructionDescription = '';
   List<Map<String, dynamic>> widgetInstructions = [];
   List<Map<String, dynamic>> widgetActions = [];
+
+  // temporaire juste pour avoir le truc de fin
+  dynamic chapter;
+  dynamic args;
+  dynamic course;
+  /// FINNNN
 
   bool isDataLoaded = false;
 
@@ -34,10 +45,9 @@ class _CoursePage extends State<CoursePage> {
       List<dynamic> jsonData = jsonDecode(jsonString);
 
       if (jsonData.isNotEmpty) {
-        Map<String, dynamic> step = jsonData[0]; // l'id de la page /step
+        Map<String, dynamic> step = jsonData[currentStep]; // l'id de la page /step
 
         setState(() {
-          print("set state");
           stepId = step["step_id"] ?? 0;
           allSteps = step["all_steps"] ?? 1;
           stepName = step["step_name"] ?? "";
@@ -45,11 +55,48 @@ class _CoursePage extends State<CoursePage> {
           widgetInstructions = List<Map<String, dynamic>>.from(step["widgets"]["instructions"] ?? []);
           widgetActions = List<Map<String, dynamic>>.from(step["widgets"]["actions"] ?? []);
           isDataLoaded = true;
+
+          //same hein temporaire
+          args = ModalRoute.of(context)!.settings.arguments as dynamic;
+          chapter = args['chapter'];
+          course = chapter['courses'][args['index']];
         });
       }
     } catch (e) {
       print("Erreur lors du chargement des données : $e");
     }
+  }
+
+  void nextStep() {
+    if (currentStep < allSteps - 1) {
+      setState(() {
+        currentStep++;
+      });
+      loadData();
+    } else {
+      _showCompletionDialog();
+    }
+  }
+
+  /// Displays a pop-up when the course is completed.
+  ///
+  /// The pop-up shows a completion message from the course content and redirects to the courses list.
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Cours complété"),
+        content: Text(course["end"]),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/courses', arguments: chapter);
+            },
+            child: const Text("OK"),
+          )
+        ],
+      ),
+    );
   }
 
   @override
@@ -128,7 +175,7 @@ class _CoursePage extends State<CoursePage> {
       case "image":
         return imageWidget(context, widgetData["data"], widgetData["description"]);
       case "input_text":
-        return inputTextWidget(context, widgetData["expected_value"], widgetData["description"]);
+        return inputTextWidget(context, widgetData["expected_value"], widgetData["description"], nextStep);
       default:
         return const SizedBox(); // Widget vide si type inconnu
     }

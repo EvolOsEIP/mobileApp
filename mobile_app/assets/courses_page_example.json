@@ -1,7 +1,7 @@
 [
   {
     "course_id": 1,
-    "all_steps" : 3,
+    "all_steps" : 2,
     "step_id": 1,
     "step_name": "step 1",
     "instruction": "blabla 1",
@@ -30,7 +30,7 @@
   },
   {
     "course_id": 1,
-    "all_steps" : 3,
+    "all_steps" : 2,
     "step_id": 2,
     "step_name": "step 2",
     "instruction": "blabla 2",
