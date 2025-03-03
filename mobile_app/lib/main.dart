@@ -8,7 +8,7 @@ import 'package:mobile_app/pages/NEWcourse_page.dart';
 import 'package:mobile_app/pages/home_page.dart';
 import 'package:mobile_app/pages/splash_screen.dart';
 import 'package:mobile_app/pages/profile_page.dart';
-import 'package:mobile_app/pages/user_progress_page.dart';
+import 'package:mobile_app/pages/success_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         '/courses': (context) => const CoursesListPage(chapter: null),
         '/course_detail': (context) => const CoursePage(courses: 0),
         '/profile': (context) => const ProfilePage(),
-        '/userprogress': (context) => const UserProgress()
+        '/userprogress': (context) => SuccessPage()
       },
     );
   }
