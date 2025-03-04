@@ -4,7 +4,7 @@
       "name": "Island 1",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "total_achievements": 7,
-      "unlocked_achievements": 3,
+      "unlocked_achievements": 4,
       "achievements": [
         {
           "name": "First Steps",
@@ -30,7 +30,7 @@
         {
           "name": "Challenge Seeker",
           "logo": "assets/images/achievements.png",
-          "status": "locked",
+          "status": "pending",
           "unlock_date": null,
           "description": "Ut enim ad minim veniam."
         },
@@ -44,8 +44,8 @@
         {
           "name": "Curious Mind",
           "logo": "assets/images/achievements.png",
-          "status": "locked",
-          "unlock_date": null,
+          "status": "unlocked",
+          "unlock_date": "2025-03-03",
           "description": "Duis aute irure dolor."
         },
         {
