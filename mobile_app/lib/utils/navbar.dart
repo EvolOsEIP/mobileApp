@@ -57,6 +57,10 @@ class CustomNavbar extends StatelessWidget {
                 color: CustomColors.dark_accent, size: iconSize),
             onPressed: () {
               // Action bouton de droite
+              // avoid pushNamed to the same route
+              if (ModalRoute.of(context)!.settings.name != '/userprogress')
+                Navigator.pushNamed(context, '/userprogress');
+
             },
           ),
         ],
