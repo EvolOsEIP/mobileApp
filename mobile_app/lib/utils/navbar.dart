@@ -48,6 +48,8 @@ class CustomNavbar extends StatelessWidget {
             icon: Icon(Icons.menu_book,
                 color: CustomColors.dark_accent, size: iconSize),
             onPressed: () {
+              if (ModalRoute.of(context)!.settings.name != '/roadmap')
+                Navigator.pushNamed(context, '/roadmap');
               // Action bouton du centre
             },
           ),
@@ -60,7 +62,6 @@ class CustomNavbar extends StatelessWidget {
               // avoid pushNamed to the same route
               if (ModalRoute.of(context)!.settings.name != '/userprogress')
                 Navigator.pushNamed(context, '/userprogress');
-
             },
           ),
         ],
