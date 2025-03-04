@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:mobile_app/utils/navbar.dart';
 
 class SuccessPage extends StatefulWidget {
   const SuccessPage({super.key});
@@ -140,6 +141,12 @@ class _SuccessPageState extends State<SuccessPage> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(10.0), // Marge autour de la navbar
+        child: CustomNavbar(
+            profileImageUrl:
+                "https://randomuser.me/api/portraits/women/44.jpg"),
       ),
     );
   }
