@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mobile_app/utils/navbar.dart';
 
 Future requestApi(endpoint, path, body, header, type) async {
   var url = Uri.http(endpoint, path);
@@ -42,6 +43,12 @@ class RoadmapPage extends StatelessWidget {
             RoadmapListWidget(modules: modules),
           ],
         ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(10.0), // Marge autour de la navbar
+        child: CustomNavbar(
+            profileImageUrl:
+                "https://randomuser.me/api/portraits/women/44.jpg"),
       ),
     );
   }
