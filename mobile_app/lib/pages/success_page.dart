@@ -161,8 +161,17 @@ class BadgeSection extends StatelessWidget {
     super.key,
   });
 
-  void displayDialog(BuildContext context, int? index, String? title, String? description, bool unlocked, String? unlockDate, String? logo) {
-    showDialog(
+
+  Future<dynamic> displayDialog(BuildContext context, int index, List<dynamic>? achievements) {
+    String unlockDate = achievements?[index]["unlock_date"] ?? "";
+    String logo = achievements?[index]["logo"] ?? "";
+    String title = achievements?[index]["name"] ?? "";
+    String description = achievements?[index]["description"] ?? "";
+    String status = achievements?[index]["status"] ?? "";
+
+
+
+    return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -190,11 +199,23 @@ class BadgeSection extends StatelessWidget {
             children: [
               Image.asset("$logo"),
               const SizedBox(height: 10),
-              Text((unlocked) ? "Débloqué" : "Verrouillé"),
+              Text((status == "locked") ? "Verrouillé" : 
+                (status == "pending") ? "" :
+                  "Débloqué"),
               const SizedBox(height: 10),
               Text("$description"),
               const SizedBox(height: 10),
-              Text((unlocked) ? "Obtenu le $unlockDate" : "Pour le débloquer, il faut faire ça"),
+              // if status is pending, display a progress bar
+              Text((status == "locked") ? "Pour le débloquer, il faut faire ça" :
+                (status == "pending") ? "En cours de validation" :
+                  "Obtenu le $unlockDate"),
+              // progress bar for pending status
+              if (status == "pending")
+                LinearProgressIndicator(
+                  value: 0.5,
+                  color: Colors.orange,
+                  backgroundColor: Colors.grey[300],
+                ),
               const SizedBox(height: 10),
             ],
           ),
@@ -258,18 +279,21 @@ class BadgeSection extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     print("Badge $index");
-                    displayDialog(context, index, achievements?[index]["name"], achievements?[index]["description"], (index! < progress!) ? true : false, achievements?[index]["unlock_date"], achievements?[index]["logo"]);
+                    displayDialog(context, index, achievements);
                   },
                   child: Container(
                     width: 50,
                     height: 50,
                     decoration: BoxDecoration(
-                      color: (index! < progress!) ? Colors.orange : Colors.grey[300],
+                      color: (achievements?[index]["status"] == "locked") ? Colors.grey[300] :
+                        (achievements?[index]["status"] == "pending") ? Colors.grey[300] :
+                          Colors.orange,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: index! >= progress!
+                    child: achievements?[index]["status"] == "locked"
                         ? const Icon(Icons.lock, color: Colors.black)
-                        : null,
+                        : achievements?[index]["status"] == "pending" ? const Icon(Icons.hourglass_empty, color: Colors.black) :
+                        const Icon(Icons.check, color: Colors.black),
                   ),
                 ),
               ),
