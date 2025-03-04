@@ -7,7 +7,6 @@ import 'package:mobile_app/utils/navbar.dart';
 
 Future requestApi(endpoint, path, body, header, type) async {
   var url = Uri.http(endpoint, path);
-  // var url = Uri.parse(endpoint);
 
   dynamic response;
   try {
@@ -22,114 +21,6 @@ Future requestApi(endpoint, path, body, header, type) async {
     return response;
   } catch (e) {
     print('Error: $e');
-  }
-}
-
-class RoadmapPage extends StatelessWidget {
-  var request = requestApi(
-      '10.0.2.2:3000', '/api/modules', {}, {'Authorization': ''}, 'get');
-  final String jsonData =
-      '[{"title": "Module 1", "courses": [{"title": "Course 1", "stars": 3, "status": "done"}, {"title": "Course 2", "stars": 2, "status": "current"}, {"title": "Course 3", "stars": 0, "status": "locked"}], "evaluation": "Evaluation 1"}]';
-
-  @override
-  Widget build(BuildContext context) {
-    List<dynamic> modules = jsonDecode(jsonData);
-
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 50),
-            RoadmapListWidget(modules: modules),
-          ],
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(10.0), // Marge autour de la navbar
-        child: CustomNavbar(
-            profileImageUrl:
-                "https://randomuser.me/api/portraits/women/44.jpg"),
-      ),
-    );
-  }
-}
-
-class RoadmapListWidget extends StatelessWidget {
-  final List<dynamic> modules;
-
-  RoadmapListWidget({required this.modules});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: modules
-          .map((module) => Column(
-                children: [
-                  RoadmapSection(
-                    title: module['title'],
-                    roadmap: RoadmapWidget(
-                      courses: module['courses'],
-                      evaluation: module['evaluation'],
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                ],
-              ))
-          .toList(),
-    );
-  }
-}
-
-class RoadmapSection extends StatelessWidget {
-  final String title;
-  final Widget roadmap;
-
-  RoadmapSection({required this.title, required this.roadmap});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(title,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        SizedBox(height: 10),
-        roadmap,
-      ],
-    );
-  }
-}
-
-class RoadmapWidget extends StatelessWidget {
-  final List<dynamic> courses;
-  final String evaluation;
-
-  RoadmapWidget({required this.courses, required this.evaluation});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ...courses.asMap().entries.map((entry) {
-          int index = entry.key;
-          var course = entry.value;
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: Align(
-              alignment:
-                  index % 2 == 0 ? Alignment.centerLeft : Alignment.centerRight,
-              child: CourseHexagon(
-                title: course['title'],
-                stars: course['stars'],
-                status: course['status'],
-              ),
-            ),
-          );
-        }).toList(),
-        SizedBox(height: 30),
-        Center(child: EvaluationHexagon(title: evaluation)),
-        SizedBox(height: 50),
-      ],
-    );
   }
 }
 
@@ -238,4 +129,140 @@ class HexagonClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
+
+class RoadmapPage extends StatefulWidget {
+  @override
+  _RoadmapPageState createState() => _RoadmapPageState();
+}
+
+class _RoadmapPageState extends State<RoadmapPage> {
+  List<dynamic> modules = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchModules();
+  }
+
+  Future<void> fetchModules() async {
+    var response = await requestApi(
+      '10.0.2.2:3000',
+      '/api/courses',
+      {},
+      {
+        'Authorization':
+            'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyaWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwicGFzc3dvcmRoYXNoIjoic2VjdXJlcGFzc3dvcmQxMjMiLCJjcmVhdGVkYXQiOiIyMDI1LTAzLTA0VDA0OjM1OjM5LjY2M1oiLCJyb2xlIjoiYWRtaW4ifQ.fT-SZtGJD63bFe7NSL86Z11h1WHw7ny746OfZQTfnic'
+      },
+      'get',
+    );
+
+    if (response != null && response.statusCode == 200) {
+      List<dynamic> courses = jsonDecode(response.body);
+      Map<int, List<dynamic>> groupedModules = {};
+
+      for (var course in courses) {
+        int moduleId = course['moduleid'] ?? 1;
+        if (!groupedModules.containsKey(moduleId)) {
+          groupedModules[moduleId] = [];
+        }
+        groupedModules[moduleId]!.add(course);
+      }
+
+      setState(() {
+        modules = groupedModules.entries
+            .map((e) => {
+                  'title': 'Module ${e.key}',
+                  'courses': e.value,
+                  'evaluation': 'Evaluation ${e.key}'
+                })
+            .toList();
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 50),
+            RoadmapListWidget(modules: modules),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class RoadmapListWidget extends StatelessWidget {
+  final List<dynamic> modules;
+
+  RoadmapListWidget({required this.modules});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: modules
+          .map((module) => Column(
+                children: [
+                  RoadmapSection(
+                    title: module['title'],
+                    roadmap: RoadmapWidget(
+                      courses: module['courses'],
+                      evaluation: module['evaluation'],
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                ],
+              ))
+          .toList(),
+    );
+  }
+}
+
+class RoadmapSection extends StatelessWidget {
+  final String title;
+  final Widget roadmap;
+
+  RoadmapSection({required this.title, required this.roadmap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(title,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        SizedBox(height: 10),
+        roadmap,
+      ],
+    );
+  }
+}
+
+class RoadmapWidget extends StatelessWidget {
+  final List<dynamic> courses;
+  final String evaluation;
+
+  RoadmapWidget({required this.courses, required this.evaluation});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ...courses.map((course) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: CourseHexagon(
+                title: course['title'],
+                stars: 3,
+                status: course['levelrequired'],
+              ),
+            )),
+        SizedBox(height: 30),
+        EvaluationHexagon(title: evaluation),
+        SizedBox(height: 50),
+      ],
+    );
+  }
 }
