@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:mobile_app/utils/actionsWidgets.dart';
 import 'package:mobile_app/utils/instructionsWidgets.dart';
+import 'package:mobile_app/services/course_service.dart';
 
 class CoursePage extends StatefulWidget {
 
@@ -18,9 +19,8 @@ class CoursePage extends StatefulWidget {
 
 class _CoursePage extends State<CoursePage> {
   String stepName = '';
-  int stepId = 0;
-  int allSteps = 0; // mettre dans le truc d'info cours plutot que dans chaque step
-  int currentStep = 0; // mettre dans le truc cours info egalement
+  int allSteps = 0;
+  int currentStep = 0;
   String instructionDescription = '';
   List<Map<String, dynamic>> widgetInstructions = [];
   List<Map<String, dynamic>> widgetActions = [];
@@ -33,39 +33,44 @@ class _CoursePage extends State<CoursePage> {
 
   bool isDataLoaded = false;
 
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
+  final CourseService _courseService = CourseService();
 
   Future<void> loadData() async {
     try {
-      String jsonString = await rootBundle.loadString('assets/courses_page_example.json');
-      List<dynamic> jsonData = jsonDecode(jsonString);
+      int courseId = 1; //tmp a récup correctement
+
+      List<dynamic> jsonData = await _courseService.fetchSteps(courseId);
 
       if (jsonData.isNotEmpty) {
-        Map<String, dynamic> step = jsonData[currentStep]; // l'id de la page /step
+        Map<String, dynamic> step = jsonData[currentStep];
 
         setState(() {
-          stepId = step["step_id"] ?? 0;
-          allSteps = step["all_steps"] ?? 1;
+          allSteps = 2; // le faire autre part, nécessaire qu'une fois
           stepName = step["step_name"] ?? "";
           instructionDescription = step["instruction"] ?? "";
           widgetInstructions = List<Map<String, dynamic>>.from(step["widgets"]["instructions"] ?? []);
           widgetActions = List<Map<String, dynamic>>.from(step["widgets"]["actions"] ?? []);
           isDataLoaded = true;
-
-          //same hein temporaire
-          args = ModalRoute.of(context)!.settings.arguments as dynamic;
-          chapter = args['chapter'];
-          course = chapter['courses'][args['index']];
         });
       }
     } catch (e) {
       print("Erreur lors du chargement des données : $e");
     }
   }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!isDataLoaded) {
+      args = ModalRoute.of(context)!.settings.arguments as dynamic;
+      chapter = args['chapter'];
+      course = chapter['courses'][args['index']];
+
+      loadData();
+    }
+  }
+
 
   void nextStep() {
     if (currentStep < allSteps - 1) {
@@ -118,7 +123,7 @@ class _CoursePage extends State<CoursePage> {
           children: [
             Column(
               children: [
-                LinearProgressIndicator(value: stepId / allSteps),
+                LinearProgressIndicator(value: currentStep / allSteps),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Container(
@@ -173,9 +178,9 @@ class _CoursePage extends State<CoursePage> {
     print('Display un widget : $widgetData');
     switch (widgetData["type"]) {
       case "image":
-        return imageWidget(context, widgetData["data"], widgetData["description"]);
-      case "input_text":
-        return inputTextWidget(context, widgetData["expected_value"], widgetData["description"], nextStep);
+        return imageWidget(context, widgetData["expected_value"], widgetData["description"]);
+      case "input_text": // data => change en expected value
+        return inputTextWidget(context, widgetData["data"], widgetData["description"], nextStep);
       default:
         return const SizedBox(); // Widget vide si type inconnu
     }
