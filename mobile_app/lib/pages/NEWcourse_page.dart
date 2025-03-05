@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:mobile_app/utils/actionsWidgets.dart';
-import 'package:mobile_app/utils/instructionsWidgets.dart';
+import 'package:mobile_app/utils/actions_widgets.dart';
+import 'package:mobile_app/utils/instructions_widgets.dart';
 import 'package:mobile_app/services/course_service.dart';
 
 class CoursePage extends StatefulWidget {
 
   // temporaire juste pour avoir le truc de fin
-  final dynamic courses;
+  final int courseId;
 
-  const CoursePage({super.key, required this.courses});
+  const CoursePage({super.key, required this.courseId});
 
   @override
   _CoursePage createState() => _CoursePage();
@@ -37,9 +35,8 @@ class _CoursePage extends State<CoursePage> {
 
   Future<void> loadData() async {
     try {
-      int courseId = 1; //tmp a récup correctement
 
-      List<dynamic> jsonData = await _courseService.fetchSteps(courseId);
+      List<dynamic> jsonData = await _courseService.fetchSteps(widget.courseId);
 
       if (jsonData.isNotEmpty) {
         Map<String, dynamic> step = jsonData[currentStep];
@@ -177,11 +174,11 @@ class _CoursePage extends State<CoursePage> {
     print('Display un widget : $widgetData');
     switch (widgetData["type"]) {
       case "image":
-        return imageWidget(context, widgetData["expected_value"], widgetData["description"]);
-      case "input_text": // data => change en expected value
-        return inputTextWidget(context, widgetData["data"], widgetData["description"], nextStep);
+        return imageWidget(context, widgetData["data"], widgetData["description"]);
+      case "input_text":
+        return inputTextWidget(context, widgetData["expected_value"], widgetData["description"], nextStep);
       default:
-        return const SizedBox(); // Widget vide si type inconnu
+        return const SizedBox();
     }
   }
 }
