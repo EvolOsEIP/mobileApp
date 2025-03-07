@@ -5,47 +5,49 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile_app/utils/navbar.dart';
 
-Future requestApi(endpoint, path, body, header, type) async {
-  var url = Uri.http(endpoint, path);
-  // var url = Uri.parse(endpoint);
-
-  dynamic response;
+Future<List<dynamic>> fetchModules(header) async {
+  print(header);
+  var url = Uri.http('10.0.2.2:3000', '/api/modules');
   try {
-    if (type == 'get') {
-      response = await http.get(url, headers: header);
-    } else if (type == 'update') {
-      response = await http.put(url, body: body, headers: header);
-    } else if (type == 'post') {
-      response = await http.post(url, body: body, headers: header);
+    final response = await http.get(url, headers: header);
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to load modules');
     }
-    print(response.body);
-    return response;
   } catch (e) {
     print('Error: $e');
+    return [];
   }
 }
 
 class RoadmapPage extends StatelessWidget {
-  var request = requestApi(
-      '10.0.2.2:3000', '/api/modules', {}, {'Authorization': ''}, 'get');
-  final String jsonData =
-      '[{"title": "Module 1", "courses": [{"title": "Course 1", "stars": 3, "status": "done"}, {"title": "Course 2", "stars": 2, "status": "current"}, {"title": "Course 3", "stars": 0, "status": "locked"}], "evaluation": "Evaluation 1"}]';
-
   @override
   Widget build(BuildContext context) {
-    List<dynamic> modules = jsonDecode(jsonData);
-
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 50),
-            RoadmapListWidget(modules: modules),
-          ],
-        ),
+      body: FutureBuilder<List<dynamic>>(
+        future:
+            fetchModules({'Authorization': dotenv.env['API_KEY'].toString()}),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error loading roadmap'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No modules available'));
+          }
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 50),
+                RoadmapListWidget(modules: snapshot.data!),
+              ],
+            ),
+          );
+        },
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(10.0), // Marge autour de la navbar
+        padding: const EdgeInsets.all(10.0),
         child: CustomNavbar(
             profileImageUrl:
                 "https://randomuser.me/api/portraits/women/44.jpg"),
@@ -66,11 +68,8 @@ class RoadmapListWidget extends StatelessWidget {
           .map((module) => Column(
                 children: [
                   RoadmapSection(
-                    title: module['title'],
-                    roadmap: RoadmapWidget(
-                      courses: module['courses'],
-                      evaluation: module['evaluation'],
-                    ),
+                    title: module['modulename'],
+                    roadmap: RoadmapWidget(courses: module['courses']),
                   ),
                   SizedBox(height: 20),
                 ],
@@ -101,116 +100,46 @@ class RoadmapSection extends StatelessWidget {
 
 class RoadmapWidget extends StatelessWidget {
   final List<dynamic> courses;
-  final String evaluation;
 
-  RoadmapWidget({required this.courses, required this.evaluation});
+  RoadmapWidget({required this.courses});
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        ...courses.asMap().entries.map((entry) {
-          int index = entry.key;
-          var course = entry.value;
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: Align(
-              alignment:
-                  index % 2 == 0 ? Alignment.centerLeft : Alignment.centerRight,
-              child: CourseHexagon(
-                title: course['title'],
-                stars: course['stars'],
-                status: course['status'],
-              ),
-            ),
-          );
-        }).toList(),
-        SizedBox(height: 30),
-        Center(child: EvaluationHexagon(title: evaluation)),
-        SizedBox(height: 50),
-      ],
+      children: courses
+          .map((course) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Align(
+                  alignment: (course['courseIndex'] % 2 == 0)
+                      ? Alignment.centerLeft
+                      : Alignment.centerRight,
+                  child: CourseHexagon(title: course['title']),
+                ),
+              ))
+          .toList(),
     );
   }
 }
 
 class CourseHexagon extends StatelessWidget {
   final String title;
-  final int stars;
-  final String status;
 
-  CourseHexagon(
-      {required this.title, required this.stars, required this.status});
-
-  Color getHexagonColor() {
-    switch (status) {
-      case "done":
-        return Color(0xFF7FD1B9);
-      case "current":
-        return Color(0xFFF6AE2D);
-      default:
-        return Color(0xFFB09E99);
-    }
-  }
+  CourseHexagon({required this.title});
 
   @override
   Widget build(BuildContext context) {
-    double size = 100.0 + Random().nextInt(20);
-    return Column(
-      children: [
-        ClipPath(
-          clipper: HexagonClipper(),
-          child: Container(
-            width: size,
-            height: size,
-            color: getHexagonColor(),
-            child: Stack(
-              children: [
-                Center(
-                    child: Text(title,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white))),
-                if (status == "locked")
-                  Positioned(
-                      right: 5,
-                      top: 5,
-                      child: Icon(Icons.lock, color: Colors.white)),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(height: 5),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(
-              3,
-              (index) => Icon(
-                    index < stars ? Icons.star : Icons.star_border,
-                    color: Colors.black,
-                    size: 16,
-                  )),
-        )
-      ],
-    );
-  }
-}
-
-class EvaluationHexagon extends StatelessWidget {
-  final String title;
-
-  EvaluationHexagon({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
+    double size = 100.0;
     return ClipPath(
       clipper: HexagonClipper(),
       child: Container(
-        width: 150,
-        height: 150,
-        color: Color(0xFF227c9d),
+        width: size,
+        height: size,
+        color: Color(0xFF7FD1B9),
         child: Center(
-            child: Text(title,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white))),
+          child: Text(title,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white)),
+        ),
       ),
     );
   }
