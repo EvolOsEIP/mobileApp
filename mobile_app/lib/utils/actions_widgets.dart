@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-// Widget pour le champ de texte
+/// Widget that displays a text input field for user interaction.
+///
+/// [context] - The build context.
+/// [expectedValue] - The correct value expected from the user.
+/// [description] - .
+/// [nextStep] - Callback function triggered when the correct input is submitted.
 Widget inputTextWidget(BuildContext context, String expectedValue, String description, VoidCallback nextStep) {
   TextEditingController controller = TextEditingController();
 
