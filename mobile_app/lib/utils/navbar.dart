@@ -36,12 +36,18 @@ class CustomNavbar extends StatelessWidget {
           ClipRRect(
             borderRadius:
                 BorderRadius.circular(avatarSize * 0.5), // Cercle parfait
-            child: Image.network(
-              profileImageUrl,
+            child: Image.asset(
+              'assets/images/44.jpg',
               width: avatarSize,
               height: avatarSize,
               fit: BoxFit.cover,
             ),
+//            child: Image.network(
+//              profileImageUrl,
+//              width: avatarSize,
+//              height: avatarSize,
+//              fit: BoxFit.cover,
+//            ),
           ),
           // Icône centrale (livre)
           IconButton(

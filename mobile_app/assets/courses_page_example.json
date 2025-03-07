@@ -9,21 +9,20 @@
       "instructions": [
         {
           "type": "image",
-          "data" : "unNaffaire.png",
-          "description" : "cette image montre un singe qui se pendouille LOLILOL"
+          "data" : "assets/images/modules/1_basics/ch1/course1/step1.png",
+          "description" : "cette image montre ... "
         },
         {
           "type": "image",
-          "data" : "un naffaire2.png",
-          "description" : "cette image montre un singe qui se pendouille LOLILOL2"
+          "data" : "assets/images/modules/1_basics/ch1/course1/step3.png",
+          "description" : "cette image montre ... "
         }
-
       ],
       "actions": [
         {
           "type" : "input_text",
           "expected_value" : "je veux ca et pas autre chose.",
-          "description" : "si t'es aveugle en gros j'attends que tu écrives ${expected_value} ici"
+          "description" : " "
         }
       ]
     }
@@ -38,15 +37,15 @@
       "instructions": [
         {
           "type": "input_text",
-          "expected_value" : "je veux ca et pas autre chose.",
-          "description" : "si t'es aveugle en gros j'attends que tu écrives ${expected_value} ici"
+          "expected_value" : "Je veux ca et pas autre chose.",
+          "description" : " "
         }
       ],
       "actions": [
         {
           "type" : "image",
-          "data" : "un naffaire.png",
-          "description" : "cette image montre un singe qui se pendouille LOLILOL"
+          "data" : "assets/images/modules/1_basics/ch1/course1/step3.png",
+          "description" : "cette image montre ... "
         }
       ]
     }
