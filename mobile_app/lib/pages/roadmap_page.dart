@@ -4,6 +4,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile_app/utils/navbar.dart';
+import 'package:mobile_app/pages/course_page.dart';
+import 'package:mobile_app/utils/colors.dart';
+import 'package:hexagon/hexagon.dart';
 
 Future<List<dynamic>> fetchModules(header) async {
   print(header);
@@ -39,7 +42,9 @@ class RoadmapPage extends StatelessWidget {
           return SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: 50),
+                SizedBox(height: 20),
+                Image.asset('assets/images/logo.png', height: 100),
+                SizedBox(height: 20),
                 RoadmapListWidget(modules: snapshot.data!),
               ],
             ),
@@ -71,7 +76,7 @@ class RoadmapListWidget extends StatelessWidget {
                     title: module['modulename'],
                     roadmap: RoadmapWidget(courses: module['courses']),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                 ],
               ))
           .toList(),
@@ -89,10 +94,44 @@ class RoadmapSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(title,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        DividerWidget(title: title, context: context),
         SizedBox(height: 10),
         roadmap,
+      ],
+    );
+  }
+}
+
+class DividerWidget extends StatelessWidget {
+  final String title;
+  final BuildContext context;
+
+  DividerWidget({required this.title, required this.context});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Divider(
+            thickness: 1,
+            color: CustomColors.primary,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Text(title,
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: CustomColors.primary)),
+        ),
+        Expanded(
+          child: Divider(
+            thickness: 1,
+            color: CustomColors.primary,
+          ),
+        ),
       ],
     );
   }
@@ -113,7 +152,11 @@ class RoadmapWidget extends StatelessWidget {
                   alignment: (course['courseIndex'] % 2 == 0)
                       ? Alignment.centerLeft
                       : Alignment.centerRight,
-                  child: CourseHexagon(title: course['title']),
+                  child: CourseHexagon(
+                    title: course['title'],
+                    courseId: course['courseId'],
+                    description: course['description'],
+                  ),
                 ),
               ))
           .toList(),
@@ -123,48 +166,68 @@ class RoadmapWidget extends StatelessWidget {
 
 class CourseHexagon extends StatelessWidget {
   final String title;
+  final int courseId;
+  final String description;
 
-  CourseHexagon({required this.title});
+  CourseHexagon(
+      {required this.title, required this.courseId, required this.description});
 
   @override
   Widget build(BuildContext context) {
-    double size = 100.0;
-    return ClipPath(
-      clipper: HexagonClipper(),
-      child: Container(
-        width: size,
-        height: size,
-        color: Color(0xFF7FD1B9),
-        child: Center(
-          child: Text(title,
+    double textWidth = (title.length * 4.0).clamp(80.0, 200.0);
+    double size = textWidth + 20;
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+              side: const BorderSide(color: Color.fromRGBO(55, 190, 240, 1)),
+            ),
+            title: Text(
+              title,
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white)),
+              style: TextStyle(fontWeight: FontWeight.bold),
+              overflow: TextOverflow.visible,
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(description, textAlign: TextAlign.center),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CoursePage(courses: courseId),
+                      ),
+                    );
+                  },
+                  child: Text("Play"),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+      child: HexagonWidget.pointy(
+        width: size,
+        color: CustomColors.accent,
+        elevation: 10,
+        child: Center(
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: textWidth / 8,
+            ),
+          ),
         ),
       ),
     );
   }
-}
-
-class HexagonClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final path = Path();
-    final w = size.width;
-    final h = size.height;
-    final a = w / 2;
-    final b = sqrt(3) / 2 * a;
-
-    path.moveTo(a, 0);
-    path.lineTo(w, b);
-    path.lineTo(w, h - b);
-    path.lineTo(a, h);
-    path.lineTo(0, h - b);
-    path.lineTo(0, b);
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

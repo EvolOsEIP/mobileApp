@@ -39,6 +39,7 @@ dependencies:
   flutter_native_splash: ^2.4.4
   http: ^1.3.0
   flutter_dotenv: ^5.2.1
+  hexagon: ^0.2.0
 
 
 dev_dependencies:
