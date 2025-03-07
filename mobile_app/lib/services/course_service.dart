@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 class CourseService {
@@ -21,6 +22,18 @@ class CourseService {
       }
     } catch (e) {
       throw Exception("Network error : $e");
+    }
+  }
+
+  Future<List<dynamic>> fetchStepsFromJson(String filePath) async {
+    try {
+      print("try to get step from json");
+      final String jsonString = await rootBundle.loadString(filePath);
+      final List<dynamic> jsonData = jsonDecode(jsonString);
+      print("JSON chargé : $jsonData");  // DEBUG
+      return jsonData;
+    } catch (e) {
+      throw Exception("Failed to load local JSON: $e");
     }
   }
 }
