@@ -3,10 +3,14 @@ import 'package:mobile_app/utils/actions_widgets.dart';
 import 'package:mobile_app/utils/instructions_widgets.dart';
 import 'package:mobile_app/services/course_service.dart';
 
+/// A stateful widget representing a course page.
+///
+/// This page dynamically loads and displays course steps
 class CoursePage extends StatefulWidget {
 
   final dynamic courseId;
 
+  /// Constructor requiring a [courseId] to load the respective course data.
   const CoursePage({super.key, required this.courseId});
 
   @override
@@ -22,12 +26,13 @@ class _CoursePage extends State<CoursePage> {
   List<Map<String, dynamic>> widgetInstructions = [];
   List<Map<String, dynamic>> widgetActions = [];
 
-  // temporaire juste pour avoir le truc de fin
+  /// Temporary variables used for course navigation and completion.
   dynamic chapter;
   dynamic args;
   dynamic course;
   /// FINNNN
 
+  /// Flag to check if data has been loaded.
   bool isDataLoaded = false;
 
   final CourseService _courseService = CourseService();
@@ -35,6 +40,8 @@ class _CoursePage extends State<CoursePage> {
   Future<void> loadData() async {
     try {
       // List<dynamic> jsonData = await _courseService.fetchSteps(widget.courseId);
+
+      // Fetch course steps from a local JSON file (for now, instead of an API call)
       List<dynamic> jsonData = await _courseService.fetchStepsFromJson("assets/courses_page_example.json");
 
       if (jsonData.isNotEmpty) {
@@ -66,7 +73,7 @@ class _CoursePage extends State<CoursePage> {
     }
   }
 
-
+  /// Moves to the next step if available, otherwise shows the completion dialog.
   void nextStep() {
     if (currentStep < allSteps - 1) {
       setState(() {
@@ -169,6 +176,9 @@ class _CoursePage extends State<CoursePage> {
     );
   }
 
+  /// Displays a widget based on its type.
+  ///
+  /// Supports "image" and "input_text" widgets. Returns an empty widget for unknown types.
   Widget displayWidget(Map<String, dynamic> widgetData, BuildContext context) {
     switch (widgetData["type"]) {
       case "image":
