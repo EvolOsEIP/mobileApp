@@ -1,6 +1,11 @@
 [
   {
     "title": "Étape 1 : À vos lettres ! \uD83D\uDD20",
+    "dialogs": [
+      "Bonjour et bienvenue dans votre premier cours de maîtrise du clavier ! \uD83C\uDF89",
+      "Aujourd'hui, on va commencer doucement : \nvotre mission est de recopier une phrase simple.",
+      "Prêt(e) ? Allez, à vos claviers !"
+    ],
     "stepId": 1,
     "instructions": "Tapez le mot affiché à l'écran en utilisant uniquement des lettres minuscules. Prenez votre temps pour trouver les bonnes touches.",
     "widgets": {

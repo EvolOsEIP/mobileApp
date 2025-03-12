@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app/utils/actions_widgets.dart';
 import 'package:mobile_app/utils/instructions_widgets.dart';
 import 'package:mobile_app/services/course_service.dart';
+import '../utils/assistant.dart';
 
 /// A stateful widget representing a course page.
 ///
@@ -19,6 +20,9 @@ class CoursePage extends StatefulWidget {
 }
 
 class _CoursePage extends State<CoursePage> {
+  dynamic dialogs;
+  int currentDialogIndex = 0;
+
   String stepName = '';
   int allSteps = 0;
   int currentStep = 0;
@@ -53,6 +57,7 @@ class _CoursePage extends State<CoursePage> {
           widgetInstructions = List<Map<String, dynamic>>.from(step["widgets"]["instructions"] ?? []);
           widgetActions = List<Map<String, dynamic>>.from(step["widgets"]["actions"] ?? []);
           allSteps = jsonData.length;
+          dialogs = step["dialogs"] ?? [];
           isDataLoaded = true;
         });
       }
@@ -169,6 +174,17 @@ class _CoursePage extends State<CoursePage> {
                 ),
               ],
             ),
+            if (dialogs != null && dialogs.isNotEmpty)
+              Positioned.fill(
+                child: Assistant(
+                  dialogs: dialogs,
+                  onComplete: () {
+                    setState(() {
+                      dialogs = [];
+                    });
+                  },
+                ),
+              ),
           ],
         ),
       )
