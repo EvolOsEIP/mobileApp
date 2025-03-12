@@ -48,8 +48,8 @@ class _CoursePage extends State<CoursePage> {
         Map<String, dynamic> step = jsonData[currentStep];
 
         setState(() {
-          stepName = step["step_name"] ?? "";
-          instructionDescription = step["instruction"] ?? "";
+          stepName = step["title"] ?? "";
+          instructionDescription = step["instructions"] ?? "";
           widgetInstructions = List<Map<String, dynamic>>.from(step["widgets"]["instructions"] ?? []);
           widgetActions = List<Map<String, dynamic>>.from(step["widgets"]["actions"] ?? []);
           allSteps = jsonData.length;
