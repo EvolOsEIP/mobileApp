@@ -10,7 +10,7 @@ import 'package:hexagon/hexagon.dart';
 
 Future<List<dynamic>> fetchModules(header) async {
   print(header);
-  var url = Uri.http('10.0.2.2:3000', '/api/modules');
+  var url = Uri.http(dotenv.env["HOST_URL"].toString(), '/api/modules');
   try {
     final response = await http.get(url, headers: header);
     if (response.statusCode == 200) {
