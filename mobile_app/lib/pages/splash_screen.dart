@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:mobile_app/pages/home_page.dart';
 import 'package:mobile_app/pages/roadmap_page.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -12,7 +11,7 @@ class SplashScreen extends StatelessWidget {
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const HomePage(), // Pass your courses here
+          builder: (context) => RoadmapPage(), // Pass your courses here
         ),
       );
     });

@@ -8,7 +8,6 @@ import '../utils/assistant.dart';
 ///
 /// This page dynamically loads and displays course steps
 class CoursePage extends StatefulWidget {
-
   final dynamic courseId;
 
   /// Constructor requiring a [courseId] to load the respective course data.
@@ -16,7 +15,6 @@ class CoursePage extends StatefulWidget {
 
   @override
   _CoursePage createState() => _CoursePage();
-
 }
 
 class _CoursePage extends State<CoursePage> {
@@ -34,6 +32,7 @@ class _CoursePage extends State<CoursePage> {
   dynamic chapter;
   dynamic args;
   dynamic course;
+
   /// FINNNN
 
   /// Flag to check if data has been loaded.
@@ -43,19 +42,23 @@ class _CoursePage extends State<CoursePage> {
 
   Future<void> loadData() async {
     try {
+      // print("Chargement des données du cours... num : ${widget.courseId}");
       // List<dynamic> jsonData = await _courseService.fetchSteps(widget.courseId);
+      // print('jsonData : $jsonData');
 
       // Fetch course steps from a local JSON file (for now, instead of an API call)
-      List<dynamic> jsonData = await _courseService.fetchStepsFromJson("assets/courses_page_example.json");
+      List<dynamic> jsonData = await _courseService
+          .fetchStepsFromJson("assets/courses_page_example.json");
 
       if (jsonData.isNotEmpty) {
         Map<String, dynamic> step = jsonData[currentStep];
-
         setState(() {
           stepName = step["title"] ?? "";
           instructionDescription = step["instructions"] ?? "";
-          widgetInstructions = List<Map<String, dynamic>>.from(step["widgets"]["instructions"] ?? []);
-          widgetActions = List<Map<String, dynamic>>.from(step["widgets"]["actions"] ?? []);
+          widgetInstructions = List<Map<String, dynamic>>.from(
+              step["widgets"]["instructions"] ?? []);
+          widgetActions =
+              List<Map<String, dynamic>>.from(step["widgets"]["actions"] ?? []);
           allSteps = jsonData.length;
           dialogs = step["dialogs"] ?? [];
           isDataLoaded = true;
@@ -71,9 +74,6 @@ class _CoursePage extends State<CoursePage> {
     super.didChangeDependencies();
 
     if (!isDataLoaded) {
-      args = ModalRoute.of(context)!.settings.arguments as dynamic;
-      chapter = args['chapter'];
-      course = chapter['courses'][args['index']];
       loadData();
     }
   }
@@ -102,7 +102,7 @@ class _CoursePage extends State<CoursePage> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/courses', arguments: chapter);
+              Navigator.pushNamed(context, '/roadmap', arguments: chapter);
             },
             child: const Text("OK"),
           )
@@ -117,7 +117,7 @@ class _CoursePage extends State<CoursePage> {
       appBar: AppBar(
         elevation: 0,
         title: const Text(
-          'Chapters',
+          'Cours',
           style: TextStyle(
             color: Colors.black,
             fontSize: 20,
@@ -126,68 +126,70 @@ class _CoursePage extends State<CoursePage> {
       ),
       body: isDataLoaded
           ? SafeArea(
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                LinearProgressIndicator(value: currentStep / allSteps),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      margin: const EdgeInsets.all(20.0),
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8.0),
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      LinearProgressIndicator(value: currentStep / allSteps),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Container(
+                            margin: const EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(16.0),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  stepName,
+                                  style: const TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 20.0),
+                                Text(
+                                  instructionDescription,
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(height: 20.0),
+                                for (var instruction in widgetInstructions)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16.0),
+                                    child: displayWidget(instruction, context),
+                                  ),
+                                const SizedBox(height: 16.0),
+                                for (var action in widgetActions)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16.0),
+                                    child: displayWidget(action, context),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            stepName,
-                            style: const TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 20.0),
-                          Text(
-                            instructionDescription,
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          const SizedBox(height: 20.0),
-                          for (var instruction in widgetInstructions)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
-                              child: displayWidget(instruction, context),
-                            ),
-                          const SizedBox(height: 16.0),
-                          for (var action in widgetActions)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
-                              child: displayWidget(action, context),
-                            ),
-                        ],
+                    ],
+                  ),
+                  if (dialogs != null && dialogs.isNotEmpty)
+                    Positioned.fill(
+                      child: Assistant(
+                        dialogs: dialogs,
+                        onComplete: () {
+                          setState(() {
+                            dialogs = [];
+                          });
+                        },
                       ),
                     ),
-                  ),
-                ),
-              ],
-            ),
-            if (dialogs != null && dialogs.isNotEmpty)
-              Positioned.fill(
-                child: Assistant(
-                  dialogs: dialogs,
-                  onComplete: () {
-                    setState(() {
-                      dialogs = [];
-                    });
-                  },
-                ),
+                ],
               ),
-          ],
-        ),
-      )
+            )
           : const Center(child: CircularProgressIndicator()),
     );
   }
@@ -198,9 +200,13 @@ class _CoursePage extends State<CoursePage> {
   Widget displayWidget(Map<String, dynamic> widgetData, BuildContext context) {
     switch (widgetData["type"]) {
       case "image":
-        return imageWidget(context, widgetData["data"], widgetData["description"]);
+        return imageWidget(
+            context, widgetData["data"], widgetData["description"]);
       case "input_text": // data => change en expected value
-        return InputTextWidget(expectedValue: widgetData["expected_value"], description: widgetData["description"], nextStep: nextStep);
+        return InputTextWidget(
+            expectedValue: widgetData["expected_value"],
+            description: widgetData["description"],
+            nextStep: nextStep);
       default:
         return const SizedBox(); // Widget vide si type inconnu
     }
