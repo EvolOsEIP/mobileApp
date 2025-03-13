@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 // A utility class to define custom colors for the app theme

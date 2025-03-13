@@ -19,6 +19,7 @@
       "instructions": [
         {
           "type": "image",
+
           "description": " ",
           "data": "assets/images/modules/1_basics/ch1/course1/step1.png"
         }
@@ -35,6 +36,7 @@
           "type": "input_text",
           "description": " ",
           "expected_value": "Bonjour"
+
         }
       ],
       "instructions": [
@@ -42,6 +44,7 @@
           "type": "image",
           "description": " ",
           "data": "assets/images/modules/1_basics/ch1/course1/step2.png"
+
         }
       ]
     }
@@ -54,8 +57,10 @@
       "actions": [
         {
           "type": "input_text",
+
           "description": " ",
           "expected_value": "bonjour mon ami"
+
         }
       ],
       "instructions": [
@@ -74,6 +79,7 @@
     "widgets": {
       "actions": [
         {
+
           "type": "input_text",
           "description": " ",
           "expected_value": "Bonjour Pierre"
@@ -84,6 +90,7 @@
           "type": "image",
           "description": " ",
           "data": "assets/images/modules/1_basics/ch1/course1/step4.png"
+
         }
       ]
     }

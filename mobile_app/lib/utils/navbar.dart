@@ -33,14 +33,27 @@ class CustomNavbar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween, // Espacement égal
         children: [
           // Image de profil responsive
-          ClipRRect(
-            borderRadius:
-                BorderRadius.circular(avatarSize * 0.5), // Cercle parfait
-            child: Image.network(
-              profileImageUrl,
-              width: avatarSize,
-              height: avatarSize,
-              fit: BoxFit.cover,
+          GestureDetector(
+            onTap: () {
+              if (ModalRoute.of(context)!.settings.name != '/profile')
+                Navigator.pushNamed(context, '/profile');
+            },
+            child:
+            ClipRRect(
+              borderRadius:
+                  BorderRadius.circular(avatarSize * 0.5), // Cercle parfait
+              child: Image.asset(
+                'assets/images/44.jpg',
+                width: avatarSize,
+                height: avatarSize,
+                fit: BoxFit.cover,
+              ),
+  //            child: Image.network(
+  //              profileImageUrl,
+  //              width: avatarSize,
+  //              height: avatarSize,
+  //              fit: BoxFit.cover,
+  //            ),
             ),
           ),
           // Icône centrale (livre)
@@ -48,6 +61,8 @@ class CustomNavbar extends StatelessWidget {
             icon: Icon(Icons.menu_book,
                 color: CustomColors.dark_accent, size: iconSize),
             onPressed: () {
+              if (ModalRoute.of(context)!.settings.name != '/roadmap')
+                Navigator.pushNamed(context, '/roadmap');
               // Action bouton du centre
             },
           ),
@@ -60,7 +75,6 @@ class CustomNavbar extends StatelessWidget {
               // avoid pushNamed to the same route
               if (ModalRoute.of(context)!.settings.name != '/userprogress')
                 Navigator.pushNamed(context, '/userprogress');
-
             },
           ),
         ],
