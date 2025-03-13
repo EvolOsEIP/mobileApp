@@ -1,28 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:mobile_app/utils/colors.dart';
-
-// Composant Navbar
-class CustomNavbar extends StatelessWidget {
-  final int currentIndex;
-  final Function(int) onTap;
-
-  const CustomNavbar(
-      {super.key, required this.currentIndex, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: currentIndex,
-      onTap: onTap,
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: "Accueil"),
-        BottomNavigationBarItem(icon: Icon(Icons.book), label: "Modules"),
-        BottomNavigationBarItem(icon: Icon(Icons.star), label: "Favoris"),
-      ],
-    );
-  }
-}
+import 'package:mobile_app/utils/navbar.dart';
 
 // Page de profil
 class ProfilePage extends StatefulWidget {
@@ -231,6 +210,12 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: CustomNavbar(
+            profileImageUrl:
+                "https://randomuser.me/api/portraits/women/44.jpg"),
       ),
     );
   }
