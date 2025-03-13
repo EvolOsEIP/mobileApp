@@ -1,0 +1,26 @@
+var course__page_8dart =
+[
+    [ "StatefulWidget", "classStatefulWidget.html", null ],
+    [ "_nextInstruction", "course__page_8dart.html#a28b3685c222ccdcd08d5e9edbc875e44", null ],
+    [ "_showCompletionDialog", "course__page_8dart.html#a1233cbc904949cf4555784d01eb63b32", null ],
+    [ "build", "course__page_8dart.html#ab022cbdb8080a3d9d6ccf33cead2b33a", null ],
+    [ "didChangeDependencies", "course__page_8dart.html#a673a0da9acac183db73fa397f8b2de12", null ],
+    [ "dispose", "course__page_8dart.html#acc340fabce6d1fd6056b3c2e871d98d2", null ],
+    [ "initState", "course__page_8dart.html#ab339d53d3945a16dfdd20004616a8ddc", null ],
+    [ "_inputController", "course__page_8dart.html#a193e0c171154e19cdf16adcdf363b767", null ],
+    [ "args", "course__page_8dart.html#a0184527e20a111a6791dc3220c75af67", null ],
+    [ "blinkTimer", "course__page_8dart.html#a9912f635126d801a388d00f1e29ca710", null ],
+    [ "chapter", "course__page_8dart.html#a1155db17e310592cdaa65ec5b23acc62", null ],
+    [ "course", "course__page_8dart.html#aa5311147e25d59e5a9c8ec9d7ac1371d", null ],
+    [ "currentDialogIndex", "course__page_8dart.html#a8a4a0edf01dd5335a94c1ec336e96232", null ],
+    [ "currentInstruction", "course__page_8dart.html#aed79e6b4cacaffe35a9158cf85c5afd9", null ],
+    [ "currentInstructionImage", "course__page_8dart.html#a02677f9af516ad0dcb56721fd98208b7", null ],
+    [ "currentInstructionIndex", "course__page_8dart.html#adb2f5c92e0ca878961a591e94b89ab11", null ],
+    [ "descriptionInstruction", "course__page_8dart.html#a1942655380c634cc071f3daad564ab25", null ],
+    [ "dialogs", "course__page_8dart.html#aa9c08628499f0c197193f3c11eee84e2", null ],
+    [ "displayedText", "course__page_8dart.html#a5d50bba09663b672394f102d22dad323", null ],
+    [ "errorMessage", "course__page_8dart.html#a0121fdee23cc2709b872002250397c2c", null ],
+    [ "expectations", "course__page_8dart.html#a897873861ac98d83bf0c62f829620f54", null ],
+    [ "isBlinking", "course__page_8dart.html#a2f7636df8b2a22914ee5e8a96139b655", null ],
+    [ "isTyping", "course__page_8dart.html#ac0a766824cf90331e9bc42d462cb2623", null ]
+];
