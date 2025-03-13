@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:mobile_app/utils/actionsWidgets.dart';
-import 'package:mobile_app/utils/instructionsWidgets.dart';
+import 'package:mobile_app/utils/actions_widgets.dart';
+import 'package:mobile_app/utils/instructions_widgets.dart';
+import 'package:mobile_app/services/course_service.dart';
+import '../utils/assistant.dart';
 
+/// A stateful widget representing a course page.
+///
+/// This page dynamically loads and displays course steps
 class CoursePage extends StatefulWidget {
 
-  // temporaire juste pour avoir le truc de fin
-  final dynamic courses;
+  final dynamic courseId;
 
-  const CoursePage({super.key, required this.courses});
+  /// Constructor requiring a [courseId] to load the respective course data.
+  const CoursePage({super.key, required this.courseId});
 
   @override
   _CoursePage createState() => _CoursePage();
@@ -17,49 +20,45 @@ class CoursePage extends StatefulWidget {
 }
 
 class _CoursePage extends State<CoursePage> {
+  dynamic dialogs;
+  int currentDialogIndex = 0;
+
   String stepName = '';
-  int stepId = 0;
-  int allSteps = 0; // mettre dans le truc d'info cours plutot que dans chaque step
-  int currentStep = 0; // mettre dans le truc cours info egalement
+  int allSteps = 0;
+  int currentStep = 0;
   String instructionDescription = '';
   List<Map<String, dynamic>> widgetInstructions = [];
   List<Map<String, dynamic>> widgetActions = [];
 
-  // temporaire juste pour avoir le truc de fin
+  /// Temporary variables used for course navigation and completion.
   dynamic chapter;
   dynamic args;
   dynamic course;
   /// FINNNN
 
+  /// Flag to check if data has been loaded.
   bool isDataLoaded = false;
 
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
+  final CourseService _courseService = CourseService();
 
   Future<void> loadData() async {
     try {
-      String jsonString = await rootBundle.loadString('assets/courses_page_example.json');
-      List<dynamic> jsonData = jsonDecode(jsonString);
+      // List<dynamic> jsonData = await _courseService.fetchSteps(widget.courseId);
+
+      // Fetch course steps from a local JSON file (for now, instead of an API call)
+      List<dynamic> jsonData = await _courseService.fetchStepsFromJson("assets/courses_page_example.json");
 
       if (jsonData.isNotEmpty) {
-        Map<String, dynamic> step = jsonData[currentStep]; // l'id de la page /step
+        Map<String, dynamic> step = jsonData[currentStep];
 
         setState(() {
-          stepId = step["step_id"] ?? 0;
-          allSteps = step["all_steps"] ?? 1;
-          stepName = step["step_name"] ?? "";
-          instructionDescription = step["instruction"] ?? "";
+          stepName = step["title"] ?? "";
+          instructionDescription = step["instructions"] ?? "";
           widgetInstructions = List<Map<String, dynamic>>.from(step["widgets"]["instructions"] ?? []);
           widgetActions = List<Map<String, dynamic>>.from(step["widgets"]["actions"] ?? []);
+          allSteps = jsonData.length;
+          dialogs = step["dialogs"] ?? [];
           isDataLoaded = true;
-
-          //same hein temporaire
-          args = ModalRoute.of(context)!.settings.arguments as dynamic;
-          chapter = args['chapter'];
-          course = chapter['courses'][args['index']];
         });
       }
     } catch (e) {
@@ -67,6 +66,19 @@ class _CoursePage extends State<CoursePage> {
     }
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!isDataLoaded) {
+      args = ModalRoute.of(context)!.settings.arguments as dynamic;
+      chapter = args['chapter'];
+      course = chapter['courses'][args['index']];
+      loadData();
+    }
+  }
+
+  /// Moves to the next step if available, otherwise shows the completion dialog.
   void nextStep() {
     if (currentStep < allSteps - 1) {
       setState(() {
@@ -118,7 +130,7 @@ class _CoursePage extends State<CoursePage> {
           children: [
             Column(
               children: [
-                LinearProgressIndicator(value: stepId / allSteps),
+                LinearProgressIndicator(value: currentStep / allSteps),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Container(
@@ -162,6 +174,17 @@ class _CoursePage extends State<CoursePage> {
                 ),
               ],
             ),
+            if (dialogs != null && dialogs.isNotEmpty)
+              Positioned.fill(
+                child: Assistant(
+                  dialogs: dialogs,
+                  onComplete: () {
+                    setState(() {
+                      dialogs = [];
+                    });
+                  },
+                ),
+              ),
           ],
         ),
       )
@@ -169,13 +192,15 @@ class _CoursePage extends State<CoursePage> {
     );
   }
 
+  /// Displays a widget based on its type.
+  ///
+  /// Supports "image" and "input_text" widgets. Returns an empty widget for unknown types.
   Widget displayWidget(Map<String, dynamic> widgetData, BuildContext context) {
-    print('Display un widget : $widgetData');
     switch (widgetData["type"]) {
       case "image":
         return imageWidget(context, widgetData["data"], widgetData["description"]);
-      case "input_text":
-        return inputTextWidget(context, widgetData["expected_value"], widgetData["description"], nextStep);
+      case "input_text": // data => change en expected value
+        return InputTextWidget(expectedValue: widgetData["expected_value"], description: widgetData["description"], nextStep: nextStep);
       default:
         return const SizedBox(); // Widget vide si type inconnu
     }

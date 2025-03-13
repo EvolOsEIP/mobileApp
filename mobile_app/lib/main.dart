@@ -6,7 +6,6 @@ import 'package:mobile_app/pages/roadmap_page.dart';
 import 'package:mobile_app/pages/unit_list_page.dart';
 import 'package:mobile_app/pages/chapter_list_page.dart';
 import 'package:mobile_app/pages/courses_list_page.dart';
-// import 'package:mobile_app/pages/course_page.dart';
 import 'package:mobile_app/pages/NEWcourse_page.dart';
 import 'package:mobile_app/pages/home_page.dart';
 import 'package:mobile_app/pages/splash_screen.dart';
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Learning App',
+      title: 'Evolos',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const SplashScreen(),
       initialRoute: '/',
@@ -36,7 +35,7 @@ class MyApp extends StatelessWidget {
         '/units': (context) => const UnitListPage(),
         '/chapters': (context) => const ChapterListPage(units: null),
         '/courses': (context) => const CoursesListPage(chapter: null),
-        '/course_detail': (context) => const CoursePage(courses: 0),
+        '/course_detail': (context) => const CoursePage(courseId: 1),
         '/profile': (context) => const ProfilePage(),
         '/userprogress': (context) => const SuccessPage()
       },

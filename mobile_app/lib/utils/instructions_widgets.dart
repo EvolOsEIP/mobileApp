@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
-// Widget pour afficher une image
+/// Widget that displays an image with an optional description.
+///
+/// [context] - The build context.
+/// [imagePath] - The path to the image asset.
+/// [description] - A brief description of the image.
 Widget imageWidget(BuildContext context, String imagePath, String description) {
   return Column(
     children: [

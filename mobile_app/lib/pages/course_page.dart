@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../utils/assistant.dart';
-import 'course_page_utils.dart';
 
 /// This part is used to load courses content.
 ///
@@ -136,10 +135,7 @@ class _CoursePageState extends State<CoursePage> {
         }
       });
     } else {
-      setState(() {
-        errorMessage =
-            ErrorUtils.generateErrorMessage(userResponse, expectedResponse);
-      });
+
     }
   }
 
