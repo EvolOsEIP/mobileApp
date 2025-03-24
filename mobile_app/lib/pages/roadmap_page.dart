@@ -29,9 +29,7 @@ class RoadmapPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<List<dynamic>>(
-        future:
-            //I want my app to fetch the modules from the API and if it fails it load the modules from the local json file
-            Future.wait([
+        future: Future.wait([
           fetchModules({'Authorization': dotenv.env['API_KEY'].toString()}),
           DefaultAssetBundle.of(context)
               .loadString('assets/json/offline_modules.json')
