@@ -9,9 +9,9 @@ class CustomNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double navbarHeight = screenWidth * 0.10; // 5% de la largeur
-    double iconSize = screenWidth * 0.07; // 8% de la largeur
-    double avatarSize = screenWidth * 0.07; // 12% de la largeur
+    double navbarHeight = screenWidth * 0.10;
+    double iconSize = screenWidth * 0.07;
+    double avatarSize = screenWidth * 0.07;
 
     return Container(
       padding:
@@ -19,10 +19,10 @@ class CustomNavbar extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(
-            navbarHeight * 0.5), // Arrondi en fonction de la hauteur
+            navbarHeight * 0.5),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1), // Ombre légère
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             spreadRadius: 2,
             offset: const Offset(0, 4),
@@ -30,51 +30,42 @@ class CustomNavbar extends StatelessWidget {
         ],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Espacement égal
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Image de profil responsive
           GestureDetector(
             onTap: () {
-              if (ModalRoute.of(context)!.settings.name != '/profile')
+              if (ModalRoute.of(context)!.settings.name != '/profile') {
                 Navigator.pushNamed(context, '/profile');
+              }
             },
             child:
             ClipRRect(
               borderRadius:
-                  BorderRadius.circular(avatarSize * 0.5), // Cercle parfait
+                  BorderRadius.circular(avatarSize * 0.5),
               child: Image.asset(
                 'assets/images/44.jpg',
                 width: avatarSize,
                 height: avatarSize,
                 fit: BoxFit.cover,
               ),
-  //            child: Image.network(
-  //              profileImageUrl,
-  //              width: avatarSize,
-  //              height: avatarSize,
-  //              fit: BoxFit.cover,
-  //            ),
             ),
           ),
-          // Icône centrale (livre)
           IconButton(
             icon: Icon(Icons.menu_book,
                 color: CustomColors.dark_accent, size: iconSize),
             onPressed: () {
-              if (ModalRoute.of(context)!.settings.name != '/roadmap')
+              if (ModalRoute.of(context)!.settings.name != '/roadmap') {
                 Navigator.pushNamed(context, '/roadmap');
-              // Action bouton du centre
+              }
             },
           ),
-          // Icône étoile
           IconButton(
             icon: Icon(Icons.star_border,
                 color: CustomColors.dark_accent, size: iconSize),
             onPressed: () {
-              // Action bouton de droite
-              // avoid pushNamed to the same route
-              if (ModalRoute.of(context)!.settings.name != '/userprogress')
-                Navigator.pushNamed(context, '/userprogress');
+              if (ModalRoute.of(context)!.settings.name != '/success') {
+                Navigator.pushNamed(context, '/success');
+              }
             },
           ),
         ],

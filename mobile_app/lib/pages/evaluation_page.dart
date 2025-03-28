@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app/utils/actions_widgets.dart';
 import 'package:mobile_app/utils/instructions_widgets.dart';
 import 'package:mobile_app/services/evaluation_service.dart';
-import 'package:mobile_app/utils/loadJson.dart';
-import '../utils/assistant.dart';
+import 'package:mobile_app/utils/assistant.dart';
 
 /// A stateful widget representing a evaluation page.
 ///
@@ -37,12 +36,7 @@ class _EvaluationPage extends State<EvaluationPage> {
 
   Future<void> loadData() async {
     try {
-      // print("Chargement des données du cours... num : ${widget.evaluationId}");
-      // List<dynamic> jsonData = await _evaluationService.fetchSteps(widget.evaluationId);
-      // print('jsonData : $jsonData');
-
-      // Fetch evaluation steps from a local JSON file (for now, instead of an API call)
-      List<dynamic> jsonData = await fetchFromJson("assets/json/evaluations_pages.json");
+      List<dynamic> jsonData = await _evaluationService.fetchSteps(widget.evaluationId);
 
       if (jsonData.isNotEmpty) {
         Map<String, dynamic> step = jsonData[currentStep];

@@ -1,6 +1,5 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mobile_app/utils/fetchData.dart';
 
 /// Service class responsible for fetching information about course from an API
 class EvaluationService {
@@ -9,19 +8,17 @@ class EvaluationService {
   /// [evaluationId] - The ID of the course whose steps should be retrieved.
   /// Returns a list of step data if successful, otherwise throws an exception.
   Future<List<dynamic>> fetchSteps(int evaluationId) async {
-    var url = Uri.http(
-        dotenv.env["HOST_URL"].toString(), '/api/evaluations/$evaluationId/steps');
     try {
-      final response = await http.get(url,
+      List<dynamic> step = await fetchFromApi(
+          '/api/evaluations/$evaluationId/steps',
           headers: {'Authorization': dotenv.env['API_KEY'].toString()});
-      if (response.statusCode == 200) {
-        return jsonDecode(response.body);
-      } else {
-        throw Exception('Failed to load modules');
+      if (step.isEmpty) {
+        step = await fetchFromJson('assets/json/evaluations_pages.json');
       }
+      return step;
     } catch (e) {
-      print('Error: $e');
-      return [];
+      print("Error fetching from API, loading local JSON: $e");
+      return fetchFromJson('assets/json/evaluations_pages.json');
     }
   }
 }

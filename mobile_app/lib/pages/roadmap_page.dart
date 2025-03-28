@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile_app/pages/evaluation_page.dart';
 import 'package:mobile_app/utils/navbar.dart';
 import 'package:mobile_app/pages/course_page.dart';
@@ -8,13 +7,14 @@ import 'package:hexagon/hexagon.dart';
 import 'package:mobile_app/services/roadmap_service.dart';
 
 class RoadmapPage extends StatelessWidget {
+
+  final ModuleService moduleService = ModuleService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<List<dynamic>>(
-        future: fetchModules(
-            {'Authorization': dotenv.env['API_KEY']?.toString() ?? ''},
-            context),
+        future:moduleService.fetchModules(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -157,7 +157,6 @@ class RoadmapWidget extends StatelessWidget {
             ),
         ))
       ]
-          // .toList(),
     );
   }
 }
@@ -204,7 +203,7 @@ class CourseHexagon extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Text("Play"),
+                  child: Text("Commencer"),
                 ),
               ],
             ),
@@ -272,7 +271,7 @@ class EvaluationHexagon extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Text("Evaluate"),
+                  child: Text("Regarder"),
                 ),
               ],
             ),
