@@ -21,14 +21,12 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // App logo or icon
             Image.asset(
-              'assets/images/logo.png', // Replace with your logo file path
+              'assets/images/logo.png',
               width: 120,
               height: 120,
             ),
             const SizedBox(height: 20),
-            // App name or slogan
             const SizedBox(height: 30),
             const CircularProgressIndicator(
               color: Colors.orangeAccent,

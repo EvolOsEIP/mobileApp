@@ -37,6 +37,15 @@
             "instruction": "Follow steps to complete an online form.",
             "courseLevel": "Explorateur"
           }
-        ]
+        ],
+      "evaluation": {
+        "evaluationId": 2,
+        "title": "Evaluation demo 2",
+        "summary": "Ceci est une fausse évalutation qui a pour but de montrer à quoi celle-ci peut resssembler.",
+        "assistantDiag": "",
+        "badgeId": 2,
+        "scorePercentage": -1,
+        "badgeEarned": false
+      }
     }
 ]
