@@ -7,7 +7,7 @@ import 'package:mobile_app/pages/course_page.dart';
 import 'package:mobile_app/utils/colors.dart';
 import 'package:hexagon/hexagon.dart';
 
-Future<List<dynamic>> fetchModules(header) async {
+Future<List<dynamic>> fetchModules(header, context) async {
 
   var url = Uri.http(dotenv.env["HOST_URL"].toString(), '/api/modules');
   try {
