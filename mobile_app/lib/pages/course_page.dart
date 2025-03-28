@@ -1,141 +1,92 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:mobile_app/utils/actions_widgets.dart';
+import 'package:mobile_app/utils/instructions_widgets.dart';
+import 'package:mobile_app/services/course_service.dart';
 import '../utils/assistant.dart';
 
-/// This part is used to load courses content.
+/// A stateful widget representing a course page.
 ///
-/// This page display the different steps that composed a course load from a json file.
-/// The user can enter his answer and we compare to the exception given in the json file.
-///
-
+/// This page dynamically loads and displays course steps
 class CoursePage extends StatefulWidget {
-  /// Courses load from the json file is load here.
-  final dynamic courses;
+  final dynamic courseId;
 
-  /// Creation of an instance 'CoursesPage'.
-  const CoursePage({super.key, required this.courses});
+  /// Constructor requiring a [courseId] to load the respective course data.
+  const CoursePage({super.key, required this.courseId});
 
   @override
-  _CoursePageState createState() => _CoursePageState();
+  _CoursePage createState() => _CoursePage();
 }
 
-class _CoursePageState extends State<CoursePage> {
-  /// Dialogs used by the Assistant.
+class _CoursePage extends State<CoursePage> {
   dynamic dialogs;
-
-  /// Instruction used to give the task to do to the user.
-  dynamic currentInstruction;
-
-  /// Description more details of the instruction for the user.
-  dynamic descriptionInstruction;
-
-  /// Expectation for the current step.
-  dynamic expectations;
-
-  /// Data of the current chapter.
-  dynamic chapter;
-
-  /// Data of the current course.
-  dynamic course;
-
-  /// ???
-  dynamic args;
-
-  /// Image used for the courses content
-  dynamic currentInstructionImage;
-
-  /// Error message display if the user's answer is not correct.
-  String errorMessage = '';
-
-  /// Index for the dialogs of the assistant.
   int currentDialogIndex = 0;
 
-  /// Index for the current Instruction
-  int currentInstructionIndex = 0;
+  String stepName = '';
+  int allSteps = 0;
+  int currentStep = 0;
+  String instructionDescription = '';
+  List<Map<String, dynamic>> widgetInstructions = [];
+  List<Map<String, dynamic>> widgetActions = [];
 
-  /// ???
-  String displayedText = "";
+  /// Temporary variables used for course navigation and completion.
+  dynamic chapter;
+  dynamic args;
+  dynamic course;
 
-  /// Boolean to know if the assistant is writing or not.
-  bool isTyping = false;
+  /// FINNNN
 
-  /// ???
-  bool isBlinking = false;
+  /// Flag to check if data has been loaded.
+  bool isDataLoaded = false;
 
-  /// ???
-  Timer blinkTimer = Timer(Duration.zero, () {});
+  final CourseService _courseService = CourseService();
 
-  /// Controller to check the field input.
-  final _inputController = TextEditingController();
+  Future<void> loadData() async {
+    try {
+      // print("Chargement des données du cours... num : ${widget.courseId}");
+      // List<dynamic> jsonData = await _courseService.fetchSteps(widget.courseId);
+      // print('jsonData : $jsonData');
 
-  /// Initialize the widget.
-  ///
-  /// Add a listener to check the value of the input field.
-  @override
-  void initState() {
-    super.initState();
-    _inputController.addListener(() {
-      /// update the variable
-      setState(() {});
-    });
+      // Fetch course steps from a local JSON file (for now, instead of an API call)
+      List<dynamic> jsonData = await _courseService
+          .fetchStepsFromJson("assets/courses_page_example.json");
+
+      if (jsonData.isNotEmpty) {
+        Map<String, dynamic> step = jsonData[currentStep];
+        setState(() {
+          stepName = step["title"] ?? "";
+          instructionDescription = step["instructions"] ?? "";
+          widgetInstructions = List<Map<String, dynamic>>.from(
+              step["widgets"]["instructions"] ?? []);
+          widgetActions =
+              List<Map<String, dynamic>>.from(step["widgets"]["actions"] ?? []);
+          allSteps = jsonData.length;
+          dialogs = step["dialogs"] ?? [];
+          isDataLoaded = true;
+        });
+      }
+    } catch (e) {
+      print("Erreur lors du chargement des données : $e");
+    }
   }
 
-  /// Clean the resources used by the widget.
-  ///
-  /// Delete the listener to avoid memory link
-  @override
-  void dispose() {
-    _inputController.dispose();
-    super.dispose();
-  }
-
-  ///Updates the course and chapter data when dependencies change.
-  ///
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    args = ModalRoute.of(context)!.settings.arguments as dynamic;
-    chapter = args['chapter'];
-    course = chapter['courses'][args['index']];
-
-    setState(() {
-      dialogs = course["dialogs"];
-      currentInstruction = course['instructions'][0];
-      descriptionInstruction = course['descriptions'][0];
-      expectations = course['expectations'][0];
-      currentInstructionImage = course['images'][0];
-    });
+    if (!isDataLoaded) {
+      loadData();
+    }
   }
 
-  /// To go to another step
-  ///
-  /// When the 'Next' button is pressed this method is call.
-  /// Check if the user answer is correct before to go to another step.
-  /// If yes : load the next instruction or display the ended message.
-  /// If no : call the function to set the error message.
-  void _nextInstruction() {
-    String userResponse = _inputController.text.trim();
-    String expectedResponse = expectations.trim();
-
-    if (userResponse == expectedResponse) {
+  /// Moves to the next step if available, otherwise shows the completion dialog.
+  void nextStep() {
+    if (currentStep < allSteps - 1) {
       setState(() {
-        errorMessage = '';
-        if (currentInstructionIndex < course['instructions'].length - 1) {
-          currentInstruction = course['instructions'][currentInstructionIndex + 1];
-          descriptionInstruction = course['descriptions'][currentInstructionIndex + 1];
-          expectations = course['expectations'][currentInstructionIndex + 1];
-          if (course['images'][currentInstructionIndex + 1] != null) {
-            currentInstructionImage = course['images'][currentInstructionIndex + 1];
-          }
-          currentInstructionIndex++;
-          _inputController.clear();
-        } else {
-          _showCompletionDialog();
-        }
+        currentStep++;
       });
+      loadData();
     } else {
-
+      _showCompletionDialog();
     }
   }
 
@@ -151,7 +102,7 @@ class _CoursePageState extends State<CoursePage> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/courses', arguments: chapter);
+              Navigator.pushNamed(context, '/roadmap', arguments: chapter);
             },
             child: const Text("OK"),
           )
@@ -166,136 +117,98 @@ class _CoursePageState extends State<CoursePage> {
       appBar: AppBar(
         elevation: 0,
         title: const Text(
-          'Chapters',
+          'Cours',
           style: TextStyle(
             color: Colors.black,
             fontSize: 20,
           ),
         ),
       ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            // Main exercise content
-            Column(
-              children: [
-                LinearProgressIndicator(
-                  value: (currentInstructionIndex + 1) /
-                      course['instructions'].length,
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      margin: const EdgeInsets.all(20.0),
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            currentInstruction,
-                            style: const TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 20.0),
-                          Text(
-                            descriptionInstruction,
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          const SizedBox(height: 20.0),
-                          Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10.0),
-                            padding: const EdgeInsets.all(12.0),
+      body: isDataLoaded
+          ? SafeArea(
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      LinearProgressIndicator(value: currentStep / allSteps),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Container(
+                            margin: const EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(16.0),
                             decoration: BoxDecoration(
-                              color: Colors.blue[50],
+                              color: Colors.grey[200],
                               borderRadius: BorderRadius.circular(8.0),
-                              border:
-                                  Border.all(color: Colors.blue, width: 1.5),
                             ),
-                            child: Text(
-                              expectations,
-                              style: const TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.blue,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          if (currentInstructionImage != null)
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 16.0),
-                              child: Image.asset(
-                                currentInstructionImage!,
-                                fit: BoxFit.contain,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.25,
-                                width: double.infinity,
-                              ),
-                            ),
-                          const SizedBox(height: 16.0),
-                          TextField(
-                            controller: _inputController,
-                            decoration: const InputDecoration(
-                              labelText: 'Votre réponse',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          if (errorMessage.isNotEmpty)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Text(
-                                errorMessage,
-                                style: const TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 16.0,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  stepName,
+                                  style: const TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: ElevatedButton(
-                              onPressed: _nextInstruction,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    _inputController.text.isNotEmpty
-                                        ? Colors.lightGreen
-                                        : Colors.grey,
-                              ),
-                              child: const Text("Suivant"),
+                                const SizedBox(height: 20.0),
+                                Text(
+                                  instructionDescription,
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(height: 20.0),
+                                for (var instruction in widgetInstructions)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16.0),
+                                    child: displayWidget(instruction, context),
+                                  ),
+                                const SizedBox(height: 16.0),
+                                for (var action in widgetActions)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16.0),
+                                    child: displayWidget(action, context),
+                                  ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (dialogs != null && dialogs.isNotEmpty)
+                    Positioned.fill(
+                      child: Assistant(
+                        dialogs: dialogs,
+                        onComplete: () {
+                          setState(() {
+                            dialogs = [];
+                          });
+                        },
                       ),
                     ),
-                  ),
-                ),
-              ],
-            ),
-            // Assistant widget, overlaid on top of the content
-            if (course['dialogs'] != null && course['dialogs'].isNotEmpty)
-              Positioned(
-                top: 150, //ICI POUR CHANGER LA POSITION DE L'ASSISTANT
-                left: 0,
-                right: 0,
-                child: Assistant(
-                  dialogs: course['dialogs'],
-                  onComplete: () {
-                    setState(() {
-                      course['dialogs'] = [];
-                    });
-                  },
-                ),
+                ],
               ),
-          ],
-        ),
-      ),
+            )
+          : const Center(child: CircularProgressIndicator()),
     );
+  }
+
+  /// Displays a widget based on its type.
+  ///
+  /// Supports "image" and "input_text" widgets. Returns an empty widget for unknown types.
+  Widget displayWidget(Map<String, dynamic> widgetData, BuildContext context) {
+    switch (widgetData["type"]) {
+      case "image":
+        return imageWidget(
+            context, widgetData["data"], widgetData["description"]);
+      case "input_text": // data => change en expected value
+        return InputTextWidget(
+            expectedValue: widgetData["expected_value"],
+            description: widgetData["description"],
+            nextStep: nextStep);
+      default:
+        return const SizedBox(); // Widget vide si type inconnu
+    }
   }
 }
