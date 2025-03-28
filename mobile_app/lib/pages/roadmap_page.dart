@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile_app/utils/navbar.dart';
-import 'package:mobile_app/pages/NEWcourse_page.dart';
+import 'package:mobile_app/pages/course_page.dart';
 import 'package:mobile_app/utils/colors.dart';
 import 'package:hexagon/hexagon.dart';
 
-Future<List<dynamic>> fetchModules(header, context) async {
-  // print(header);
+Future<List<dynamic>> fetchModules(header) async {
+
+  var url = Uri.http(dotenv.env["HOST_URL"].toString(), '/api/modules');
   try {
     var url = Uri.http(dotenv.env["HOST_URL"].toString(), '/api/modules');
     final response = await http
