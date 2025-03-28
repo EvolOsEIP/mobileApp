@@ -7,11 +7,10 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Automatically navigate to the CoursePage after a delay
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => RoadmapPage(), // Pass your courses here
+          builder: (context) => RoadmapPage(),
         ),
       );
     });
