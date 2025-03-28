@@ -31,9 +31,9 @@ class MyApp extends StatelessWidget {
       routes: {
         '/roadmap': (context) => RoadmapPage(),
         '/evaluation': (context) => const EvaluationPage(evaluationId: 1),
-        '/course_detail': (context) => const CoursePage(courseId: 1),
+        '/course': (context) => const CoursePage(courseId: 1),
         '/profile': (context) => const ProfilePage(),
-        '/userprogress': (context) => const SuccessPage()
+        '/success': (context) => const SuccessPage()
       },
     );
   }

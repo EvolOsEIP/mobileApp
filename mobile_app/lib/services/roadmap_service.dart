@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mobile_app/utils/loadJson.dart';
 
 Future<List<dynamic>> fetchModules(header, context) async {
   try {
@@ -15,14 +15,6 @@ Future<List<dynamic>> fetchModules(header, context) async {
       throw Exception('Failed to load modules');
     }
   } catch (e) {
-    print('Error: $e');
-    try {
-      String data = await DefaultAssetBundle.of(context)
-          .loadString('assets/json/offline_modules.json');
-      return jsonDecode(data);
-    } catch (e) {
-      print('Error loading offline modules: $e');
-      return [];
-    }
+    return fetchFromJson('assets/json/offline_modules.json');
   }
 }
