@@ -28,12 +28,6 @@ class _CoursePage extends State<CoursePage> {
   List<Map<String, dynamic>> widgetInstructions = [];
   List<Map<String, dynamic>> widgetActions = [];
 
-  /// Temporary variables used for course navigation and completion.
-  dynamic chapter;
-  dynamic args;
-  dynamic course;
-
-  /// FINNNN
 
   /// Flag to check if data has been loaded.
   bool isDataLoaded = false;
@@ -48,7 +42,7 @@ class _CoursePage extends State<CoursePage> {
 
       // Fetch course steps from a local JSON file (for now, instead of an API call)
       List<dynamic> jsonData = await _courseService
-          .fetchStepsFromJson("assets/courses_page_example.json");
+          .fetchStepsFromJson("assets/json/courses_pages.json");
 
       if (jsonData.isNotEmpty) {
         Map<String, dynamic> step = jsonData[currentStep];
@@ -98,11 +92,11 @@ class _CoursePage extends State<CoursePage> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text("Cours complété"),
-        content: Text(course["end"]),
+        content: Text("Féliciation tu as terminé ton cours."), //use var to load the correct msg
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/roadmap', arguments: chapter);
+              Navigator.pushNamed(context, '/roadmap');
             },
             child: const Text("OK"),
           )

@@ -67,12 +67,12 @@ flutter:
 
   assets:
     - .env
-    - assets/chapters.json
     - assets/images/
     - assets/images/modules/1_basics/ch1/course1/
-    - assets/courses_page_example.json
-    - assets/json/success.json
     - assets/images/achievements.png
+
+    - assets/json/courses_pages.json
+    - assets/json/success.json
     - assets/json/offline_modules.json
 
   # To add assets to your application, add an assets section, like this:
