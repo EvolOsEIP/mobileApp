@@ -13,7 +13,11 @@ import 'package:mobile_app/pages/profile_page.dart';
 import 'package:mobile_app/pages/success_page.dart';
 
 void main() async {
-  await dotenv.load(fileName: ".env");
+  try {
+    await dotenv.load(fileName: ".env");
+  } catch (e) {
+    print(e);
+  }
 
   runApp(const MyApp());
 }

@@ -66,7 +66,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - .env
+    # - .env
     - assets/chapters.json
     - assets/images/
     - assets/images/modules/1_basics/ch1/course1/

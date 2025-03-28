@@ -8,11 +8,13 @@ import 'package:mobile_app/pages/NEWcourse_page.dart';
 import 'package:mobile_app/utils/colors.dart';
 import 'package:hexagon/hexagon.dart';
 
-Future<List<dynamic>> fetchModules(header) async {
-  print(header);
-  var url = Uri.http(dotenv.env["HOST_URL"].toString(), '/api/modules');
+Future<List<dynamic>> fetchModules(header, context) async {
+  // print(header);
   try {
-    final response = await http.get(url, headers: header);
+    var url = Uri.http(dotenv.env["HOST_URL"].toString(), '/api/modules');
+    final response = await http
+        .get(url, headers: header)
+        .timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
@@ -20,7 +22,14 @@ Future<List<dynamic>> fetchModules(header) async {
     }
   } catch (e) {
     print('Error: $e');
-    return [];
+    try {
+      String data = await DefaultAssetBundle.of(context)
+          .loadString('assets/json/offline_modules.json');
+      return jsonDecode(data);
+    } catch (e) {
+      print('Error loading offline modules: $e');
+      return [];
+    }
   }
 }
 
@@ -29,18 +38,9 @@ class RoadmapPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<List<dynamic>>(
-        future: Future.wait([
-          fetchModules({'Authorization': dotenv.env['API_KEY'].toString()}),
-          DefaultAssetBundle.of(context)
-              .loadString('assets/json/offline_modules.json')
-              .then((data) => jsonDecode(data))
-        ]).then((results) {
-          if (results[0].isNotEmpty) {
-            return results[0];
-          } else {
-            return results[1];
-          }
-        }),
+        future: fetchModules(
+            {'Authorization': dotenv.env['API_KEY']?.toString() ?? ''},
+            context),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
