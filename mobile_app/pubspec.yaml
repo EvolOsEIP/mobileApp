@@ -73,6 +73,7 @@ flutter:
     - assets/courses_page_example.json
     - assets/json/success.json
     - assets/images/achievements.png
+    - assets/json/offline_modules.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

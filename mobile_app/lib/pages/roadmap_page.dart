@@ -28,8 +28,18 @@ class RoadmapPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<List<dynamic>>(
-        future:
-            fetchModules({'Authorization': dotenv.env['API_KEY'].toString()}),
+        future: Future.wait([
+          fetchModules({'Authorization': dotenv.env['API_KEY'].toString()}),
+          DefaultAssetBundle.of(context)
+              .loadString('assets/json/offline_modules.json')
+              .then((data) => jsonDecode(data))
+        ]).then((results) {
+          if (results[0].isNotEmpty) {
+            return results[0];
+          } else {
+            return results[1];
+          }
+        }),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
