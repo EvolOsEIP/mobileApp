@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:mobile_app/pages/roadmap_page.dart';
 import 'package:mobile_app/pages/course_page.dart';
+import 'package:mobile_app/pages/evaluation_page.dart';
 import 'package:mobile_app/pages/splash_screen.dart';
 import 'package:mobile_app/pages/profile_page.dart';
 import 'package:mobile_app/pages/success_page.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/roadmap': (context) => RoadmapPage(),
+        '/evaluation': (context) => const EvaluationPage(evaluationId: 1),
         '/course_detail': (context) => const CoursePage(courseId: 1),
         '/profile': (context) => const ProfilePage(),
         '/userprogress': (context) => const SuccessPage()

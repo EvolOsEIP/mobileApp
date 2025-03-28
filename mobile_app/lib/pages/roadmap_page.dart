@@ -1,35 +1,11 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mobile_app/pages/evaluation_page.dart';
 import 'package:mobile_app/utils/navbar.dart';
 import 'package:mobile_app/pages/course_page.dart';
 import 'package:mobile_app/utils/colors.dart';
 import 'package:hexagon/hexagon.dart';
-
-Future<List<dynamic>> fetchModules(header, context) async {
-  try {
-    var url = Uri.http(dotenv.env["HOST_URL"].toString(), '/api/modules');
-    final response = await http
-        .get(url, headers: header)
-        .timeout(const Duration(seconds: 5));
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      throw Exception('Failed to load modules');
-    }
-  } catch (e) {
-    print('Error: $e');
-    try {
-      String data = await DefaultAssetBundle.of(context)
-          .loadString('assets/json/offline_modules.json');
-      return jsonDecode(data);
-    } catch (e) {
-      print('Error loading offline modules: $e');
-      return [];
-    }
-  }
-}
+import 'package:mobile_app/services/roadmap_service.dart';
 
 class RoadmapPage extends StatelessWidget {
   @override
@@ -82,7 +58,7 @@ class RoadmapListWidget extends StatelessWidget {
                 children: [
                   RoadmapSection(
                     title: module['modulename'],
-                    roadmap: RoadmapWidget(courses: module['courses']),
+                    roadmap: RoadmapWidget(courses: module['courses'], evaluations: [module['evaluation']]),
                   ),
                   SizedBox(height: 10),
                 ],
@@ -147,27 +123,41 @@ class DividerWidget extends StatelessWidget {
 
 class RoadmapWidget extends StatelessWidget {
   final List<dynamic> courses;
+  final List<dynamic> evaluations;
 
-  RoadmapWidget({required this.courses});
+  RoadmapWidget({required this.courses, required this.evaluations});
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: courses
-          .map((course) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Align(
-                  alignment: (course['courseIndex'] % 2 == 0)
-                      ? Alignment.centerLeft
-                      : Alignment.centerRight,
-                  child: CourseHexagon(
-                    title: course['title'],
-                    courseId: course['courseId'],
-                    description: course['description'],
-                  ),
-                ),
-              ))
-          .toList(),
+      children: [
+        ...courses.map((course) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Align(
+            alignment: (course['courseIndex'] % 2 == 0)
+                ? Alignment.centerLeft
+                : Alignment.centerRight,
+            child: CourseHexagon(
+              title: course['title'],
+              courseId: course['courseId'],
+              description: course['description'],
+            ),
+          ),
+        )),
+        SizedBox(height: 20),
+        ...evaluations.map((evaluation) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Align(
+              alignment: Alignment.center,
+              child: EvaluationHexagon(
+                title: evaluation['title'],
+                evaluationId: evaluation['evaluationId'],
+                summary: evaluation['summary'],
+              ),
+            ),
+        ))
+      ]
+          // .toList(),
     );
   }
 }
@@ -224,6 +214,74 @@ class CourseHexagon extends StatelessWidget {
       child: HexagonWidget.pointy(
         width: size,
         color: CustomColors.accent,
+        elevation: 10,
+        child: Center(
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: textWidth / 8,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class EvaluationHexagon extends StatelessWidget {
+  final String title;
+  final int evaluationId;
+  final String summary;
+
+  EvaluationHexagon(
+      {required this.title, required this.evaluationId, required this.summary});
+
+  @override
+  Widget build(BuildContext context) {
+    double textWidth = (title.length * 4.0).clamp(80.0, 200.0);
+    double size = textWidth + 20;
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+              side: const BorderSide(color: Color.fromRGBO(255, 165, 0, 1)), // Orange border
+            ),
+            title: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold),
+              overflow: TextOverflow.visible,
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(summary, textAlign: TextAlign.center),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EvaluationPage(evaluationId: evaluationId),
+                      ),
+                    );
+                  },
+                  child: Text("Evaluate"),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+      child: HexagonWidget.pointy(
+        width: size,
+        color: CustomColors.orangeAccent, // Change to your desired orange color
         elevation: 10,
         child: Center(
           child: Text(

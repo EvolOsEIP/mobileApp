@@ -74,6 +74,7 @@ flutter:
     - assets/json/courses_pages.json
     - assets/json/success.json
     - assets/json/offline_modules.json
+    - assets/json/evaluations_pages.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:
