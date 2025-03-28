@@ -15,7 +15,13 @@
             }
         ],
         "evaluation": {
-
+            "evaluationId": 1,
+            "title": "Evaluation demo ",
+            "summary": "Ceci est une fausse évalutation qui a pour but de montrer à quoi celle-ci peut resssembler.",
+            "assistantDiag": "",
+            "badgeId": 1,
+            "scorePercentage": -1,
+            "badgeEarned": false
         }
     }
 ]
