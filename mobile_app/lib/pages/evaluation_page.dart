@@ -19,6 +19,7 @@ class EvaluationPage extends StatefulWidget {
 
 class _EvaluationPage extends State<EvaluationPage> {
   dynamic dialogs;
+  int life = 2;
   int currentDialogIndex = 0;
   double score = 0.0;
   String stepName = '';
@@ -71,10 +72,12 @@ class _EvaluationPage extends State<EvaluationPage> {
     if (currentStep < allSteps - 1) {
       setState(() {
         currentStep++;
+        // score update here
       });
       loadData();
     } else {
       _showCompletionDialog();
+      // push the final score
     }
   }
 
@@ -105,7 +108,7 @@ class _EvaluationPage extends State<EvaluationPage> {
       appBar: AppBar(
         elevation: 0,
         title: const Text('Evaluation',style: TextStyle(color: Colors.black, fontSize: 20)),
-        //actions: [Padding(padding: const EdgeInsets.only(right: 20.0), child: buildStars(0))],
+        actions: [Padding(padding: const EdgeInsets.only(right: 20.0), child: buildStars(50))],
       ),
       body: isDataLoaded
           ? SafeArea(
@@ -126,9 +129,15 @@ class _EvaluationPage extends State<EvaluationPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            stepName,
-                            style: const TextStyle(fontSize: 25,fontWeight: FontWeight.bold)
+                          Row (
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,  // Espace entre les deux éléments
+                            children: [
+                              Text(
+                                  stepName,
+                                  style: const TextStyle(fontSize: 25,fontWeight: FontWeight.bold)
+                              ),
+                              buildHeart(life)
+                            ]
                           ),
                           const SizedBox(height: 20.0),
                           Text(
@@ -189,5 +198,40 @@ class _EvaluationPage extends State<EvaluationPage> {
       default:
         return const SizedBox(); // Widget vide si type inconnu
     }
+  }
+
+  Widget buildStars(int score) {
+    int stars = 0;
+    if (score >= 51.0 && score <= 80.0) {
+      stars = 2;
+    } else if (score > 80.0) {
+      stars = 3;
+    } else if (score >= 40.0) {
+      stars = 1;
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(3, (index) {
+        return Icon(
+          index < stars ? Icons.star : Icons.star_border,
+          color: Colors.amber,
+        );
+      }),
+    );
+  }
+
+  Widget buildHeart(int life) {
+    IconData heartIcon;
+
+    if (life == 2) {
+      heartIcon = Icons.favorite;
+    } else if (life == 1) {
+      // heartIcon = Icons.favorite_half;
+      heartIcon = Icons.favorite_border;
+    } else {
+      heartIcon = Icons.favorite_border;
+    }
+    return Icon(heartIcon, color: Colors.red, size: 30);
   }
 }
