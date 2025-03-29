@@ -10,14 +10,14 @@ import 'package:flutter/material.dart';
 class InputTextWidget extends StatefulWidget {
   final String expectedValue;
   final String? description;
-  final VoidCallback nextStep;
-  final double? score;
+  final Function(int) nextStep;
+  final int? life;
 
   const InputTextWidget({super.key,
     required this.expectedValue,
     required this.nextStep,
     this.description,
-    this.score
+    this.life
   });
   @override
   _InputTextWidgetState createState() => _InputTextWidgetState();
@@ -53,7 +53,7 @@ class _InputTextWidgetState extends State<InputTextWidget> {
         );
         errorMessage = '';
         controller.clear();
-        widget.nextStep();
+        widget.nextStep(2);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Mauvaise réponse. Réessayez ! ❌"))
@@ -67,7 +67,7 @@ class _InputTextWidgetState extends State<InputTextWidget> {
     setState(() {
       errorMessage = '';
       controller.clear();
-      widget.nextStep();
+      widget.nextStep(0);
     });
   }
 
@@ -103,13 +103,13 @@ class _InputTextWidgetState extends State<InputTextWidget> {
         const SizedBox(height: 10),
         Row( mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            if (widget.score != null)
+            if (widget.life != null)
             ElevatedButton(
               onPressed: skipStep,
               style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
               child: const Text("Je ne sais", style: TextStyle(color: Colors.white)),
             ),
-            if (widget.score != null)
+            if (widget.life != null)
               const SizedBox(width: 10),
             ElevatedButton(
               onPressed: validateInput,

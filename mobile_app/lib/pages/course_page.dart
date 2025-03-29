@@ -67,7 +67,7 @@ class _CoursePage extends State<CoursePage> {
   }
 
   /// Moves to the next step if available, otherwise shows the completion dialog.
-  void nextStep() {
+  void nextStep(int ?life) {
     if (currentStep < allSteps - 1) {
       setState(() {
         currentStep++;

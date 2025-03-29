@@ -9,9 +9,10 @@ import 'package:mobile_app/utils/assistant.dart';
 /// This page dynamically loads and displays evaluation steps
 class EvaluationPage extends StatefulWidget {
   final dynamic evaluationId;
+  final dynamic score;
 
   /// Constructor requiring a [evaluationId] to load the respective evaluation data.
-  const EvaluationPage({super.key, required this.evaluationId});
+  const EvaluationPage({super.key, required this.evaluationId, required this.score});
 
   @override
   _EvaluationPage createState() => _EvaluationPage();
@@ -20,8 +21,8 @@ class EvaluationPage extends StatefulWidget {
 class _EvaluationPage extends State<EvaluationPage> {
   dynamic dialogs;
   int life = 2;
+  double actualScore = 0;
   int currentDialogIndex = 0;
-  double score = 0.0;
   String stepName = '';
   int allSteps = 0;
   int currentStep = 0;
@@ -37,6 +38,7 @@ class _EvaluationPage extends State<EvaluationPage> {
 
   Future<void> loadData() async {
     try {
+      life = 2;
       List<dynamic> jsonData = await _evaluationService.fetchSteps(widget.evaluationId);
 
       if (jsonData.isNotEmpty) {
@@ -68,35 +70,81 @@ class _EvaluationPage extends State<EvaluationPage> {
   }
 
   /// Moves to the next step if available, otherwise shows the completion dialog.
-  void nextStep() {
+  void nextStep(int life) {
     if (currentStep < allSteps - 1) {
       setState(() {
+        if (life == 2) {
+          actualScore += 1;
+        } else if (life == 1) {
+          actualScore += 0.5;
+        }
         currentStep++;
         // score update here
       });
       loadData();
     } else {
-      _showCompletionDialog();
-      // push the final score
+      double finalScore = (actualScore / allSteps) * 100;
+      //score to push in db
+      _showCompletionDialog(finalScore);
     }
   }
 
   /// Displays a pop-up when the evaluation is completed.
   ///
   /// The pop-up shows a completion message from the evaluation content and redirects to the evaluations list.
-  void _showCompletionDialog() {
+  void _showCompletionDialog(double finalScore) {
+    String message;
+    int stars = 0;
+
+    if (allSteps < 6) {
+      if (finalScore >= allSteps - 1) {
+        message = "Félicitations, tu as bien réussi ton évaluation !";
+        stars = 3;
+      } else if (finalScore >= allSteps / 2) {
+        message = "Bon travail, tu as presque réussi !";
+        stars = 2;
+      } else if (finalScore >= 1) {
+        message = "Tu as fait des progrès, mais il te reste encore à apprendre.";
+        stars = 1;
+      } else {
+        message = "Dommage, tu n'as pas réussi cette évaluation. Essaie encore !";
+        stars = 0;
+      }
+    } else {
+      if (finalScore >= 80) {
+        message = "Félicitations, tu as brillamment réussi !";
+        stars = 3;
+      } else if (finalScore >= 60) {
+        message = "Bien joué, tu as réussi l'évaluation.";
+        stars = 2;
+      } else if (finalScore >= 40) {
+        message = "Tu as réussi, mais il y a encore des progrès à faire.";
+        stars = 1;
+      } else {
+        message = "Tu n'as pas réussi cette évaluation. Essaie de nouveau !";
+        stars = 0;
+      }
+    }
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Evaluation"),
-        content: Text("Féliciation tu as terminé ton eval."), //use var to load the correct msg
+        title: const Text("Évaluation terminée"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(message),
+            const SizedBox(height: 20),
+            // add animation for stars
+          ],
+        ),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.pushNamed(context, '/roadmap');
             },
             child: const Text("OK"),
-          )
+          ),
         ],
       ),
     );
@@ -191,21 +239,23 @@ class _EvaluationPage extends State<EvaluationPage> {
             context, widgetData["data"], widgetData["description"]);
       case "input_text":
         return InputTextWidget(
-            expectedValue: widgetData["expected_value"],
-            description: widgetData["description"],
-            nextStep: nextStep,
-            score: score);
+          expectedValue: widgetData["expected_value"],
+          description: widgetData["description"],
+          nextStep: nextStep,
+          life: life,
+        );
       default:
         return const SizedBox(); // Widget vide si type inconnu
     }
   }
 
-  Widget buildStars(int score) {
+  Widget buildStars(double score) {
     int stars = 0;
-    if (score >= 51.0 && score <= 80.0) {
-      stars = 2;
-    } else if (score > 80.0) {
+
+    if (score >= 80.0) {
       stars = 3;
+    } else if (score >= 60.0) {
+      stars = 2;
     } else if (score >= 40.0) {
       stars = 1;
     }

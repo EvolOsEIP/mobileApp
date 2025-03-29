@@ -131,7 +131,7 @@ class RoadmapWidget extends StatelessWidget {
                 description: evaluation['summary'],
                 onTapAction: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => EvaluationPage(evaluationId: evaluation['evaluationId'])),
+                  MaterialPageRoute(builder: (context) => EvaluationPage(evaluationId: evaluation['evaluationId'], score: evaluation['scorePercentage'],)),
                 ),
                 hexColor: CustomColors.orangeAccent,
                 borderColor: const Color.fromRGBO(255, 165, 0, 1),
