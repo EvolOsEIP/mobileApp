@@ -27,8 +27,16 @@ class InputTextWidget extends StatefulWidget {
 }
 
 class _InputTextWidgetState extends State<InputTextWidget> {
+
   TextEditingController controller = TextEditingController();
   String errorMessage = '';
+  late int currentLife;
+
+  @override
+  void initState() {
+    super.initState();
+    currentLife = widget.life!;
+  }
 
   /// Handles input errors and provides feedback on the user’s answer.
   ///
@@ -66,12 +74,22 @@ class _InputTextWidgetState extends State<InputTextWidget> {
         );
         errorMessage = '';
         controller.clear();
-        widget.nextStep(2);
+        widget.nextStep(currentLife);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Mauvaise réponse. Réessayez ! ❌"))
-        );
-        errorMessage = handleErrorInputText(userInput);
+        currentLife--;
+        if (currentLife <= 0) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Plus de vies !")),
+          );
+          errorMessage = '';
+          controller.clear();
+          widget.nextStep(0);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Mauvaise réponse. Réessayez ! ❌"))
+          );
+          errorMessage = handleErrorInputText(userInput);
+        }
       }
     });
   }

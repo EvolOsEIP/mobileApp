@@ -42,9 +42,7 @@ class _EvaluationPage extends State<EvaluationPage> {
   /// This method fetches the evaluation steps, instructions, and actions, then updates the state.
   Future<void> loadData() async {
     try {
-      life = 2;  // Reset life for each evaluation step.
       List<dynamic> jsonData = await _evaluationService.fetchSteps(widget.evaluationId);
-
       if (jsonData.isNotEmpty) {
         Map<String, dynamic> step = jsonData[currentStep];
         setState(() {
@@ -78,20 +76,21 @@ class _EvaluationPage extends State<EvaluationPage> {
   ///
   /// The method updates the score and steps, and calls [loadData] to load the next step's data.
   /// If the last step is reached, it calculates the final score and calls [_showCompletionDialog].
-  void nextStep(int life) {
+  void nextStep(int currentLife) {
     if (currentStep < allSteps - 1) {
       setState(() {
-        // Update score based on life points.
-        if (life == 2) {
+        // Update score based on currentLife points.
+        if (currentLife == 2) {
           actualScore += 1;
-        } else if (life == 1) {
+        } else if (currentLife == 1) {
           actualScore += 0.5;
         }
         currentStep++;
+        life = 2;
       });
       loadData();
     } else {
-      double finalScore = (actualScore / allSteps) * 100;  // Calculate the final score as a percentage.
+      double finalScore = (actualScore / allSteps) * 100;
       _showCompletionDialog(finalScore);
     }
   }
@@ -104,37 +103,19 @@ class _EvaluationPage extends State<EvaluationPage> {
     String message;
     int stars = 0;
 
-    // Determine the message and star rating based on the score.
-    if (allSteps < 6) {
-      if (finalScore >= allSteps - 1) {
-        message = "Félicitations, tu as bien réussi ton évaluation !";
-        stars = 3;
-      } else if (finalScore >= allSteps / 2) {
-        message = "Bon travail, tu as presque réussi !";
-        stars = 2;
-      } else if (finalScore >= 1) {
-        message = "Tu as fait des progrès, mais il te reste encore à apprendre.";
-        stars = 1;
-      } else {
-        message = "Dommage, tu n'as pas réussi cette évaluation. Essaie encore !";
-        stars = 0;
-      }
+    if (finalScore >= 80) {
+      message = "Félicitations, tu as brillamment réussi !";
+      stars = 3;
+    } else if (finalScore >= 60) {
+      message = "Bien joué, tu as réussi l'évaluation.";
+      stars = 2;
+    } else if (finalScore >= 40) {
+      message = "Tu as réussi, mais il y a encore des progrès à faire.";
+      stars = 1;
     } else {
-      if (finalScore >= 80) {
-        message = "Félicitations, tu as brillamment réussi !";
-        stars = 3;
-      } else if (finalScore >= 60) {
-        message = "Bien joué, tu as réussi l'évaluation.";
-        stars = 2;
-      } else if (finalScore >= 40) {
-        message = "Tu as réussi, mais il y a encore des progrès à faire.";
-        stars = 1;
-      } else {
-        message = "Tu n'as pas réussi cette évaluation. Essaie de nouveau !";
-        stars = 0;
-      }
+      message = "Tu n'as pas réussi cette évaluation. Essaie de nouveau !";
+      stars = 0;
     }
-
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -251,6 +232,7 @@ class _EvaluationPage extends State<EvaluationPage> {
             context, widgetData["data"], widgetData["description"]);
       case "input_text":
         return InputTextWidget(
+          key: ValueKey(currentStep),
           expectedValue: widgetData["expected_value"],
           description: widgetData["description"],
           nextStep: nextStep,
