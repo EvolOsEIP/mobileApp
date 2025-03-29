@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
-/// Widget that displays a text input field for user interaction.
+/// A widget that displays a text input field for user interaction.
 ///
-/// [context] - The build context.
-/// [expectedValue] - The correct value expected from the user.
-/// [description] - .
+/// This widget is designed to check the user's input against an expected value
+/// and provide feedback on whether the input is correct or not.
+///
+/// [expectedValue] - The correct answer that the user must input.
+/// [description] - Optional description that can be provided to describe the task.
 /// [nextStep] - Callback function triggered when the correct input is submitted.
-///
+/// [life] - Optional parameter to track the number of attempts or lives remaining.
 class InputTextWidget extends StatefulWidget {
   final String expectedValue;
   final String? description;
@@ -19,6 +21,7 @@ class InputTextWidget extends StatefulWidget {
     this.description,
     this.life
   });
+
   @override
   _InputTextWidgetState createState() => _InputTextWidgetState();
 }
@@ -27,10 +30,17 @@ class _InputTextWidgetState extends State<InputTextWidget> {
   TextEditingController controller = TextEditingController();
   String errorMessage = '';
 
-  // Function to handle error input
+  /// Handles input errors and provides feedback on the user’s answer.
+  ///
+  /// This function checks different scenarios for common input errors such as
+  /// case sensitivity, missing spaces, or missing punctuation.
+  ///
+  /// [textEnter] - The input entered by the user.
+  ///
+  /// Returns a descriptive error message if the input is incorrect.
   String handleErrorInputText(String textEnter) {
     if (textEnter.toLowerCase() == widget.expectedValue.toLowerCase()) {
-      return "Verifier la majuscule: il pourrait y avoir des majuscules en trop ou manquants.";
+      return "Vérifier la majuscule: il pourrait y avoir des majuscules en trop ou manquants.";
     }
 
     if (textEnter.replaceAll(' ', '') == widget.expectedValue.replaceAll(' ', '')) {
@@ -43,7 +53,10 @@ class _InputTextWidgetState extends State<InputTextWidget> {
     return "Votre réponse est incorrecte. Veuillez revoir l’instruction.";
   }
 
-  // Function to handle validation when the button is pressed
+  /// Validates the user input and provides feedback through snackbars.
+  ///
+  /// If the input is correct, the next step is triggered with a success message.
+  /// If the input is incorrect, an error message is displayed.
   void validateInput() {
     final userInput = controller.text;
     setState(() {
@@ -63,6 +76,9 @@ class _InputTextWidgetState extends State<InputTextWidget> {
     });
   }
 
+  /// Skips the current step and clears the input field.
+  ///
+  /// This is useful when the user is unsure about the answer and wants to move to the next step.
   void skipStep() {
     setState(() {
       errorMessage = '';
@@ -76,10 +92,13 @@ class _InputTextWidgetState extends State<InputTextWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Label for the input field
         Text(
           "Entrez :", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.grey[700]),
         ),
         const SizedBox(height: 5),
+
+        // Display the expected value for reference
         Container(
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
@@ -92,6 +111,8 @@ class _InputTextWidgetState extends State<InputTextWidget> {
           ),
         ),
         const SizedBox(height: 15),
+
+        // Input field for user response
         Semantics(
           label: widget.description?.isNotEmpty == true ? widget.description : null,
           child: TextField(
@@ -101,23 +122,27 @@ class _InputTextWidgetState extends State<InputTextWidget> {
           ),
         ),
         const SizedBox(height: 10),
-        Row( mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            if (widget.life != null)
-            ElevatedButton(
-              onPressed: skipStep,
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
-              child: const Text("Je ne sais", style: TextStyle(color: Colors.white)),
-            ),
-            if (widget.life != null)
-              const SizedBox(width: 10),
-            ElevatedButton(
-              onPressed: validateInput,
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-              child: const Text("Valider", style: TextStyle(color: Colors.white))
-            )
-          ]
+
+        // Action buttons for validation or skipping the step
+        Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              if (widget.life != null)
+                ElevatedButton(
+                  onPressed: skipStep,
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+                  child: const Text("Je ne sais", style: TextStyle(color: Colors.white)),
+                ),
+              if (widget.life != null)
+                const SizedBox(width: 10),
+              ElevatedButton(
+                  onPressed: validateInput,
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                  child: const Text("Valider", style: TextStyle(color: Colors.white))
+              )
+            ]
         ),
+
         // Display the error message below the TextField
         if (errorMessage.isNotEmpty)
           Padding(

@@ -4,12 +4,14 @@ import 'package:mobile_app/utils/instructions_widgets.dart';
 import 'package:mobile_app/services/evaluation_service.dart';
 import 'package:mobile_app/utils/assistant.dart';
 
-/// A stateful widget representing a evaluation page.
+/// A stateful widget representing an evaluation page.
 ///
-/// This page dynamically loads and displays evaluation steps
+/// This page dynamically loads and displays evaluation steps, including
+/// instructions, actions, and dialogs, allowing the user to progress through
+/// the evaluation and track their score.
 class EvaluationPage extends StatefulWidget {
-  final dynamic evaluationId;
-  final dynamic score;
+  final dynamic evaluationId;  ///< The ID of the evaluation to load.
+  final dynamic score;         ///< The initial score passed to the page.
 
   /// Constructor requiring a [evaluationId] to load the respective evaluation data.
   const EvaluationPage({super.key, required this.evaluationId, required this.score});
@@ -19,26 +21,27 @@ class EvaluationPage extends StatefulWidget {
 }
 
 class _EvaluationPage extends State<EvaluationPage> {
-  dynamic dialogs;
-  int life = 2;
-  double actualScore = 0;
-  int currentDialogIndex = 0;
-  String stepName = '';
-  int allSteps = 0;
-  int currentStep = 0;
-  String instructionDescription = '';
-  List<Map<String, dynamic>> widgetInstructions = [];
-  List<Map<String, dynamic>> widgetActions = [];
+  dynamic dialogs;  ///< List of dialogs for the evaluation step.
+  int life = 2;     ///< Current life points (represents remaining attempts).
+  double actualScore = 0;  ///< The accumulated score based on the user's progress.
+  int currentDialogIndex = 0;  ///< Index of the current dialog for the assistant.
+  String stepName = '';  ///< The name of the current step.
+  int allSteps = 0;      ///< Total number of steps in the evaluation.
+  int currentStep = 0;   ///< Index of the current evaluation step.
+  String instructionDescription = ''; ///< Description of the current instruction.
+  List<Map<String, dynamic>> widgetInstructions = []; ///< List of instructions for the current step.
+  List<Map<String, dynamic>> widgetActions = [];     ///< List of actions for the current step.
 
-
-  /// Flag to check if data has been loaded.
-  bool isDataLoaded = false;
+  bool isDataLoaded = false;  ///< Flag indicating if data has been successfully loaded.
 
   final EvaluationService _evaluationService = EvaluationService();
 
+  /// Loads the evaluation data from the server.
+  ///
+  /// This method fetches the evaluation steps, instructions, and actions, then updates the state.
   Future<void> loadData() async {
     try {
-      life = 2;
+      life = 2;  // Reset life for each evaluation step.
       List<dynamic> jsonData = await _evaluationService.fetchSteps(widget.evaluationId);
 
       if (jsonData.isNotEmpty) {
@@ -64,38 +67,43 @@ class _EvaluationPage extends State<EvaluationPage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
+    // Load data only if it has not been loaded yet.
     if (!isDataLoaded) {
       loadData();
     }
   }
 
   /// Moves to the next step if available, otherwise shows the completion dialog.
+  ///
+  /// The method updates the score and steps, and calls [loadData] to load the next step's data.
+  /// If the last step is reached, it calculates the final score and calls [_showCompletionDialog].
   void nextStep(int life) {
     if (currentStep < allSteps - 1) {
       setState(() {
+        // Update score based on life points.
         if (life == 2) {
           actualScore += 1;
         } else if (life == 1) {
           actualScore += 0.5;
         }
         currentStep++;
-        // score update here
       });
       loadData();
     } else {
-      double finalScore = (actualScore / allSteps) * 100;
-      //score to push in db
+      double finalScore = (actualScore / allSteps) * 100;  // Calculate the final score as a percentage.
       _showCompletionDialog(finalScore);
     }
   }
 
   /// Displays a pop-up when the evaluation is completed.
   ///
-  /// The pop-up shows a completion message from the evaluation content and redirects to the evaluations list.
+  /// The pop-up shows a completion message based on the user's score, along with a star rating.
+  /// It provides feedback depending on whether the user passed or failed the evaluation.
   void _showCompletionDialog(double finalScore) {
     String message;
     int stars = 0;
 
+    // Determine the message and star rating based on the score.
     if (allSteps < 6) {
       if (finalScore >= allSteps - 1) {
         message = "Félicitations, tu as bien réussi ton évaluation !";
@@ -135,7 +143,15 @@ class _EvaluationPage extends State<EvaluationPage> {
           children: [
             Text(message),
             const SizedBox(height: 20),
-            // add animation for stars
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(3, (index) {
+                return Icon(
+                  index < stars ? Icons.star : Icons.star_border,
+                  color: Colors.amber,
+                );
+              }),
+            ),
           ],
         ),
         actions: [
@@ -155,7 +171,7 @@ class _EvaluationPage extends State<EvaluationPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: const Text('Evaluation',style: TextStyle(color: Colors.black, fontSize: 20)),
+        title: const Text('Evaluation', style: TextStyle(color: Colors.black, fontSize: 20)),
         actions: [Padding(padding: const EdgeInsets.only(right: 20.0), child: buildStars(50))],
       ),
       body: isDataLoaded
@@ -177,21 +193,15 @@ class _EvaluationPage extends State<EvaluationPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row (
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,  // Espace entre les deux éléments
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                  stepName,
-                                  style: const TextStyle(fontSize: 25,fontWeight: FontWeight.bold)
-                              ),
-                              buildHeart(life)
-                            ]
+                              Text(stepName, style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                              buildHeart(life),
+                            ],
                           ),
                           const SizedBox(height: 20.0),
-                          Text(
-                            instructionDescription,
-                            style: const TextStyle(fontSize: 20),
-                          ),
+                          Text(instructionDescription, style: const TextStyle(fontSize: 20)),
                           const SizedBox(height: 20.0),
                           for (var instruction in widgetInstructions)
                             Padding(
@@ -231,7 +241,8 @@ class _EvaluationPage extends State<EvaluationPage> {
 
   /// Displays a widget based on its type.
   ///
-  /// Supports "image" and "input_text" widgets. Returns an empty widget for unknown types.
+  /// This method takes the [widgetData] and determines the widget type.
+  /// It supports the "image" and "input_text" types and returns the appropriate widget.
   Widget displayWidget(Map<String, dynamic> widgetData, BuildContext context) {
     switch (widgetData["type"]) {
       case "image":
@@ -245,10 +256,14 @@ class _EvaluationPage extends State<EvaluationPage> {
           life: life,
         );
       default:
-        return const SizedBox(); // Widget vide si type inconnu
+        return const SizedBox();
     }
   }
 
+  /// Builds a star rating widget based on the [score].
+  ///
+  /// The number of stars is determined based on the score provided, where 3 stars are given for scores 80 and above,
+  /// 2 stars for scores between 60 and 79, and 1 star for scores between 40 and 59.
   Widget buildStars(double score) {
     int stars = 0;
 
@@ -271,13 +286,16 @@ class _EvaluationPage extends State<EvaluationPage> {
     );
   }
 
+  /// Builds a heart icon based on the [life] remaining.
+  ///
+  /// If the user has full life (2), a full heart is displayed. If they have one life left (1), a hollow heart
+  /// is shown. If no lives are left (0), an empty heart is displayed.
   Widget buildHeart(int life) {
     IconData heartIcon;
 
     if (life == 2) {
       heartIcon = Icons.favorite;
     } else if (life == 1) {
-      // heartIcon = Icons.favorite_half;
       heartIcon = Icons.favorite_border;
     } else {
       heartIcon = Icons.favorite_border;
