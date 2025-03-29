@@ -3,6 +3,7 @@ import 'package:mobile_app/utils/actions_widgets.dart';
 import 'package:mobile_app/utils/instructions_widgets.dart';
 import 'package:mobile_app/services/evaluation_service.dart';
 import 'package:mobile_app/utils/assistant.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 /// A stateful widget representing an evaluation page.
 ///
@@ -291,15 +292,25 @@ class _EvaluationPage extends State<EvaluationPage> {
   /// If the user has full life (2), a full heart is displayed. If they have one life left (1), a hollow heart
   /// is shown. If no lives are left (0), an empty heart is displayed.
   Widget buildHeart(int life) {
-    IconData heartIcon;
+    double size = 45;
 
     if (life == 2) {
-      heartIcon = Icons.favorite;
+      return SvgPicture.asset(
+        'assets/images/full_heart.svg',
+        width: size,
+        height: size,
+      );
     } else if (life == 1) {
-      heartIcon = Icons.favorite_border;
-    } else {
-      heartIcon = Icons.favorite_border;
+      return SvgPicture.asset(
+        'assets/images/half_heart.svg',
+        width: size,
+        height: size,
+      );
     }
-    return Icon(heartIcon, color: Colors.red, size: 30);
+    return SvgPicture.asset(
+      'assets/images/broken_heart.svg',
+      width: size,
+      height: size,
+    );
   }
 }

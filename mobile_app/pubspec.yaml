@@ -68,6 +68,9 @@ flutter:
   assets:
     - .env
     - assets/images/
+    - assets/images/full_heart.svg
+    - assets/images/half_heart.svg
+    - assets/images/broken_heart.svg
     - assets/images/modules/1_basics/ch1/course1/
     - assets/images/achievements.png
 
