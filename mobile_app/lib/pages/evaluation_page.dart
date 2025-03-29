@@ -104,13 +104,8 @@ class _EvaluationPage extends State<EvaluationPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: const Text(
-          'Evaluation',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-          ),
-        ),
+        title: const Text('Evaluation',style: TextStyle(color: Colors.black, fontSize: 20)),
+        //actions: [Padding(padding: const EdgeInsets.only(right: 20.0), child: buildStars(0))],
       ),
       body: isDataLoaded
           ? SafeArea(
@@ -133,10 +128,7 @@ class _EvaluationPage extends State<EvaluationPage> {
                         children: [
                           Text(
                             stepName,
-                            style: const TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: const TextStyle(fontSize: 25,fontWeight: FontWeight.bold)
                           ),
                           const SizedBox(height: 20.0),
                           Text(
@@ -146,15 +138,13 @@ class _EvaluationPage extends State<EvaluationPage> {
                           const SizedBox(height: 20.0),
                           for (var instruction in widgetInstructions)
                             Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 16.0),
+                              padding: const EdgeInsets.symmetric(vertical: 16.0),
                               child: displayWidget(instruction, context),
                             ),
                           const SizedBox(height: 16.0),
                           for (var action in widgetActions)
                             Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 16.0),
+                              padding: const EdgeInsets.symmetric(vertical: 16.0),
                               child: displayWidget(action, context),
                             ),
                         ],

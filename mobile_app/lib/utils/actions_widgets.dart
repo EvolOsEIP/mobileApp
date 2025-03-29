@@ -11,11 +11,13 @@ class InputTextWidget extends StatefulWidget {
   final String expectedValue;
   final String? description;
   final VoidCallback nextStep;
+  final int? score;
 
   const InputTextWidget({super.key,
     required this.expectedValue,
     required this.nextStep,
     this.description,
+    this.score
   });
   @override
   _InputTextWidgetState createState() => _InputTextWidgetState();
@@ -41,18 +43,33 @@ class _InputTextWidgetState extends State<InputTextWidget> {
     return "Votre réponse est incorrecte. Veuillez revoir l’instruction.";
   }
 
+  // Function to handle validation when the button is pressed
+  void validateInput() {
+    final userInput = controller.text;
+    setState(() {
+      if (userInput == widget.expectedValue) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Bonne réponse ! 🎉"))
+        );
+        errorMessage = '';
+        controller.clear();
+        widget.nextStep();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Mauvaise réponse. Réessayez ! ❌"))
+        );
+        errorMessage = handleErrorInputText(userInput);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Entrez :",
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-            color: Colors.grey[700],
-          ),
+          "Entrez :", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Colors.grey[700]),
         ),
         const SizedBox(height: 5),
         Container(
@@ -63,11 +80,7 @@ class _InputTextWidgetState extends State<InputTextWidget> {
           ),
           child: Text(
             widget.expectedValue,
-            style: const TextStyle(
-              fontSize: 40,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue,
-            ),
+            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold,color: Colors.blue),
           ),
         ),
         const SizedBox(height: 15),
@@ -75,28 +88,16 @@ class _InputTextWidgetState extends State<InputTextWidget> {
           label: widget.description?.isNotEmpty == true ? widget.description : null,
           child: TextField(
             controller: controller,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Entrez votre réponse ici...",
-            ),
-            style: const TextStyle(fontSize: 24),
-            onSubmitted: (value) {
-              setState(() {
-                if (value == widget.expectedValue) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Bonne réponse ! 🎉"))
-                  );
-                  errorMessage = '';
-                  controller.clear();
-                  widget.nextStep();
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Mauvaise réponse. Réessayez ! ❌"))
-                  );
-                  errorMessage = handleErrorInputText(value);
-                }
-              });
-            },
+            decoration: const InputDecoration(border: OutlineInputBorder(),hintText: "Entrez votre réponse ici..."),
+            style: const TextStyle(fontSize: 20),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Align( alignment: Alignment.centerRight,
+          child: ElevatedButton(
+            onPressed: validateInput,
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+            child: const Text("Valider", style: TextStyle(color: Colors.white))
           ),
         ),
         // Display the error message below the TextField
