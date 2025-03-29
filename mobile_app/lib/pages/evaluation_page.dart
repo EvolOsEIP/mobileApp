@@ -95,6 +95,14 @@ class _EvaluationPage extends State<EvaluationPage> {
     }
   }
 
+  void loseLife() {
+    if (life > 0) {
+      setState(() {
+        life--;
+      });
+    }
+  }
+
   /// Displays a pop-up when the evaluation is completed.
   ///
   /// The pop-up shows a completion message based on the user's score, along with a star rating.
@@ -236,7 +244,7 @@ class _EvaluationPage extends State<EvaluationPage> {
           expectedValue: widgetData["expected_value"],
           description: widgetData["description"],
           nextStep: nextStep,
-          life: life,
+          life: loseLife
         );
       default:
         return const SizedBox();

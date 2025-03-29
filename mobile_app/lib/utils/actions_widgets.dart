@@ -13,7 +13,7 @@ class InputTextWidget extends StatefulWidget {
   final String expectedValue;
   final String? description;
   final Function(int) nextStep;
-  final int? life;
+  final VoidCallback? life;
 
   const InputTextWidget({super.key,
     required this.expectedValue,
@@ -30,12 +30,14 @@ class _InputTextWidgetState extends State<InputTextWidget> {
 
   TextEditingController controller = TextEditingController();
   String errorMessage = '';
-  late int currentLife;
+  int currentLife = 2;
 
   @override
   void initState() {
     super.initState();
-    currentLife = widget.life!;
+    if (widget.life != null) {
+      currentLife = 2;
+    }
   }
 
   /// Handles input errors and provides feedback on the user’s answer.
@@ -76,20 +78,22 @@ class _InputTextWidgetState extends State<InputTextWidget> {
         controller.clear();
         widget.nextStep(currentLife);
       } else {
-        currentLife--;
-        if (currentLife <= 0) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Plus de vies !")),
-          );
-          errorMessage = '';
-          controller.clear();
-          widget.nextStep(0);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Mauvaise réponse. Réessayez ! ❌"))
-          );
-          errorMessage = handleErrorInputText(userInput);
+        if (widget.life != null) {
+          currentLife--;
+          widget.life!();
+          if (currentLife <= 0) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Plus de vies !")),
+            );
+            errorMessage = '';
+            controller.clear();
+            widget.nextStep(0);
+          }
         }
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Mauvaise réponse. Réessayez ! ❌"))
+        );
+        errorMessage = handleErrorInputText(userInput);
       }
     });
   }
