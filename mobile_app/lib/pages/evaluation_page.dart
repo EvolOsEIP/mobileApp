@@ -20,7 +20,7 @@ class EvaluationPage extends StatefulWidget {
 class _EvaluationPage extends State<EvaluationPage> {
   dynamic dialogs;
   int currentDialogIndex = 0;
-
+  double score = 0.0;
   String stepName = '';
   int allSteps = 0;
   int currentStep = 0;
@@ -180,11 +180,12 @@ class _EvaluationPage extends State<EvaluationPage> {
       case "image":
         return imageWidget(
             context, widgetData["data"], widgetData["description"]);
-      case "input_text": // data => change en expected value
+      case "input_text":
         return InputTextWidget(
             expectedValue: widgetData["expected_value"],
             description: widgetData["description"],
-            nextStep: nextStep);
+            nextStep: nextStep,
+            score: score);
       default:
         return const SizedBox(); // Widget vide si type inconnu
     }

@@ -190,11 +190,11 @@ class _CoursePage extends State<CoursePage> {
       case "image":
         return imageWidget(
             context, widgetData["data"], widgetData["description"]);
-      case "input_text": // data => change en expected value
+      case "input_text":
         return InputTextWidget(
-            expectedValue: widgetData["expected_value"],
-            description: widgetData["description"],
-            nextStep: nextStep);
+          expectedValue: widgetData["expected_value"],
+          description: widgetData["description"],
+          nextStep: nextStep);
       default:
         return const SizedBox(); // Widget vide si type inconnu
     }

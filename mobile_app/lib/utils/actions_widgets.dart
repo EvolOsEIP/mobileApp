@@ -11,7 +11,7 @@ class InputTextWidget extends StatefulWidget {
   final String expectedValue;
   final String? description;
   final VoidCallback nextStep;
-  final int? score;
+  final double? score;
 
   const InputTextWidget({super.key,
     required this.expectedValue,
@@ -63,13 +63,21 @@ class _InputTextWidgetState extends State<InputTextWidget> {
     });
   }
 
+  void skipStep() {
+    setState(() {
+      errorMessage = '';
+      controller.clear();
+      widget.nextStep();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Entrez :", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Colors.grey[700]),
+          "Entrez :", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.grey[700]),
         ),
         const SizedBox(height: 5),
         Container(
@@ -80,7 +88,7 @@ class _InputTextWidgetState extends State<InputTextWidget> {
           ),
           child: Text(
             widget.expectedValue,
-            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold,color: Colors.blue),
+            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: Colors.blue),
           ),
         ),
         const SizedBox(height: 15),
@@ -89,16 +97,26 @@ class _InputTextWidgetState extends State<InputTextWidget> {
           child: TextField(
             controller: controller,
             decoration: const InputDecoration(border: OutlineInputBorder(),hintText: "Entrez votre réponse ici..."),
-            style: const TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 16),
           ),
         ),
         const SizedBox(height: 10),
-        Align( alignment: Alignment.centerRight,
-          child: ElevatedButton(
-            onPressed: validateInput,
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-            child: const Text("Valider", style: TextStyle(color: Colors.white))
-          ),
+        Row( mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            if (widget.score != null)
+            ElevatedButton(
+              onPressed: skipStep,
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+              child: const Text("Je ne sais", style: TextStyle(color: Colors.white)),
+            ),
+            if (widget.score != null)
+              const SizedBox(width: 10),
+            ElevatedButton(
+              onPressed: validateInput,
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+              child: const Text("Valider", style: TextStyle(color: Colors.white))
+            )
+          ]
         ),
         // Display the error message below the TextField
         if (errorMessage.isNotEmpty)
