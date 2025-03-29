@@ -61,7 +61,7 @@ class _CoursePage extends State<CoursePage> {
         });
       }
     } catch (e) {
-      print("Erreur lors du chargement des données : $e");
+      print("Error to load data : $e");
     }
   }
 

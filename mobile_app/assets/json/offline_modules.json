@@ -1,8 +1,8 @@
 [
     {
-        "moduleid": 1,
-        "modulename": "Digital Basics",
-        "modulelevel": "Eclaireur",
+        "moduleId": 1,
+        "moduleName": "Digital Basics",
+        "moduleLevel": "Eclaireur",
         "courses": [
             {
                 "courseId": 1,
@@ -43,9 +43,9 @@
         }
     },
     {
-        "moduleid": 2,
-        "modulename": "internet",
-        "modulelevel": "Explorateur",
+        "moduleId": 2,
+        "moduleName": "internet",
+        "moduleLevel": "Explorateur",
         "courses": [
           {
             "courseId": 3,

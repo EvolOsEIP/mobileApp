@@ -74,7 +74,7 @@ class RoadmapSection extends StatelessWidget {
     return Column(
       children: [
         // Divider with the module name
-        DividerWidget(title: module['modulename']),
+        DividerWidget(title: module['moduleName']),
         const SizedBox(height: 10),
         // Displays the courses and evaluation within the module
         RoadmapWidget(courses: module['courses'], evaluation: module['evaluation']),
