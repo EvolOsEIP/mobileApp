@@ -3,13 +3,13 @@
     "type": "evaluation",
     "title": "Titre 1",
     "stepId": 1,
-    "instructions": "instructions a suivre 1",
+    "instructions": "1ere question, exemple d'interface.",
     "widgets": {
       "actions": [
         {
           "type": "input_text",
           "description": " ",
-          "expected_value": "bonjour"
+          "expected_value": "réponse à la question 1"
         }
       ],
       "instructions": [
@@ -26,7 +26,7 @@
     "type": "evaluation",
     "title": "Titre 2",
     "stepId": 2,
-    "instructions": "instructions a suivre 2",
+    "instructions": "Question 2",
     "widgets": {
       "actions": [
         {

@@ -40,6 +40,19 @@ class _InputTextWidgetState extends State<InputTextWidget> {
     }
   }
 
+  void showSnackBar(String message, {Color backgroundColor = Colors.black}) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message, style: const TextStyle(color: Colors.white)),
+        backgroundColor: backgroundColor,
+        duration: const Duration(seconds: 1),
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(10),
+      ),
+    );
+  }
+
   /// Handles input errors and provides feedback on the user’s answer.
   ///
   /// This function checks different scenarios for common input errors such as
@@ -71,9 +84,7 @@ class _InputTextWidgetState extends State<InputTextWidget> {
     final userInput = controller.text;
     setState(() {
       if (userInput == widget.expectedValue) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Bonne réponse ! 🎉"))
-        );
+        showSnackBar("Bonne réponse ! 🎉", backgroundColor: Colors.green);
         errorMessage = '';
         controller.clear();
         widget.nextStep(currentLife);
@@ -82,17 +93,13 @@ class _InputTextWidgetState extends State<InputTextWidget> {
           currentLife--;
           widget.life!();
           if (currentLife <= 0) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Plus de vies !")),
-            );
+            showSnackBar("Plus de vies !", backgroundColor: Colors.red);
             errorMessage = '';
             controller.clear();
             widget.nextStep(0);
           }
         }
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Mauvaise réponse. Réessayez ! ❌"))
-        );
+        showSnackBar("Mauvaise réponse. Réessayez ! ❌", backgroundColor: Colors.orange);
         errorMessage = handleErrorInputText(userInput);
       }
     });
