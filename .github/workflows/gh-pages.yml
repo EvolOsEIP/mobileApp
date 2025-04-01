@@ -34,7 +34,7 @@ jobs:
       run: cd mobile_app && flutter pub get
 
     - name: Build Flutter Web
-      run: cd  mobile_app  && flutter build web --release
+      run: cd  mobile_app  && touch .env && flutter build web --release
 
     - name: Remove href from index.html
       run: sed -i 's/href="\//href=".\//g' mobile_app/build/web/index.html
