@@ -1,57 +1,75 @@
 import 'package:flutter/material.dart';
-import 'colors.dart'; // Import your custom colors.
+import 'package:mobile_app/utils/colors.dart';
 
+class CustomNavbar extends StatelessWidget {
+  final String profileImageUrl;
 
-class CustomBottomNavigationBar extends StatelessWidget {
-  final int selectedIndex;
-
-  const CustomBottomNavigationBar({
-    super.key,
-    required this.selectedIndex,
-  });
-
-  /// Updates the selected index and triggers a rebuild of the widget.
-  void _onItemTapped(BuildContext context, int index) {
-    // Navigation logic based on the selected index.
-    switch (index) {
-      case 0:
-        // Navigate to Stats page
-        Navigator.pushReplacementNamed(context, '/stats');
-        break;
-      case 1:
-        // Navigate to Home page
-        Navigator.pushReplacementNamed(context, '/home');
-        break;
-      case 2:
-        // Navigate to Profile page
-        Navigator.pushReplacementNamed(context, '/profile');
-        break;
-    }
-    print("Selected Index: $index");
-  }
+  const CustomNavbar({super.key, required this.profileImageUrl});
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      backgroundColor: CustomColors.dark_accent, // Custom background color.
-      selectedItemColor: CustomColors.accent, // Highlight color for the selected item.
-      unselectedItemColor: Colors.white, // White color for unselected items.
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.query_stats), // Stats icon.
-          label: 'Stats', // Label for the stats tab.
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home), // Home icon.
-          label: 'Acceuil', // Label for the home tab.
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person), // Profile icon.
-          label: 'Profile', // Label for the profile tab.
-        ),
-      ],
-      currentIndex: selectedIndex, // Highlights the currently selected tab.
-      onTap: (index) => _onItemTapped(context, index), // Updates the selected index when a tab is tapped.
+    double screenWidth = MediaQuery.of(context).size.width;
+    double navbarHeight = screenWidth * 0.10;
+    double iconSize = screenWidth * 0.07;
+    double avatarSize = screenWidth * 0.07;
+
+    return Container(
+      padding:
+          EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(
+            navbarHeight * 0.5),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 10,
+            spreadRadius: 2,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () {
+              if (ModalRoute.of(context)!.settings.name != '/profile') {
+                Navigator.pushNamed(context, '/profile');
+              }
+            },
+            child:
+            ClipRRect(
+              borderRadius:
+                  BorderRadius.circular(avatarSize * 0.5),
+              child: Image.asset(
+                'assets/images/44.jpg',
+                width: avatarSize,
+                height: avatarSize,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          IconButton(
+            icon: Icon(Icons.menu_book,
+                color: CustomColors.dark_accent, size: iconSize),
+            onPressed: () {
+              if (ModalRoute.of(context)!.settings.name != '/roadmap') {
+                Navigator.pushNamed(context, '/roadmap');
+              }
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.star_border,
+                color: CustomColors.dark_accent, size: iconSize),
+            onPressed: () {
+              if (ModalRoute.of(context)!.settings.name != '/success') {
+                Navigator.pushNamed(context, '/success');
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 }

@@ -11,10 +11,10 @@ class Assistant extends StatefulWidget {
   final VoidCallback? onComplete;
 
   const Assistant({
-    Key? key,
+    super.key,
     required this.dialogs,
     this.onComplete,
-  }) : super(key: key);
+  });
 
   @override
   _AssistantState createState() => _AssistantState();
@@ -120,53 +120,54 @@ class _AssistantState extends State<Assistant> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _onTap, // Handle user tap gestures.
-      child: Stack(
-        children: [
-          if (widget.dialogs.isNotEmpty) ...[
-            Align(
-              alignment:
-                  Alignment.center, // Center the assistant box on the screen.
-              child: AnimatedOpacity(
-                opacity: isBlinking
-                    ? 0.5
-                    : 1.0, // Adjust opacity for blinking effect.
-                duration: const Duration(milliseconds: 500),
-                child: Container(
-                  padding: const EdgeInsets.all(20),
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color:
-                        const Color.fromARGB(255, 51, 84, 116).withOpacity(0.8),
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(color: Colors.white70, width: 2),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text(
-                        "Assistant",
-                        style: TextStyle(
-                          color: Colors.orangeAccent,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
+      child: Container(
+        color: Colors.black.withValues(alpha: 0.5),
+        child: Stack(
+          children: [
+            if (widget.dialogs.isNotEmpty) ...[
+              Center(
+                child: AnimatedOpacity(
+                  opacity: isBlinking
+                      ? 0.5
+                      : 1.0, // Adjust opacity for blinking effect.
+                  duration: const Duration(milliseconds: 500),
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    margin: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color:
+                      const Color.fromARGB(255, 51, 84, 116).withValues(alpha: 0.9),
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: Colors.white70, width: 2),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          "Assistant",
+                          style: TextStyle(
+                            color: Colors.orangeAccent,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        displayedText,
-                        style: const TextStyle(
-                          color: Color.fromARGB(255, 173, 167, 167),
-                          fontSize: 30,
-                          height: 1.5,
+                        const SizedBox(height: 10),
+                        Text(
+                          displayedText,
+                          style: const TextStyle(
+                            color: Color.fromARGB(255, 173, 167, 167),
+                            fontSize: 30,
+                            height: 1.5,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

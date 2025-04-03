@@ -37,6 +37,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   flutter_native_splash: ^2.4.4
+  http: ^1.3.0
+  flutter_dotenv: ^5.2.1
+  hexagon: ^0.2.0
 
 
 dev_dependencies:
@@ -63,9 +66,18 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/chapters.json
+    - .env
     - assets/images/
+    - assets/images/full_heart.svg
+    - assets/images/half_heart.svg
+    - assets/images/broken_heart.svg
     - assets/images/modules/1_basics/ch1/course1/
+    - assets/images/achievements.png
+
+    - assets/json/courses_pages.json
+    - assets/json/success.json
+    - assets/json/offline_modules.json
+    - assets/json/evaluations_pages.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

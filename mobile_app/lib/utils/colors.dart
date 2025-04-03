@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 // A utility class to define custom colors for the app theme
@@ -14,4 +13,6 @@ class CustomColors {
 
   // Dark accent color, often used for headers or focus areas
   static const Color dark_accent = Color(0xFF227c9d);
+
+  static const Color orangeAccent = Color(0xFFEE570B);
 }
