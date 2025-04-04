@@ -28,3 +28,14 @@ jobs:
     - name: Generate Documentation
       run: cd mobile_app ; dart doc
 
+    - name: Pushes documentation to EIP Documentation repository
+      uses: dmnemec/copy_file_to_another_repo_action@main
+      env:
+        API_TOKEN_GITHUB: ${{ secrets.SSH_PRIVATE_KEY }}
+      with:
+        source_file: 'mobile_app/doc/api/'
+        destination_repo: 'git@github.com:EvolOsEIP/Documentation.git'
+        destination_folder: 'MobileApp'
+        user_email: 'sebastien.nourry@epitech.eu'
+        user_name: 'nourrysebastieN'
+        commit_message: 'Update documentation for mobile app'
