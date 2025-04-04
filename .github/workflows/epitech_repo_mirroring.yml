@@ -3,15 +3,14 @@ name: Mirroring to Epitech Repository
 on: [push, pull_request]
 
 jobs:
-  to_gitlab:
+  git-sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: git-sync
+        uses: wei/git-sync@v3
         with:
-          fetch-depth: 0
-      - uses: pixta-dev/repository-mirroring-action@v1
-        with:
-          target_repo_url:
-            git@github.com:EpitechPromo2026/G-EIP-700-RUN-7-1-eip-apolline.fontaine.git
-          ssh_private_key:
-            ${{ secrets.MIRROR_SSH_PRIVATE_KEY }}
+          source_repo: "git@github.com:EvolOsEIP/mobileApp.git"
+          source_branch: "refs/remotes/source/*"
+          destination_repo: "git@github.com:EpitechPromo2026/G-EIP-700-RUN-7-1-eip-apolline.fontaine.git"
+          destination_branch: "refs/heads/*"
+          ssh_private_key: ${{ secrets.MIRROR_SSH_PRIVATE_KEY }}
