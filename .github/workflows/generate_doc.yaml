@@ -34,7 +34,7 @@ jobs:
         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
       with:
         source_file: 'mobile_app/doc/api/'
-        destination_repo: 'EvolOsEIP/mobileApp'
+        destination_repo: 'EvolOsEIP/Documentation'
         destination_folder: 'MobileApp'
         user_email: 'sebastien.nourry@epitech.eu'
         user_name: 'nourrysebastieN'
