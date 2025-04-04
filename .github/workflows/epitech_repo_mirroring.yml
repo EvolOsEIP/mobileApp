@@ -13,4 +13,4 @@ jobs:
           source_branch: "refs/remotes/source/*"
           destination_repo: "git@github.com:EpitechPromo2026/G-EIP-700-RUN-7-1-eip-apolline.fontaine.git"
           destination_branch: "refs/heads/*"
-          ssh_private_key: ${{ secrets.MIRROR_SSH_PRIVATE_KEY }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
