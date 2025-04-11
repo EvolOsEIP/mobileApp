@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/utils/actions_widgets.dart';
-import 'package:mobile_app/utils/instructions_widgets.dart';
+import 'package:mobile_app/widgets/actions_widgets.dart';
+import 'package:mobile_app/widgets/instructions_widgets.dart';
 import 'package:mobile_app/services/course_service.dart';
-import 'package:mobile_app/utils/assistant.dart';
+import 'package:mobile_app/widgets/assistant.dart';
 
 /// A stateful widget representing a course page.
 ///
@@ -61,7 +61,7 @@ class _CoursePage extends State<CoursePage> {
         });
       }
     } catch (e) {
-      print("Error to load data : $e");
+      print("Error occurred during the courses data loading : $e");
     }
   }
 
@@ -69,6 +69,7 @@ class _CoursePage extends State<CoursePage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
+    // Load data only if it has not been loaded yet.
     if (!isDataLoaded) {
       loadData();
     }

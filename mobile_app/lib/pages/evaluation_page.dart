@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/utils/actions_widgets.dart';
-import 'package:mobile_app/utils/instructions_widgets.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:mobile_app/widgets/actions_widgets.dart';
+import 'package:mobile_app/widgets/instructions_widgets.dart';
 import 'package:mobile_app/services/evaluation_service.dart';
-import 'package:mobile_app/utils/assistant.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobile_app/widgets/assistant.dart';
+import 'package:mobile_app/utils/stars.dart';
 
 /// A stateful widget representing an evaluation page.
 ///
@@ -58,7 +59,7 @@ class _EvaluationPage extends State<EvaluationPage> {
         });
       }
     } catch (e) {
-      print("Erreur lors du chargement des données : $e");
+      print("Error occurred during the data loading of evaluation: $e");
     }
   }
 
@@ -269,16 +270,7 @@ class _EvaluationPage extends State<EvaluationPage> {
   /// The number of stars is determined based on the score provided, where 3 stars are given for scores 80 and above,
   /// 2 stars for scores between 60 and 79, and 1 star for scores between 40 and 59.
   Widget buildStars(double score) {
-    int stars = 0;
-
-    if (score >= 80.0) {
-      stars = 3;
-    } else if (score >= 60.0) {
-      stars = 2;
-    } else if (score >= 40.0) {
-      stars = 1;
-    }
-
+    int stars = calculateStars(score);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(3, (index) {
