@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/widgets/actions_widgets.dart';
+import 'package:mobile_app/widgets/confirm_exit_widget.dart';
 import 'package:mobile_app/widgets/instructions_widgets.dart';
 import 'package:mobile_app/services/evaluation_service.dart';
 import 'package:mobile_app/widgets/assistant.dart';
@@ -179,32 +180,8 @@ class _EvaluationPage extends State<EvaluationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) async {
-        if (didPop) return;
-        final shouldPop = await showDialog<bool>(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text("Quitter ?"),
-            content: const Text("Tu vas perdre ta progression..."),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context, false),
-                child: const Text("Annuler"),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(context, true),
-                child: const Text("Quitter"),
-              ),
-            ],
-          ),
-        );
-        if (shouldPop == true) {
-          Navigator.of(context).pop();
-        }
-      },
-        child : Scaffold(
+    return ConfirmExitWrapper(
+      child : Scaffold(
       appBar: AppBar(
         elevation: 0,
         title: const Text('Evaluation', style: TextStyle(color: Colors.black, fontSize: 20)),

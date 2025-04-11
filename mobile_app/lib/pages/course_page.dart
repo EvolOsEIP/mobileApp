@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/widgets/actions_widgets.dart';
+import 'package:mobile_app/widgets/confirm_exit_widget.dart';
 import 'package:mobile_app/widgets/instructions_widgets.dart';
 import 'package:mobile_app/services/course_service.dart';
 import 'package:mobile_app/widgets/assistant.dart';
@@ -117,20 +118,7 @@ class _CoursePage extends State<CoursePage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () async {
-      return await showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("Quitter ?"),
-          content: const Text("Tu vas perdre ta progression..."),
-          actions: [
-            TextButton(onPressed: () => Navigator.pop(context, false), child: const Text("Annuler")),
-            TextButton(onPressed: () => Navigator.pop(context, true), child: const Text("Quitter")),
-          ],
-        ),
-      ) ?? false;
-    },
+    return ConfirmExitWrapper(
     child : Scaffold(
       appBar: AppBar(
         elevation: 0,
