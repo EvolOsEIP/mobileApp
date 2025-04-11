@@ -147,6 +147,19 @@ class _EvaluationPage extends State<EvaluationPage> {
         actions: [
           TextButton(
             onPressed: () {
+              setState(() {
+                currentStep = 0;
+                actualScore = 0;
+                life = 2;
+                isDataLoaded = false;
+              });
+              Navigator.pop(context);
+              loadData();
+            },
+            child: const Text("Recommencer"),
+          ),
+          TextButton(
+            onPressed: () {
               Navigator.pushNamed(context, '/roadmap');
             },
             child: const Text("OK"),
