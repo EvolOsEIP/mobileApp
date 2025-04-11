@@ -172,21 +172,32 @@ class _EvaluationPage extends State<EvaluationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () async {
-      return await showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("Quitter ?"),
-          content: const Text("Tu vas perdre ta progression..."),
-          actions: [
-            TextButton(onPressed: () => Navigator.pop(context, false), child: const Text("Annuler")),
-            TextButton(onPressed: () => Navigator.pop(context, true), child: const Text("Quitter")),
-          ],
-        ),
-      ) ?? false;
-    },
-    child : Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+        final shouldPop = await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("Quitter ?"),
+            content: const Text("Tu vas perdre ta progression..."),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text("Annuler"),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text("Quitter"),
+              ),
+            ],
+          ),
+        );
+        if (shouldPop == true) {
+          Navigator.of(context).pop();
+        }
+      },
+        child : Scaffold(
       appBar: AppBar(
         elevation: 0,
         title: const Text('Evaluation', style: TextStyle(color: Colors.black, fontSize: 20)),
@@ -255,7 +266,7 @@ class _EvaluationPage extends State<EvaluationPage> {
       )
           : const Center(child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           CircularProgressIndicator(),
           SizedBox(height: 10),
           Text("Chargement de l’évaluation...")
