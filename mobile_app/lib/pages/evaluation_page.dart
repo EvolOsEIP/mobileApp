@@ -81,18 +81,25 @@ class _EvaluationPage extends State<EvaluationPage> {
     if (currentStep < allSteps - 1) {
       setState(() {
         // Update score based on currentLife points.
-        if (currentLife == 2) {
-          actualScore += 1;
-        } else if (currentLife == 1) {
-          actualScore += 0.5;
-        }
+        actualScore = finalScoreCalculation(currentLife, false);
         currentStep++;
         life = 2;
       });
       loadData();
     } else {
-      _showCompletionDialog();
+      _showCompletionDialog(finalScoreCalculation(currentLife, true));
     }
+  }
+
+  double finalScoreCalculation(int currentLife, bool lastStep) {
+    if (currentLife == 2) {
+      actualScore += 1;
+    } else if (currentLife == 1) {
+      actualScore += 0.5;
+    }
+    if (lastStep)
+      return ((actualScore / allSteps) * 100);
+    return actualScore;
   }
 
   void loseLife() {
@@ -107,9 +114,9 @@ class _EvaluationPage extends State<EvaluationPage> {
   ///
   /// The pop-up shows a completion message based on the user's score, along with a star rating.
   /// It provides feedback depending on whether the user passed or failed the evaluation.
-  void _showCompletionDialog() {
+  void _showCompletionDialog(double finalScore) {
     String message = "";
-    double finalScore = ((actualScore / allSteps) * 100);
+
     String formattedScore = finalScore.toStringAsFixed(1);
     int stars = calculateStars(finalScore);
 
