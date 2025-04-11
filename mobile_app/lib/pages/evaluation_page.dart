@@ -90,8 +90,7 @@ class _EvaluationPage extends State<EvaluationPage> {
       });
       loadData();
     } else {
-      double finalScore = (actualScore / allSteps) * 100;
-      _showCompletionDialog(finalScore);
+      _showCompletionDialog();
     }
   }
 
@@ -107,22 +106,21 @@ class _EvaluationPage extends State<EvaluationPage> {
   ///
   /// The pop-up shows a completion message based on the user's score, along with a star rating.
   /// It provides feedback depending on whether the user passed or failed the evaluation.
-  void _showCompletionDialog(double finalScore) {
-    String message;
-    int stars = 0;
+  void _showCompletionDialog() {
+    String message = "";
+    double finalScore = ((actualScore / allSteps) * 100);
+    String formattedScore = finalScore.toStringAsFixed(1);
+    int stars = calculateStars(finalScore);
 
-    if (finalScore >= 80) {
-      message = "Félicitations, tu as brillamment réussi !";
-      stars = 3;
-    } else if (finalScore >= 60) {
-      message = "Bien joué, tu as réussi l'évaluation.";
-      stars = 2;
-    } else if (finalScore >= 40) {
-      message = "Tu as réussi, mais il y a encore des progrès à faire.";
-      stars = 1;
-    } else {
-      message = "Tu n'as pas réussi cette évaluation. Essaie de nouveau !";
-      stars = 0;
+    switch (stars) {
+      case 0:
+        message = "Tu n'as pas réussi cette évaluation. Essaie de nouveau !";
+      case 1:
+        message = "Tu as réussi, mais il y a encore des progrès à faire.";
+      case 2:
+        message = "Bien joué, tu as réussi l'évaluation.";
+      case 3:
+        message = "Félicitations, tu as brillamment réussi !";
     }
     showDialog(
       context: context,
@@ -132,6 +130,8 @@ class _EvaluationPage extends State<EvaluationPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(message),
+            const SizedBox(height: 20),
+            Text("Score final : $formattedScore%"),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
