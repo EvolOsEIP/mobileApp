@@ -1,0 +1,16 @@
+name: Mirroring to Epitech Repository
+
+on: [push, pull_request]
+
+jobs:
+  git-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: yesolutions/mirror-action@master
+        with:
+          REMOTE: git@github.com:EpitechPromo2026/G-EIP-700-RUN-7-1-eip-apolline.fontaine.git
+          GIT_SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          GIT_SSH_NO_VERIFY_HOST: "true"
