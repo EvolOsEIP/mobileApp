@@ -15,7 +15,8 @@ class InputTextWidget extends StatefulWidget {
   final Function(int) nextStep;
   final VoidCallback? life;
 
-  const InputTextWidget({super.key,
+  const InputTextWidget({
+    super.key,
     required this.expectedValue,
     required this.nextStep,
     this.description,
@@ -31,14 +32,6 @@ class _InputTextWidgetState extends State<InputTextWidget> {
   TextEditingController controller = TextEditingController();
   String errorMessage = '';
   int currentLife = 2;
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.life != null) {
-      currentLife = 2;
-    }
-  }
 
   void showSnackBar(String message, {Color backgroundColor = Colors.black}) {
     ScaffoldMessenger.of(context).clearSnackBars();
@@ -99,7 +92,6 @@ class _InputTextWidgetState extends State<InputTextWidget> {
             widget.nextStep(0);
           }
         }
-        showSnackBar("Mauvaise réponse. Réessayez ! ❌", backgroundColor: Colors.orange);
         errorMessage = handleErrorInputText(userInput);
       }
     });
