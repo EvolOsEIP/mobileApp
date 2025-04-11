@@ -190,7 +190,7 @@ class _EvaluationPage extends State<EvaluationPage> {
       appBar: AppBar(
         elevation: 0,
         title: const Text('Evaluation', style: TextStyle(color: Colors.black, fontSize: 20)),
-        actions: [Padding(padding: const EdgeInsets.only(right: 20.0), child: buildStars(50))],
+        actions: [Padding(padding: const EdgeInsets.only(right: 20.0), child: buildStars(50))], //build stars params will be replace by the previous score of the user
       ),
       body: isDataLoaded
           ? SafeArea(
@@ -253,7 +253,14 @@ class _EvaluationPage extends State<EvaluationPage> {
           ],
         ),
       )
-          : const Center(child: CircularProgressIndicator()),
+          : const Center(child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          CircularProgressIndicator(),
+          SizedBox(height: 10),
+          Text("Chargement de l’évaluation...")
+        ],
+      )),
     ),
     );
   }

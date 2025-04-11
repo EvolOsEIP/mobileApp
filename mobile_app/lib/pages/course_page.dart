@@ -214,7 +214,15 @@ class _CoursePage extends State<CoursePage> {
           ],
         ),
       )
-          : const Center(child: CircularProgressIndicator()),
+          : const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            CircularProgressIndicator(),
+            SizedBox(height: 10),
+            Text("Chargement de cours...")
+          ],
+        )),
     ),);
   }
 
