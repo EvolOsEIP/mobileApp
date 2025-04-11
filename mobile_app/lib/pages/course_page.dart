@@ -117,7 +117,21 @@ class _CoursePage extends State<CoursePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+      return await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("Quitter ?"),
+          content: const Text("Tu vas perdre ta progression..."),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(context, false), child: const Text("Annuler")),
+            TextButton(onPressed: () => Navigator.pop(context, true), child: const Text("Quitter")),
+          ],
+        ),
+      ) ?? false;
+    },
+    child : Scaffold(
       appBar: AppBar(
         elevation: 0,
         title: const Text(
@@ -201,7 +215,7 @@ class _CoursePage extends State<CoursePage> {
         ),
       )
           : const Center(child: CircularProgressIndicator()),
-    );
+    ),);
   }
 
   /// Displays a widget based on its type.

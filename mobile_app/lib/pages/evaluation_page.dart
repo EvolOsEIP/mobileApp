@@ -172,7 +172,21 @@ class _EvaluationPage extends State<EvaluationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+      return await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("Quitter ?"),
+          content: const Text("Tu vas perdre ta progression..."),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(context, false), child: const Text("Annuler")),
+            TextButton(onPressed: () => Navigator.pop(context, true), child: const Text("Quitter")),
+          ],
+        ),
+      ) ?? false;
+    },
+    child : Scaffold(
       appBar: AppBar(
         elevation: 0,
         title: const Text('Evaluation', style: TextStyle(color: Colors.black, fontSize: 20)),
@@ -240,6 +254,7 @@ class _EvaluationPage extends State<EvaluationPage> {
         ),
       )
           : const Center(child: CircularProgressIndicator()),
+    ),
     );
   }
 
