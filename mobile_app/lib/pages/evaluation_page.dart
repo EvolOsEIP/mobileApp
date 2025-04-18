@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/utils/fetchData.dart';
 import 'package:mobile_app/widgets/actions_widgets.dart';
+import 'package:mobile_app/widgets/basics_elements_of_a_page.dart';
 import 'package:mobile_app/widgets/confirm_exit_widget.dart';
 import 'package:mobile_app/widgets/instructions_widgets.dart';
 import 'package:mobile_app/services/evaluation_service.dart';
-import 'package:mobile_app/widgets/assistant.dart';
 import 'package:mobile_app/utils/stars.dart';
 import 'package:mobile_app/widgets/evaluation_widgets.dart';
 
@@ -178,88 +179,6 @@ class _EvaluationPage extends State<EvaluationPage> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return ConfirmExitWrapper(
-      child : Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text('Evaluation', style: TextStyle(color: Colors.black, fontSize: 20)),
-        actions: [Padding(padding: const EdgeInsets.only(right: 20.0), child: buildStars(50))], //build stars params will be replace by the previous score of the user
-      ),
-      body: isDataLoaded
-          ? SafeArea(
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                LinearProgressIndicator(value: currentStep / allSteps),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      margin: const EdgeInsets.all(20.0),
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(stepName, style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-                              buildHeart(life),
-                            ],
-                          ),
-                          const SizedBox(height: 20.0),
-                          Text(instructionDescription, style: const TextStyle(fontSize: 20)),
-                          const SizedBox(height: 20.0),
-                          for (var instruction in widgetInstructions)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
-                              child: displayWidget(instruction, context),
-                            ),
-                          const SizedBox(height: 16.0),
-                          for (var action in widgetActions)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
-                              child: displayWidget(action, context),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            if (dialogs != null && dialogs.isNotEmpty)
-              Positioned.fill(
-                child: Assistant(
-                  dialogs: dialogs,
-                  onComplete: () {
-                    setState(() {
-                      dialogs = [];
-                    });
-                  },
-                ),
-              ),
-          ],
-        ),
-      )
-          : const Center(child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircularProgressIndicator(),
-          SizedBox(height: 10),
-          Text("Chargement de l’évaluation...")
-        ],
-      )),
-    ),
-    );
-  }
-
   /// Displays a widget based on its type.
   ///
   /// This method takes the [widgetData] and determines the widget type.
@@ -280,5 +199,74 @@ class _EvaluationPage extends State<EvaluationPage> {
       default:
         return const SizedBox();
     }
+  }
+
+  Widget mainContentOfEvaluations() {
+    return Column(
+      children: [
+        LinearProgressIndicator(value: currentStep / allSteps),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Container(
+              margin: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Titre + vies
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(stepName, style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                      buildHeart(life),
+                    ],
+                  ),
+                  const SizedBox(height: 20.0),
+
+                  // Description
+                  Text(instructionDescription, style: const TextStyle(fontSize: 20)),
+                  const SizedBox(height: 20.0),
+
+                  // Instructions
+                  for (var instruction in widgetInstructions)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: displayWidget(instruction, context),
+                    ),
+
+                  const SizedBox(height: 16.0),
+
+                  // Actions
+                  for (var action in widgetActions)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: displayWidget(action, context),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ConfirmExitWrapper(
+      child: Scaffold(
+        appBar: buildAppBar("Evaluations", actions: [
+        Padding(
+        padding: const EdgeInsets.only(right: 20.0),
+          child: buildStars(50))]),
+        body: isDataLoaded
+            ? buildContent(stepColumn: mainContentOfEvaluations(), dialogs: dialogs, onAssistantComplete: () => setState(() => dialogs = []),)
+            : buildLoadingIndicator("Chargement de l'évaluation..."),
+      ),
+    );
   }
 }

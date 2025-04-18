@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/widgets/basics_elements_of_a_page.dart';
+import 'package:mobile_app/utils/fetchData.dart';
 import 'package:mobile_app/widgets/actions_widgets.dart';
 import 'package:mobile_app/widgets/confirm_exit_widget.dart';
 import 'package:mobile_app/widgets/instructions_widgets.dart';
 import 'package:mobile_app/services/course_service.dart';
-import 'package:mobile_app/widgets/assistant.dart';
 
 /// A stateful widget representing a course page.
 ///
@@ -116,102 +117,49 @@ class _CoursePage extends State<CoursePage> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return ConfirmExitWrapper(
-    child : Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text(
-          'Cours',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-          ),
-        ),
-      ),
-      body: isDataLoaded
-          ? SafeArea(
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                // Display progress bar based on the current step
-                LinearProgressIndicator(value: currentStep / allSteps),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      margin: const EdgeInsets.all(20.0),
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Display the current step title
-                          Text(
-                            stepName,
-                            style: const TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 20.0),
-                          // Display the instructions for the current step
-                          Text(
-                            instructionDescription,
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          const SizedBox(height: 20.0),
-                          // Display instructions widgets
-                          for (var instruction in widgetInstructions)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 16.0),
-                              child: displayWidget(instruction, context),
-                            ),
-                          const SizedBox(height: 16.0),
-                          // Display action widgets
-                          for (var action in widgetActions)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 16.0),
-                              child: displayWidget(action, context),
-                            ),
-                        ],
-                      ),
+  Widget mainContentOfCourses() {
+    return Column(
+      children: [
+        LinearProgressIndicator(value: currentStep / allSteps),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Container(
+              margin: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(stepName,
+                      style: const TextStyle(
+                          fontSize: 25, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 20.0),
+                  Text(instructionDescription,
+                      style: const TextStyle(fontSize: 20)),
+                  const SizedBox(height: 20.0),
+                  ...widgetInstructions.map(
+                        (instruction) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: displayWidget(instruction, context),
                     ),
                   ),
-                ),
-              ],
-            ),
-            // Display assistant if there are dialogs
-            if (dialogs != null && dialogs.isNotEmpty)
-              Positioned.fill(
-                child: Assistant(
-                  dialogs: dialogs,
-                  onComplete: () {
-                    setState(() {
-                      dialogs = [];
-                    });
-                  },
-                ),
+                  const SizedBox(height: 16.0),
+                  ...widgetActions.map(
+                        (action) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: displayWidget(action, context),
+                    ),
+                  ),
+                ],
               ),
-          ],
+            ),
+          ),
         ),
-      )
-          : const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            CircularProgressIndicator(),
-            SizedBox(height: 10),
-            Text("Chargement de cours...")
-          ],
-        )),
-    ),);
+      ],
+    );
   }
 
   /// Displays a widget based on its type.
@@ -234,5 +182,17 @@ class _CoursePage extends State<CoursePage> {
       default:
         return const SizedBox(); // Return an empty widget for unknown types
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ConfirmExitWrapper(
+      child: Scaffold(
+        appBar: buildAppBar("Cours"),
+        body: isDataLoaded
+            ? buildContent(stepColumn: mainContentOfCourses(), dialogs: dialogs, onAssistantComplete: () => setState(() => dialogs = []),)
+            : buildLoadingIndicator("Chargement du cours..."),
+      ),
+    );
   }
 }
