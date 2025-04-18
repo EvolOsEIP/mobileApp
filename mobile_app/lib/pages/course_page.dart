@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/widgets/basics_elements_of_a_page.dart';
 import 'package:mobile_app/utils/fetchData.dart';
@@ -63,7 +64,9 @@ class _CoursePage extends State<CoursePage> {
         });
       }
     } catch (e) {
-      print("Error occurred during the courses data loading : $e");
+      if (kDebugMode) {
+        print("Error occurred during the courses data loading : $e");
+      }
     }
   }
 

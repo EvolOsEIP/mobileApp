@@ -74,7 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
+                      SizedBox(
                         width: profileImageSize *
                             1, // <-- Réduit la largeur pour pousser le texte
                         child: ClipRRect(

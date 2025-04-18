@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/utils/fetchData.dart';
 import 'package:mobile_app/widgets/actions_widgets.dart';
@@ -61,7 +62,9 @@ class _EvaluationPage extends State<EvaluationPage> {
         });
       }
     } catch (e) {
-      print("Error occurred during the data loading of evaluation: $e");
+      if (kDebugMode) {
+        print("Error occurred during the data loading of evaluation: $e");
+      }
     }
   }
 
@@ -99,8 +102,9 @@ class _EvaluationPage extends State<EvaluationPage> {
     } else if (currentLife == 1) {
       actualScore += 0.5;
     }
-    if (lastStep)
+    if (lastStep) {
       return ((actualScore / allSteps) * 100);
+    }
     return actualScore;
   }
 
@@ -262,7 +266,7 @@ class _EvaluationPage extends State<EvaluationPage> {
         appBar: buildAppBar("Evaluations", actions: [
         Padding(
         padding: const EdgeInsets.only(right: 20.0),
-          child: buildStars(50))]),
+          child: buildStars(widget.score))]),
         body: isDataLoaded
             ? buildContent(stepColumn: mainContentOfEvaluations(), dialogs: dialogs, onAssistantComplete: () => setState(() => dialogs = []),)
             : buildLoadingIndicator("Chargement de l'évaluation..."),
