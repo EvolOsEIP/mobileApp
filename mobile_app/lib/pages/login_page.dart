@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/utils/fetchData.dart';
+import 'package:mobile_app/services/tokenCaching.dart';
 
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -54,7 +55,21 @@ class LoginPage extends StatelessWidget {
                       postToApi('/auth/login', {
                         'email': emailController.text,
                         'passwordHash': passwordController.text
-                      }).then((response) {});
+                      }).then((response) async {
+                        if (response != null) {
+                          // Store the token in local storage
+                          final tokenService = TokenStorageService();
+                          await tokenService.saveToken(response['token']);
+                          // Navigate to the roadmap page
+                          Navigator.pushNamed(context, '/roadmap');
+                        } else if (response == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Erreur de connexion'),
+                            ),
+                          );
+                        }
+                      });
                     }
                   },
                   child: const Text('Se connecter'),

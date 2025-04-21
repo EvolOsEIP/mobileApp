@@ -44,7 +44,8 @@ class RoadmapPage extends StatelessWidget {
                 Image.asset('assets/images/logo.png', height: 100),
                 const SizedBox(height: 20),
                 // Mapping through each module and creating a roadmap section
-                ...snapshot.data!.map((module) => RoadmapSection(module: module)),
+                ...snapshot.data!
+                    .map((module) => RoadmapSection(module: module)),
               ],
             ),
           );
@@ -55,7 +56,7 @@ class RoadmapPage extends StatelessWidget {
         padding: EdgeInsets.all(10.0),
         child: CustomNavbar(
             profileImageUrl:
-            "https://randomuser.me/api/portraits/women/44.jpg"),
+                "https://randomuser.me/api/portraits/women/44.jpg"),
       ),
     );
   }
@@ -77,7 +78,8 @@ class RoadmapSection extends StatelessWidget {
         DividerWidget(title: module['moduleName']),
         const SizedBox(height: 10),
         // Displays the courses and evaluation within the module
-        RoadmapWidget(courses: module['courses'], evaluation: module['evaluation']),
+        RoadmapWidget(
+            courses: module['courses'], evaluation: module['evaluation']),
         const SizedBox(height: 10)
       ],
     );
@@ -96,12 +98,17 @@ class DividerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Expanded(child: Divider(thickness: 1, color: CustomColors.primary)),
+        const Expanded(
+            child: Divider(thickness: 1, color: CustomColors.primary)),
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(title,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: CustomColors.primary))),
-        const Expanded(child: Divider(thickness: 1,color: CustomColors.primary)),
+                style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: CustomColors.primary))),
+        const Expanded(
+            child: Divider(thickness: 1, color: CustomColors.primary)),
       ],
     );
   }
@@ -114,20 +121,22 @@ class RoadmapWidget extends StatelessWidget {
   final List<dynamic> courses;
   final dynamic evaluation;
 
-  const RoadmapWidget({super.key, required this.courses, required this.evaluation});
+  const RoadmapWidget(
+      {super.key, required this.courses, required this.evaluation});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
-      child: Column(
-          children: [
-            // Displaying each course in a hexagon item
-            ...courses.map((course) => Padding(
+      child: Column(children: [
+        // Displaying each course in a hexagon item
+        ...courses.map((course) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Row(
                 mainAxisAlignment: _getMainAxisAlignment(
-                  (course['courseIndex'] % 2 == 0) ? HexagonAlignment.left : HexagonAlignment.right,
+                  (course['courseIndex'] % 2 == 0)
+                      ? HexagonAlignment.left
+                      : HexagonAlignment.right,
                 ),
                 children: [
                   HexagonItem(
@@ -135,7 +144,9 @@ class RoadmapWidget extends StatelessWidget {
                     description: course['description'],
                     onTapAction: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CoursePage(courseId: course['courseId'])),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              CoursePage(courseId: course['courseId'])),
                     ),
                     hexColor: CustomColors.accent,
                     borderColor: const Color.fromRGBO(55, 190, 240, 1),
@@ -144,29 +155,32 @@ class RoadmapWidget extends StatelessWidget {
                 ],
               ),
             )),
-            const SizedBox(height: 20),
-            // Displaying the evaluation in a hexagon item
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Row(
-                mainAxisAlignment: _getMainAxisAlignment(HexagonAlignment.center),
-                children: [
-                  HexagonItem(
-                    title: evaluation['title'],
-                    description: evaluation['summary'],
-                    onTapAction: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => EvaluationPage(evaluationId: evaluation['evaluationId'], score: evaluation['scorePercentage'],)),
-                    ),
-                    hexColor: CustomColors.orangeAccent,
-                    borderColor: const Color.fromRGBO(255, 165, 0, 1),
-                    buttonText: "Regarder",
-                  ),
-                ],
+        const SizedBox(height: 20),
+        // Displaying the evaluation in a hexagon item
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Row(
+            mainAxisAlignment: _getMainAxisAlignment(HexagonAlignment.center),
+            children: [
+              HexagonItem(
+                title: evaluation['title'],
+                description: evaluation['summary'],
+                onTapAction: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EvaluationPage(
+                            evaluationId: evaluation['evaluationId'],
+                            score: evaluation['scorePercentage'],
+                          )),
+                ),
+                hexColor: CustomColors.orangeAccent,
+                borderColor: const Color.fromRGBO(255, 165, 0, 1),
+                buttonText: "Regarder",
               ),
-            ),
-          ]
-      ),
+            ],
+          ),
+        ),
+      ]),
     );
   }
 

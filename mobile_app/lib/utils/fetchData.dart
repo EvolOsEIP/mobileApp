@@ -32,12 +32,12 @@ Future<List<dynamic>> fetchFromApi(String endpoint,
   }
 }
 
-Future<List<dynamic>> postToApi(String endpoint, Object? body) async {
+dynamic postToApi(String endpoint, Object? body) async {
   var url = Uri.http(dotenv.env["HOST_URL"].toString(), endpoint);
   try {
     final response =
         await http.post(url, body: body).timeout(const Duration(seconds: 5));
-    print(response.body);
+    // print(response.body);
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
