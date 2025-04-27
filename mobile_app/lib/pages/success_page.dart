@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:mobile_app/utils/navbar.dart';
@@ -13,8 +14,8 @@ class _SuccessPageState extends State<SuccessPage> {
   // load json data
   Map<String, dynamic> data = {};
   bool isLoading = true;
-  int total_achievements_unlocked = 0;
-  int total_achievements = 0;
+  int totalAchievementsUnlocked = 0;
+  int totalAchievements = 0;
 
 
   void loadJsonData() async {
@@ -28,24 +29,28 @@ class _SuccessPageState extends State<SuccessPage> {
   }
 
   void calculateTotalAchievements() {
-    if (data == null || data["islands"] == null) {
-      print("JSON data is null");
+    if (data["islands"] == null) {
+      if (kDebugMode) {
+        print("JSON data is null");
+      }
       return;
     }
 
-    print(data); // debug
+    if (kDebugMode) {
+      print(data);
+    } // debug
 
     int unlocked = 0;
     int total = 0;
 
     for (var island in data["islands"]) {
       unlocked += (island["unlocked_achievements"] ?? 0) as int;
-      total += (island["total_achievements"] ?? 0) as int;
+      total += (island["totalAchievements"] ?? 0) as int;
     }
 
     setState(() {
-      total_achievements_unlocked = unlocked;
-      total_achievements = total;
+      totalAchievementsUnlocked = unlocked;
+      totalAchievements = total;
     });
   }
 
@@ -75,7 +80,7 @@ class _SuccessPageState extends State<SuccessPage> {
             Center(
               child: Row(
                 children: [
-                  Icon(Icons.person, size: 50),
+                  const Icon(Icons.person, size: 50),
                   const Text(
                     "éclaireur",
                     style: TextStyle(fontSize: 16),
@@ -88,9 +93,9 @@ class _SuccessPageState extends State<SuccessPage> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      "$total_achievements_unlocked / $total_achievements\nCOLLECTION TOTALE",
+                      "$totalAchievementsUnlocked / $totalAchievements\nCOLLECTION TOTALE",
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
@@ -112,7 +117,7 @@ class _SuccessPageState extends State<SuccessPage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   // #227C9D
-                  side: BorderSide(color: Color.fromRGBO(34, 124, 157, 1)),
+                  side: const BorderSide(color: Color.fromRGBO(34, 124, 157, 1)),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -132,18 +137,18 @@ class _SuccessPageState extends State<SuccessPage> {
                         title: value?["name"] ?? "Unknown Island",
                         description: value?["description"] ?? "No description available",
                         progress: value?["unlocked_achievements"] ?? 0,
-                        total: value?["total_achievements"] ?? 0,
+                        total: value?["totalAchievements"] ?? 0,
                         achievements: value?["achievements"] ?? [],
                       );
                     },
                   )
-                : Center(child: Text('No islands data available')),
+                : const Center(child: Text('No islands data available')),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(10.0), // Marge autour de la navbar
+      bottomNavigationBar: const Padding(
+        padding: EdgeInsets.all(10.0), // Marge autour de la navbar
         child: CustomNavbar(
             profileImageUrl:
                 "https://randomuser.me/api/portraits/women/44.jpg"),

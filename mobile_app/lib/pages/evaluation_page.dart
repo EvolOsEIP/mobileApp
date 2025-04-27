@@ -1,9 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_app/utils/actions_widgets.dart';
-import 'package:mobile_app/utils/instructions_widgets.dart';
+import 'package:mobile_app/utils/fetchData.dart';
+import 'package:mobile_app/widgets/actions_widgets.dart';
+import 'package:mobile_app/widgets/basics_elements_of_a_page.dart';
+import 'package:mobile_app/widgets/confirm_exit_widget.dart';
+import 'package:mobile_app/widgets/instructions_widgets.dart';
 import 'package:mobile_app/services/evaluation_service.dart';
-import 'package:mobile_app/utils/assistant.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobile_app/utils/stars.dart';
+import 'package:mobile_app/widgets/evaluation_widgets.dart';
 
 /// A stateful widget representing an evaluation page.
 ///
@@ -43,7 +47,7 @@ class _EvaluationPage extends State<EvaluationPage> {
   Future<void> loadData() async {
     try {
       List<dynamic> jsonData = await _evaluationService.fetchSteps(widget.evaluationId);
-      if (jsonData.isNotEmpty) {
+      if (jsonData.isNotEmpty && currentStep < jsonData.length) {
         Map<String, dynamic> step = jsonData[currentStep];
         setState(() {
           stepName = step["title"] ?? "";
@@ -58,7 +62,9 @@ class _EvaluationPage extends State<EvaluationPage> {
         });
       }
     } catch (e) {
-      print("Erreur lors du chargement des données : $e");
+      if (kDebugMode) {
+        print("Error occurred during the data loading of evaluation: $e");
+      }
     }
   }
 
@@ -80,19 +86,26 @@ class _EvaluationPage extends State<EvaluationPage> {
     if (currentStep < allSteps - 1) {
       setState(() {
         // Update score based on currentLife points.
-        if (currentLife == 2) {
-          actualScore += 1;
-        } else if (currentLife == 1) {
-          actualScore += 0.5;
-        }
+        actualScore = finalScoreCalculation(currentLife, false);
         currentStep++;
         life = 2;
       });
       loadData();
     } else {
-      double finalScore = (actualScore / allSteps) * 100;
-      _showCompletionDialog(finalScore);
+      _showCompletionDialog(finalScoreCalculation(currentLife, true));
     }
+  }
+
+  double finalScoreCalculation(int currentLife, bool lastStep) {
+    if (currentLife == 2) {
+      actualScore += 1;
+    } else if (currentLife == 1) {
+      actualScore += 0.5;
+    }
+    if (lastStep) {
+      return ((actualScore / allSteps) * 100);
+    }
+    return actualScore;
   }
 
   void loseLife() {
@@ -108,21 +121,20 @@ class _EvaluationPage extends State<EvaluationPage> {
   /// The pop-up shows a completion message based on the user's score, along with a star rating.
   /// It provides feedback depending on whether the user passed or failed the evaluation.
   void _showCompletionDialog(double finalScore) {
-    String message;
-    int stars = 0;
+    String message = "";
 
-    if (finalScore >= 80) {
-      message = "Félicitations, tu as brillamment réussi !";
-      stars = 3;
-    } else if (finalScore >= 60) {
-      message = "Bien joué, tu as réussi l'évaluation.";
-      stars = 2;
-    } else if (finalScore >= 40) {
-      message = "Tu as réussi, mais il y a encore des progrès à faire.";
-      stars = 1;
-    } else {
-      message = "Tu n'as pas réussi cette évaluation. Essaie de nouveau !";
-      stars = 0;
+    String formattedScore = finalScore.toStringAsFixed(1);
+    int stars = calculateStars(finalScore);
+
+    switch (stars) {
+      case 0:
+        message = "Tu n'as pas réussi cette évaluation. Essaie de nouveau !";
+      case 1:
+        message = "Tu as réussi, mais il y a encore des progrès à faire.";
+      case 2:
+        message = "Bien joué, tu as réussi l'évaluation.";
+      case 3:
+        message = "Félicitations, tu as brillamment réussi !";
     }
     showDialog(
       context: context,
@@ -132,6 +144,8 @@ class _EvaluationPage extends State<EvaluationPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(message),
+            const SizedBox(height: 20),
+            Text("Score final : $formattedScore%"),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -147,85 +161,25 @@ class _EvaluationPage extends State<EvaluationPage> {
         actions: [
           TextButton(
             onPressed: () {
+              setState(() {
+                currentStep = 0;
+                actualScore = 0;
+                life = 2;
+                isDataLoaded = false;
+              });
+              Navigator.pop(context);
+              loadData();
+            },
+            child: const Text("Recommencer"),
+          ),
+          TextButton(
+            onPressed: () {
               Navigator.pushNamed(context, '/roadmap');
             },
             child: const Text("OK"),
           ),
         ],
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text('Evaluation', style: TextStyle(color: Colors.black, fontSize: 20)),
-        actions: [Padding(padding: const EdgeInsets.only(right: 20.0), child: buildStars(50))],
-      ),
-      body: isDataLoaded
-          ? SafeArea(
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                LinearProgressIndicator(value: currentStep / allSteps),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      margin: const EdgeInsets.all(20.0),
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(stepName, style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-                              buildHeart(life),
-                            ],
-                          ),
-                          const SizedBox(height: 20.0),
-                          Text(instructionDescription, style: const TextStyle(fontSize: 20)),
-                          const SizedBox(height: 20.0),
-                          for (var instruction in widgetInstructions)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
-                              child: displayWidget(instruction, context),
-                            ),
-                          const SizedBox(height: 16.0),
-                          for (var action in widgetActions)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
-                              child: displayWidget(action, context),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            if (dialogs != null && dialogs.isNotEmpty)
-              Positioned.fill(
-                child: Assistant(
-                  dialogs: dialogs,
-                  onComplete: () {
-                    setState(() {
-                      dialogs = [];
-                    });
-                  },
-                ),
-              ),
-          ],
-        ),
-      )
-          : const Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -251,56 +205,72 @@ class _EvaluationPage extends State<EvaluationPage> {
     }
   }
 
-  /// Builds a star rating widget based on the [score].
-  ///
-  /// The number of stars is determined based on the score provided, where 3 stars are given for scores 80 and above,
-  /// 2 stars for scores between 60 and 79, and 1 star for scores between 40 and 59.
-  Widget buildStars(double score) {
-    int stars = 0;
+  Widget mainContentOfEvaluations() {
+    return Column(
+      children: [
+        LinearProgressIndicator(value: currentStep / allSteps),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Container(
+              margin: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Titre + vies
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(stepName, style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                      buildHeart(life),
+                    ],
+                  ),
+                  const SizedBox(height: 20.0),
 
-    if (score >= 80.0) {
-      stars = 3;
-    } else if (score >= 60.0) {
-      stars = 2;
-    } else if (score >= 40.0) {
-      stars = 1;
-    }
+                  // Description
+                  Text(instructionDescription, style: const TextStyle(fontSize: 20)),
+                  const SizedBox(height: 20.0),
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(3, (index) {
-        return Icon(
-          index < stars ? Icons.star : Icons.star_border,
-          color: Colors.amber,
-        );
-      }),
+                  // Instructions
+                  for (var instruction in widgetInstructions)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: displayWidget(instruction, context),
+                    ),
+
+                  const SizedBox(height: 16.0),
+
+                  // Actions
+                  for (var action in widgetActions)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: displayWidget(action, context),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
-  /// Builds a heart icon based on the [life] remaining.
-  ///
-  /// If the user has full life (2), a full heart is displayed. If they have one life left (1), a hollow heart
-  /// is shown. If no lives are left (0), an empty heart is displayed.
-  Widget buildHeart(int life) {
-    double size = 45;
-
-    if (life == 2) {
-      return SvgPicture.asset(
-        'assets/images/full_heart.svg',
-        width: size,
-        height: size,
-      );
-    } else if (life == 1) {
-      return SvgPicture.asset(
-        'assets/images/half_heart.svg',
-        width: size,
-        height: size,
-      );
-    }
-    return SvgPicture.asset(
-      'assets/images/broken_heart.svg',
-      width: size,
-      height: size,
+  @override
+  Widget build(BuildContext context) {
+    return ConfirmExitWrapper(
+      child: Scaffold(
+        appBar: buildAppBar("Evaluations", actions: [
+        Padding(
+        padding: const EdgeInsets.only(right: 20.0),
+          child: buildStars(widget.score))]),
+        body: isDataLoaded
+            ? buildContent(stepColumn: mainContentOfEvaluations(), dialogs: dialogs, onAssistantComplete: () => setState(() => dialogs = []),)
+            : buildLoadingIndicator("Chargement de l'évaluation..."),
+      ),
     );
   }
 }
