@@ -6,7 +6,7 @@ class ModuleService {
   Future<List<dynamic>> fetchModules() async {
     try {
       List<dynamic> mod = await fetchFromApi(
-        '/api/modules', headers: {'Authorization': dotenv.env['API_KEY'].toString()},
+        '/api/roadmap', headers: {'Authorization': dotenv.env['API_KEY'].toString()},
       );
       if (mod.isEmpty) {
         return fetchFromJson('assets/json/offline_modules.json');
