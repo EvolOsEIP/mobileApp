@@ -151,26 +151,53 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 
 - **Role Involved:** Regular User
 - **Objective:** Check that user can submit feedback after a course and that it is sent to trainers.
-- **Preconditions:** User has completed a module.
+- **Preconditions:** User has completed a course.
 - **Test Steps:**
-    1. Complete a module.
+    1. Complete a course.
     2. Rate the course using stars and optionally add a free comment.
     3. Submit the feedback.
 - **Expected Outcome:**
   - User can give feedback after relevant courses.
   - Rating and comments are recorded and shared with trainers.
 
-### **Scenario X: [Feature Name]**
+### **Scenario 8: Awards system**
 
-- **Role Involved:** [e.g., Regular User]
-- **Objective:** [What is being tested?]
-- **Preconditions:** [Any required setup before running the test]
+- **Role Involved:** Regular User
+- **Objective:** Validate badge notifications, earned achievements, and tracking.
+- **Preconditions:** User has completed a module with an associated badge.
 - **Test Steps:**
-    1. [Step 1]
-    2. [Step 2]
-    3. [Step 3]
-- **Expected Outcome:** [What should happen if the feature works correctly?]
+    1. Complete a course or evaluation that unlocks a badge.
+    2. Observe the badge notification popup.
+    3. Navigate to the award page.
+    4. Verify the new badge appears as unlocked.
+- **Expected Outcome:**
+  - Notifications appear upon unlocking.
+  - User can see both earned and locked badges.
 
+### **Scenario 9: Assistant**
+
+- **Role Involved:** Regular User
+- **Objective:** Ensure the assistant shows contextual help at appropriate times.
+- **Preconditions:** 
+- **Test Steps:**
+    1. Access a page for the first time.
+    2. Observe the assistant’s explanation popup.
+- **Expected Outcome:**
+  - Assistant shows guidance for new features/pages.
+
+### **Scenario 10: App rating prompt**
+
+- **Role Involved:** Regular User
+- **Objective:** Check that user can submit feedback to us.
+- **Preconditions:** Complete a module.
+- **Test Steps:**
+  1. Finish all courses and evaluation in a module.
+  2. Observe the rating prompt.
+  3. Choose “Rate now” → verify redirection to app store.
+- **Expected Outcome:**
+  - Prompt appears after module completion.
+  - User can choose to rate now, later, or never.
+  - Correct redirection or storage of response occurs.
 
 ---
 
@@ -183,7 +210,6 @@ Partners / trainers judged helpful and recommend the use of our application for 
 
 ### **4. Known Issues & Limitations**
 
-[List any known bugs, incomplete features, or limitations that testers should be aware of.]
 
 | **Issue** | **Description** | **Impact** | **Planned Fix? (Yes/No)** |
 | --- | --- | --- | --- |
