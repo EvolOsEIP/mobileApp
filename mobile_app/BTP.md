@@ -226,14 +226,16 @@ This part concerns the web dashboard design to create and managing courses, trac
 
 ### **1. Core Functionalities for Beta Version**
 
-| **Feature Name** | **Description** | **Priority (High/Medium/Low)** | **Changes Since Tech3** |
-| --- | --- | --- | --- |
-| Module creation | Admin must be able to create module. A module must contain at least 3 courses and exactly 1 evaluation and at list one reward. | High | this feature is on its first version as the admin interface has just been introduced to Evolos project. |
-| Course and Evaluation creation | Admin must be able to create a course or an evaluation. They must contain at least 6 steps with clear instructions. | High |  |
-| User Progression Tracking | Trainers must be able to view the learners affiliated with them via a card-based interface displaying essential information (name, competencies). | High |  |
-| Image uploading | During course or evaluation creation, trainers should be able to upload images that are stored in the database and displayed within step widgets. | High |  |
-| Authentication & OAuth2 | Users should be able to log in with an EvolOs account or by using OAuth2 with a google account | Medium |  |
-| Content Visibility | Allows admins to define the visibility status of a module, a course or an evaluation(e.g Private, Restricted or Public).<br/>Private: content only visible by creator;<br/>Restricted: content visible by internal collaborators;<br/>Public: visible to all learners via the application. | Low |  |
+| **Feature Name**               | **Description**                                              | **Priority (High/Medium/Low)** | **Changes Since Tech3**                                      |
+| ------------------------------ | ------------------------------------------------------------ | ------------------------------ | ------------------------------------------------------------ |
+| Module creation                | Admin must be able to create module. A module must contain at least 3 courses and exactly 1 evaluation and at list one reward. | High                           | this feature is on its first version as the admin interface has just been introduced to Evolos project. |
+| Course and Evaluation creation | Admin must be able to create a course or an evaluation. They must contain at least 6 steps with clear instructions. | High                           |                                                              |
+| User Progression Tracking      | Trainers must be able to view the learners affiliated with them via a card-based interface displaying essential information (name, competencies). | High                           |                                                              |
+| Image uploading                | During course or evaluation creation, trainers should be able to upload images that are stored in the database and displayed within step widgets. | High                           |                                                              |
+| Authentication & OAuth2        | Users should be able to log in with an EvolOs account or by using OAuth2 with a google account | Medium                         |                                                              |
+| Evaluation creation            | Admin must be able to create an evaluation that tests the skills taught in the module. It must include clear instructions and various types of questions. | High                           | Added as a separate item from courses to highlight its specific requirements and role in assessments. |
+| Users' data tracking           | Admins can access dashboards displaying user progress, completed courses, time spent, and assessment results. Enables performance analysis and follow-ups. | High                           | Introduced to help admins monitor user activity and learning outcomes across modules. |
+| Content Visibility             | Allows admins to define the visibility status of a module, a course or an evaluation(e.g Private, Restricted or Public).<br/>Private: content only visible by creator;<br/>Restricted: content visible by internal collaborators;<br/>Public: visible to all learners via the application. | Low                            |                                                              |
 
 ---
 
@@ -241,9 +243,9 @@ This part concerns the web dashboard design to create and managing courses, trac
 
 ### *2.1 User Roles **
 
-| **Role Name** | **Description** |
-| --- | --- |
-| Admin | Users with full privileges on the dashboard. They can create and manage modules, courses and evaluations. Admins can also track learner progress. This role is typically assigned to someone designated by associations. |
+| **Role Name**             | **Description**                                              |
+| ------------------------- | ------------------------------------------------------------ |
+| Admin                     | Users with full privileges on the dashboard. They can create and manage modules, courses and evaluations. Admins can also track learner progress. This role is typically assigned to someone designated by associations. |
 | Regular user (= Trainers) | Trainers cannot create content, only track user progress affiliated to them. |
 
 ### **2.2 Test Scenarios**
@@ -298,31 +300,80 @@ This part concerns the web dashboard design to create and managing courses, trac
 - *All required fields are validated (no creation possible if a field is missing).*
 - *After saving, a clear message informs the admin that the course requires at least 6 steps.*
 
+### **Scenario 3: *Evaluation creation***
+
+**Role Involved:** *Admin*
+
+**Objective:** *Ensure that an admin can create a new evaluation.*
+
+**Preconditions:** *Created or selected a created module*
+
+**Test Steps:**
+
+1. Navigate to the "Evaluation" section of the dashboard.
+2. Click on the "Create Evaluation" button.
+3. Fill in the evaluation name field.
+4. Enter a description explaining the purpose and target skills.
+5. Add at least 6 steps, each with instructions and expected responses.
+6. Save the evaluation.
+
+**Expected Outcome:**
+
+- Admin accesses the evaluation creation interface.
+- Fields are validated (name, description, minimum steps).
+- Admin receives a confirmation that the evaluation was created successfully.
+- Evaluation appears linked to the selected module.
+
+### **Scenario 4: \*Users' data tracking\***
+
+**Role Involved:** *Admin*
+
+**Objective:** *Ensure that an admin can view and analyze user progress.*
+
+**Preconditions:** *Some users must already have activity history (courses/evaluations completed).*
+
+**Test Steps:**
+
+1. Navigate to the "User Tracking" section of the dashboard.
+2. Browse the list of users and select one.
+3. View the user's activity summary: completed courses, time spent, and assessment scores.
+4. Filter users by progress level or specific modules.
+
+**Expected Outcome:**
+
+- Admin can view accurate and structured user data.
+- Filters and search features work as expected.
+- Activity summaries display correct information (number of completed steps, scores, durations, etc.).
+- Admin can use this data for follow-up or reporting.
+
+
 ### **Scenario X: [Feature Name]**
 
 - **Role Involved:** [e.g., Regular User]
-    - **Objective:** [What is being tested?]
-    - **Preconditions:** [Any required setup before running the test]
-    - **Test Steps:**
-        1. [Step 1]
-        2. [Step 2]
-        3. [Step 3]
-    - **Expected Outcome:** [What should happen if the feature works correctly?]
+  - **Objective:** [What is being tested?]
+  - **Preconditions:** [Any required setup before running the test]
+  - **Test Steps:**
+    1. [Step 1]
+    2. [Step 2]
+    3. [Step 3]
+  - **Expected Outcome:** [What should happen if the feature works correctly?]
 
 ---
 
 ### **3. Success Criteria**
 
+The associations think the admin dashboard is useful
+
 ---
 
 ### **4. Known Issues & Limitations**
 
-| **Issue** | **Description** | **Impact** | **Planned Fix? (Yes/No)** |
-| --- | --- | --- | --- |
-| Badges not implemented | Each module should have at least one badge | Medium | Yes |
-| Fields not checked | Not checking if all fields are filled | High | Yes |
-
----
+| **Issue**                               | **Description**                                              | **Impact** | **Planned Fix? (Yes/No)** |
+| --------------------------------------- | ------------------------------------------------------------ | ---------- | ------------------------- |
+| Badges not implemented                  | Each module should have at least one badge                   | Medium     | Yes                       |
+| Fields not checked                      | Not checking if all fields are filled                        | High       | Yes                       |
+| User's datas not tracked                | The admin should be able to track the users' datas via the admin dashboard | High       | Yes                       |
+| Creation of evaluations not implemented | The admin should be able to create at least one evaluation per module | High       | Yes                       |
 
 ---
 
