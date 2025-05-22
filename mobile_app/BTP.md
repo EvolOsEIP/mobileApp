@@ -131,6 +131,35 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
   - OAuth (Google) login works if selected
 
 
+### **Scenario 6: Welcome Form**
+
+- **Role Involved:** Regular User
+- **Objective:** Verify that the onboarding form collects useful data and assigns an appropriate level.
+- **Preconditions:** First launch of the app.
+- **Test Steps:**
+    1. Open the app for the first time.
+    2. Fill in the welcome form (age, interests, etc.).
+    3. Answer the self-evaluation and technical test.
+    4. Submit the form.
+    5. Observe the assigned user level.
+- **Expected Outcome:**
+  - Form collects personal and technical data.
+  - User level is calculated based on answers.
+  - User is attributed appropriate level. (e.g, if you don't know anything you will have "aventurier" role or "explorateur" if you know all).
+
+### **Scenario 7: Feedback Form**
+
+- **Role Involved:** Regular User
+- **Objective:** Check that user can submit feedback after a course and that it is sent to trainers.
+- **Preconditions:** User has completed a module.
+- **Test Steps:**
+    1. Complete a module.
+    2. Rate the course using stars and optionally add a free comment.
+    3. Submit the feedback.
+- **Expected Outcome:**
+  - User can give feedback after relevant courses.
+  - Rating and comments are recorded and shared with trainers.
+
 ### **Scenario X: [Feature Name]**
 
 - **Role Involved:** [e.g., Regular User]
