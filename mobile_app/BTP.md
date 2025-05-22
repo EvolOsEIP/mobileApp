@@ -226,22 +226,22 @@ This part concerns the web dashboard design to create and managing courses, trac
 
 ### **1. Core Functionalities for Beta Version**
 
-| **Feature Name**               | **Description**                                              | **Priority (High/Medium/Low)** | **Changes Since Tech3**                                      |
-| ------------------------------ | ------------------------------------------------------------ | ------------------------------ | ------------------------------------------------------------ |
-| Module creation                | Admin must be able to create module. A module must contain at least 3 courses and exactly 1 evaluation and at list one reward. | High                           | this feature is on its first version as the admin interface has just been introduced to Evolos project. |
-| Course and Evaluation creation | Admin must be able to create a course or an evaluation. They must contain at least 6 steps with clear instructions. | High                           |                                                              |
-| User Progression Tracking      | Trainers must be able to view the learners affiliated with them via a card-based interface displaying essential information (name, competencies). | High                           |                                                              |
-| Image uploading                | During course or evaluation creation, trainers should be able to upload images that are stored in the database and displayed within step widgets. | High                           |                                                              |
-| Authentication & OAuth2        | Users should be able to log in with an EvolOs account or by using OAuth2 with a google account | Medium                         |                                                              |
-| Evaluation creation            | Admin must be able to create an evaluation that tests the skills taught in the module. It must include clear instructions and various types of questions. | High                           | Added as a separate item from courses to highlight its specific requirements and role in assessments. |
-| Users' data tracking           | Admins can access dashboards displaying user progress, completed courses, time spent, and assessment results. Enables performance analysis and follow-ups. | High                           | Introduced to help admins monitor user activity and learning outcomes across modules. |
-| Content Visibility             | Allows admins to define the visibility status of a module, a course or an evaluation(e.g Private, Restricted or Public).<br/>Private: content only visible by creator;<br/>Restricted: content visible by internal collaborators;<br/>Public: visible to all learners via the application. | Low                            |                                                              |
+| **Feature Name**               | **Description**                                              | **Priority (High/Medium/Low)** | **Changes Since Tech3** |
+| ------------------------------ | ------------------------------------------------------------ | ------------------------------ | ----------------------- |
+| Module creation                | Admin must be able to create module. A module must contain at least 3 courses and exactly 1 evaluation and at list one reward. | High                           |                         |
+| Course and Evaluation creation | Admin must be able to create a course or an evaluation. They must contain at least 6 steps with clear instructions. | High                           |                         |
+| User Progression Tracking      | Trainers must be able to view the learners affiliated with them via a card-based interface displaying essential information (name, competencies). | High                           |                         |
+| Image uploading                | During course or evaluation creation, trainers should be able to upload images that are stored in the database and displayed within step widgets. | High                           |                         |
+| Authentication & OAuth2        | Users should be able to log in with an EvolOs account or by using OAuth2 with a google account | Medium                         |                         |
+| Evaluation creation            | Admin must be able to create an evaluation that tests the skills taught in the module. It must include clear instructions and various types of questions. | High                           |                         |
+| Users' data tracking           | Admins can access dashboards displaying user progress, completed courses, time spent, and assessment results. Enables performance analysis and follow-ups. | High                           |                         |
+| Content Visibility             | Allows admins to define the visibility status of a module, a course or an evaluation(e.g Private, Restricted or Public).<br/>Private: content only visible by creator;<br/>Restricted: content visible by internal collaborators;<br/>Public: visible to all learners via the application. | Low                            |                         |
 
 ---
 
 ### **2. Beta Testing Scenarios**
 
-### *2.1 User Roles **
+### **2.1 User Roles **
 
 | **Role Name**             | **Description**                                              |
 | ------------------------- | ------------------------------------------------------------ |
@@ -324,11 +324,11 @@ This part concerns the web dashboard design to create and managing courses, trac
 - Admin receives a confirmation that the evaluation was created successfully.
 - Evaluation appears linked to the selected module.
 
-### **Scenario 4: \*Users' data tracking\***
+### **Scenario 4: *Users' data tracking***
 
-**Role Involved:** *Admin*
+**Role Involved:** *Regular user*
 
-**Objective:** *Ensure that an admin can view and analyze user progress.*
+**Objective:** *Ensure that an user can view and analyze user progress.*
 
 **Preconditions:** *Some users must already have activity history (courses/evaluations completed).*
 
@@ -341,22 +341,12 @@ This part concerns the web dashboard design to create and managing courses, trac
 
 **Expected Outcome:**
 
-- Admin can view accurate and structured user data.
+- User can view accurate and structured user data.
 - Filters and search features work as expected.
 - Activity summaries display correct information (number of completed steps, scores, durations, etc.).
-- Admin can use this data for follow-up or reporting.
+- User can use this data for follow-up or reporting.
 
 
-### **Scenario X: [Feature Name]**
-
-- **Role Involved:** [e.g., Regular User]
-  - **Objective:** [What is being tested?]
-  - **Preconditions:** [Any required setup before running the test]
-  - **Test Steps:**
-    1. [Step 1]
-    2. [Step 2]
-    3. [Step 3]
-  - **Expected Outcome:** [What should happen if the feature works correctly?]
 
 ---
 
