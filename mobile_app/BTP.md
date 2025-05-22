@@ -338,6 +338,33 @@ This part concerns the web dashboard design to create and managing courses, trac
 2. Browse the list of users and select one.
 3. View the user's activity summary: completed courses, time spent, and assessment scores.
 4. Filter users by progress level or specific modules.
+5. See the user's feedback
+
+### **Scenario 5: *Content Visibility***
+
+**Role Involved:** *Admin*
+
+**Objective:** *Ensure that an admin can define and change the visibility of modules, courses, and evaluations.*
+
+**Preconditions:** *Admin has already created a module, course, or evaluation.*
+
+**Test Steps:**
+
+1. Navigate to the dashboard section listing all created content (modules, courses, evaluations).
+2. Click on the "Edit" or "Settings" icon next to a module/course/evaluation.
+3. Locate the "Visibility" dropdown or selector.
+4. Set the visibility to **Private** and save.
+5. Repeat the process by setting the visibility to **Restricted**, then to **Public**, each time saving and confirming the change.
+6. Log in as another user (trainer or learner) and verify visibility access for each status.
+
+**Expected Outcome:**
+
+- Visibility setting is available and defaults to **Private** when content is created.
+- When set to **Private**, only the admin who created the content can see it.
+- When set to **Restricted**, internal collaborators can access it but learners cannot.
+- When set to **Public**, learners can view the content through the mobile app.
+- Changes are saved and take effect immediately.
+- Access is correctly enforced depending on the visibility status.
 
 **Expected Outcome:**
 
@@ -345,6 +372,60 @@ This part concerns the web dashboard design to create and managing courses, trac
 - Filters and search features work as expected.
 - Activity summaries display correct information (number of completed steps, scores, durations, etc.).
 - User can use this data for follow-up or reporting.
+
+### **Scenario 6: *Image Uploading***
+
+**Role Involved:** *Admin*
+
+**Objective:** *Ensure that an admin can upload images during course or evaluation creation, and that these images are stored and displayed properly.*
+
+**Preconditions:** *Admin is creating a course or evaluation.*
+
+**Test Steps:**
+
+1. Start creating a new course or evaluation.
+2. In one of the steps, click on the "Add Image" button or image upload field.
+3. Select an image file from the local computer.
+4. Wait for upload confirmation and preview.
+5. Complete the rest of the step's data (instruction, expected answer).
+6. Save the step and then save the entire course or evaluation.
+7. Reopen the created content to verify the image is displayed correctly in the step preview.
+
+**Expected Outcome:**
+
+- Image file is uploaded without errors.
+- A preview of the image is shown after upload.
+- The image is stored in the backend/database.
+- When revisiting the step, the image is visible and linked correctly.
+
+
+
+### **Scenario 7: *Authentication and OAuth2***
+
+**Role Involved:** A regular user
+
+**Objective:** *Ensure users can log in with either an EvolOs account (email/password) or using Google OAuth2, and that authentication works correctly across roles.*
+
+**Preconditions:** *User has an existing EvolOs account or Google account.*
+
+**Test Steps:**
+
+1. Navigate to the dashboard login page.
+2. Attempt login with invalid email and password.
+3. Observe error message.
+4. Try again with valid EvolOs account credentials.
+5. Log out and repeat the process using the "Sign in with Google" option.
+6. Authorize Google OAuth2 access and confirm.
+7. After login, verify the user's role and available access.
+
+**Expected Outcome:**
+
+- Login page provides both email/password fields and a Google OAuth2 button.
+- Invalid credentials return a clear error message.
+- Valid login with EvolOs account redirects to the dashboard with proper permissions.
+- Google login opens OAuth window and correctly authenticates the user.
+- After login, user data (e.g. name, email) is fetched and role is correctly applied.
+- Sessions persist correctly across reloads.
 
 
 
@@ -358,12 +439,15 @@ The associations think the admin dashboard is useful
 
 ### **4. Known Issues & Limitations**
 
-| **Issue**                               | **Description**                                              | **Impact** | **Planned Fix? (Yes/No)** |
-| --------------------------------------- | ------------------------------------------------------------ | ---------- | ------------------------- |
-| Badges not implemented                  | Each module should have at least one badge                   | Medium     | Yes                       |
-| Fields not checked                      | Not checking if all fields are filled                        | High       | Yes                       |
-| User's datas not tracked                | The admin should be able to track the users' datas via the admin dashboard | High       | Yes                       |
-| Creation of evaluations not implemented | The admin should be able to create at least one evaluation per module | High       | Yes                       |
+| **Issue**                                  | **Description**                                              | **Impact** | **Planned Fix? (Yes/No)** |
+| ------------------------------------------ | ------------------------------------------------------------ | ---------- | ------------------------- |
+| Badges not implemented                     | Each module should have at least one badge                   | Medium     | Yes                       |
+| Fields not checked                         | Not checking if all fields are filled                        | High       | Yes                       |
+| User's datas not tracked                   | The admin should be able to track the users' datas via the admin dashboard | High       | Yes                       |
+| Creation of evaluations not implemented    | The admin should be able to create at least one evaluation per module | High       | Yes                       |
+| Content Visibility feature not implemented | The admin should be able to change the visibility of a course (Public, private, etc) | High       | Yes                       |
+| Image Uploading not implemented            | While creating a course, the admin should be able to upload an image for the course | High       | Yes                       |
+| Authentification & OAuth2 not implemented  | Every user should be able to register or to login by using regular login or OAuth2 | High       | Yes                       |
 
 ---
 
