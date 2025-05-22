@@ -211,10 +211,12 @@ Partners / trainers judged helpful and recommend the use of our application for 
 ### **4. Known Issues & Limitations**
 
 
-| **Issue** | **Description** | **Impact** | **Planned Fix? (Yes/No)** |
-| --- | --- | --- | --- |
-| Course and Evaluation status not functional | The logic for determining whether a course or evaluation is accessible is not yet implemented. | High | Yes |
-| Feedback rating system missing | The 5 stars feedback systeme shown at the end of a course is not yet implemented. | Medium | Yes |
+| **Issue**                                   | **Description**                                                                                | **Impact** | **Planned Fix? (Yes/No)** |
+|---------------------------------------------|------------------------------------------------------------------------------------------------|------------|---------------------------|
+| Course and Evaluation status not functional | The logic for determining whether a course or evaluation is accessible is not yet implemented. | High       | Yes                       |
+| Feedback rating system missing              | The 5 stars feedback systeme shown at the end of a course is not yet implemented.              | Medium     | Yes                       |
+| Profile page                                | Information can't be editing                                                                   | Low        | Yes                       |
+
 
 ---
 
