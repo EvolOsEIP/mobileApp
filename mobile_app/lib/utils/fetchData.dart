@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -17,17 +19,16 @@ Future<List<dynamic>> fetchFromApi(String endpoint,
     {Map<String, String>? headers}) async {
   var url = Uri.http(dotenv.env["HOST_URL"].toString(), endpoint);
   try {
-    final response = await http
-        .get(url, headers: headers)
-        .timeout(const Duration(seconds: 5));
-    print(response.body);
+    final response = await http.get(url, headers: headers).timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to load data');
+      throw Exception(jsonDecode(response.body));
     }
   } catch (e) {
-    print('Error: $e');
+    if (kDebugMode) {
+      print('Error: $e');
+    }
     return [];
   }
 }
@@ -41,10 +42,23 @@ dynamic postToApi(String endpoint, Object? body) async {
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to load data');
+      throw Exception(jsonDecode(response.body));
     }
   } catch (e) {
     print('Error: $e');
     return [];
   }
+}
+
+Widget buildLoadingIndicator(String textToDisplay) {
+  return Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const CircularProgressIndicator(),
+        const SizedBox(height: 10),
+        Text(textToDisplay),
+      ],
+    ),
+  );
 }

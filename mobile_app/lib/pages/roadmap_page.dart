@@ -5,6 +5,7 @@ import 'package:mobile_app/pages/course_page.dart';
 import 'package:mobile_app/utils/colors.dart';
 import 'package:mobile_app/utils/hexagon_item.dart';
 import 'package:mobile_app/services/roadmap_service.dart';
+import 'package:mobile_app/services/dataCaching.dart';
 
 /// Enum to define the alignment of the hexagon items.
 enum HexagonAlignment { left, center, right }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile_app/utils/fetchData.dart';
 
@@ -17,7 +18,9 @@ class CourseService {
       }
       return step;
     } catch (e) {
-      print("Error fetching from API, loading local JSON: $e");
+      if (kDebugMode) {
+        print("Error fetching from API, loading local JSON: $e");
+      }
       return fetchFromJson('assets/json/courses_pages.json');
     }
   }

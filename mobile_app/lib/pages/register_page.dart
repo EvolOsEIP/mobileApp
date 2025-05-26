@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/services/dataCaching.dart';
 import 'package:mobile_app/utils/fetchData.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -66,7 +67,29 @@ class RegisterPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      // TODO: Créer le compte
+                      print("Email: ${emailController.text}");
+                      print("Mot de passe: ${passwordController.text}");
+                      postToApi('/auth/register', {
+                        'username': emailController.text.split('@')[0],
+                        'email': emailController.text,
+                        'passwordHash': passwordController.text,
+                        'role': 'learner'
+                      }).then((response) async {
+                        print(response);
+                        if (response['success']) {
+                          final tokenService = CachingStorageService();
+                          await tokenService.saveInCache(response['token'], 'token');
+                          Navigator.pushNamed(context, '/roadmap');
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(response['message'])),
+                          );
+                        }
+                      }).catchError((error) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Erreur de connexion')),
+                        );
+                      });
                     }
                   },
                   child: const Text("S'inscrire"),
