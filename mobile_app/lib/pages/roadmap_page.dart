@@ -125,12 +125,9 @@ class RoadmapWidget extends StatelessWidget {
             // Displaying each course in a hexagon item
             ...courses.map((course) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Row(
-                mainAxisAlignment: _getMainAxisAlignment(
-                  (course['courseIndex'] % 2 == 0) ? HexagonAlignment.left : HexagonAlignment.right,
-                ),
-                children: [
-                  HexagonItem(
+                child: Row(
+                    mainAxisAlignment: _getAlignment(course['courseIndex']),
+                    children: [HexagonItem(
                     title: course['title'],
                     description: course['description'],
                     onTapAction: () => Navigator.push(
@@ -140,16 +137,15 @@ class RoadmapWidget extends StatelessWidget {
                     hexColor: CustomColors.accent,
                     borderColor: const Color.fromRGBO(55, 190, 240, 1),
                     buttonText: "Commencer",
-                  ),
-                ],
-              ),
-            )),
+                  )]
+              ),)
+            ),
             const SizedBox(height: 20),
             // Displaying the evaluation in a hexagon item
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Row(
-                mainAxisAlignment: _getMainAxisAlignment(HexagonAlignment.center),
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   HexagonItem(
                     title: evaluation['title'],
@@ -173,14 +169,13 @@ class RoadmapWidget extends StatelessWidget {
   /// Returns the alignment for the hexagon items based on the provided `alignment` value.
   ///
   /// This method decides whether the hexagon items should be aligned to the left, center, or right based on the alignment passed.
-  MainAxisAlignment _getMainAxisAlignment(HexagonAlignment alignment) {
-    switch (alignment) {
-      case HexagonAlignment.left:
-        return MainAxisAlignment.start;
-      case HexagonAlignment.right:
-        return MainAxisAlignment.end;
-      case HexagonAlignment.center:
-        return MainAxisAlignment.center;
-    }
+  MainAxisAlignment _getAlignment(int index) {
+    final pattern = [
+      MainAxisAlignment.start,
+      MainAxisAlignment.center,
+      MainAxisAlignment.end,
+      MainAxisAlignment.center
+    ];
+    return pattern[index % pattern.length];
   }
 }

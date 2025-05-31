@@ -20,6 +20,38 @@
               "description": "Pour faire des phrases il nous faut plus que des lettres.",
               "courseLevel": "Eclaireur",
               "closingMessage": "Félicitation tu as fini ton cours!"
+            },
+            {
+              "courseId": 3,
+              "courseIndex": 3,
+              "title": "Passons aux ponctuations",
+              "description": "Pour faire des phrases il nous faut plus que des lettres.",
+              "courseLevel": "Eclaireur",
+              "closingMessage": "Félicitation tu as fini ton cours!"
+            },
+            {
+              "courseId": 4,
+              "courseIndex": 4,
+              "title": "Passons aux ponctuations",
+              "description": "Pour faire des phrases il nous faut plus que des lettres.",
+              "courseLevel": "Eclaireur",
+              "closingMessage": "Félicitation tu as fini ton cours!"
+            },
+            {
+              "courseId": 5,
+              "courseIndex": 5,
+              "title": "Passons aux ponctuations",
+              "description": "Pour faire des phrases il nous faut plus que des lettres.",
+              "courseLevel": "Eclaireur",
+              "closingMessage": "Félicitation tu as fini ton cours!"
+            },
+            {
+              "courseId": 6,
+              "courseIndex": 6,
+              "title": "Passons aux ponctuations",
+              "description": "Pour faire des phrases il nous faut plus que des lettres.",
+              "courseLevel": "Eclaireur",
+              "closingMessage": "Félicitation tu as fini ton cours!"
             }
         ],
         "evaluation": {
