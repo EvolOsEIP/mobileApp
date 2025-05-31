@@ -5,9 +5,7 @@ import 'package:mobile_app/pages/course_page.dart';
 import 'package:mobile_app/utils/colors.dart';
 import 'package:mobile_app/utils/hexagon_item.dart';
 import 'package:mobile_app/services/roadmap_service.dart';
-
-/// Enum to define the alignment of the hexagon items.
-enum HexagonAlignment { left, center, right }
+import 'package:mobile_app/widgets/ConnectionBetweenHexa.dart';
 
 /// A stateless widget that represents the roadmap page.
 ///
@@ -110,60 +108,114 @@ class DividerWidget extends StatelessWidget {
 /// A stateless widget that displays a list of courses and an evaluation.
 ///
 /// Each course is presented in a hexagonal format with a "Commencer" button. The evaluation is also displayed as a hexagon with a "Regarder" button.
-class RoadmapWidget extends StatelessWidget {
+class RoadmapWidget extends StatefulWidget {
   final List<dynamic> courses;
   final dynamic evaluation;
 
   const RoadmapWidget({super.key, required this.courses, required this.evaluation});
 
   @override
+  State<RoadmapWidget> createState() => _RoadmapWidgetState();
+}
+
+class _RoadmapWidgetState extends State<RoadmapWidget> {
+  final GlobalKey _stackKey = GlobalKey();
+  final List<GlobalKey> hexKeys = [];
+  List<Offset> hexPositions = [];
+
+  @override
+  void initState() {
+    super.initState();
+    hexKeys.addAll(List.generate(widget.courses.length, (_) => GlobalKey()));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        hexPositions = _getHexPositions();
+      });
+    });
+  }
+
+  List<Offset> _getHexPositions() {
+    final stackBox = _stackKey.currentContext?.findRenderObject() as RenderBox?;
+    if (stackBox == null) return [];
+
+    return hexKeys.map((key) {
+      final context = key.currentContext;
+      if (context != null) {
+        final box = context.findRenderObject() as RenderBox;
+        final globalCenter = box.localToGlobal(box.size.center(Offset.zero));
+        return stackBox.globalToLocal(globalCenter);
+      }
+      return Offset.zero;
+    }).toList();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-      child: Column(
-          children: [
-            // Displaying each course in a hexagon item
-            ...courses.map((course) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Row(
-                    mainAxisAlignment: _getAlignment(course['courseIndex']),
-                    children: [HexagonItem(
-                    title: course['title'],
-                    description: course['description'],
-                    onTapAction: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CoursePage(courseId: course['courseId'])),
+        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+        child: Stack(
+          key: _stackKey,
+            children: [
+              Positioned.fill(
+                child: CustomPaint(
+                  painter: HexConnectionPainter(hexPositions),
+              )),
+              Column(
+                  children: [
+                    ...List.generate(widget.courses.length, (index) {
+                      final course = widget.courses[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Row(
+                          mainAxisAlignment: _getAlignment(course['courseIndex']),
+                          children: [
+                            Container(
+                              key: hexKeys[index],
+                              child: HexagonItem(
+                                title: course['title'],
+                                description: course['description'],
+                                onTapAction: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => CoursePage(courseId: course['courseId'])),
+                                ),
+                                hexColor: CustomColors.accent,
+                                borderColor: const Color.fromRGBO(55, 190, 240, 1),
+                                buttonText: "Commencer",
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+                    const SizedBox(height: 20),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            HexagonItem(
+                              title: widget.evaluation['title'],
+                              description: widget.evaluation['summary'],
+                              onTapAction: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EvaluationPage(
+                                    evaluationId: widget.evaluation['evaluationId'],
+                                    score: widget.evaluation['scorePercentage'],
+                                  ),
+                                ),
+                              ),
+                              hexColor: CustomColors.orangeAccent,
+                              borderColor: const Color.fromRGBO(255, 165, 0, 1),
+                              buttonText: "Regarder",
+                            ),
+                          ],
+                        )
                     ),
-                    hexColor: CustomColors.accent,
-                    borderColor: const Color.fromRGBO(55, 190, 240, 1),
-                    buttonText: "Commencer",
-                  )]
-              ),)
-            ),
-            const SizedBox(height: 20),
-            // Displaying the evaluation in a hexagon item
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  HexagonItem(
-                    title: evaluation['title'],
-                    description: evaluation['summary'],
-                    onTapAction: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => EvaluationPage(evaluationId: evaluation['evaluationId'], score: evaluation['scorePercentage'],)),
-                    ),
-                    hexColor: CustomColors.orangeAccent,
-                    borderColor: const Color.fromRGBO(255, 165, 0, 1),
-                    buttonText: "Regarder",
-                  ),
-                ],
+                  ]
               ),
-            ),
-          ]
-      ),
-    );
+    ]
+    ));
   }
 
   /// Returns the alignment for the hexagon items based on the provided `alignment` value.
