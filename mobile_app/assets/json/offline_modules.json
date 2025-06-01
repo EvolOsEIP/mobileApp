@@ -79,6 +79,7 @@
           {
             "courseId": 3,
             "courseIndex": 1,
+            "state": 0,
             "title": "Apprendre les gestes tactiles.",
             "description": "tapper, glisser, maintenir…",
             "courseLevel": "Explorateur"
@@ -86,6 +87,7 @@
         ],
       "evaluation": {
         "evaluationId": 2,
+        "state": 0,
         "title": "Evaluation demo 2",
         "summary": "Ceci est une fausse évalutation qui a pour but de montrer à quoi celle-ci peut resssembler.",
         "assistantDiag": "",
