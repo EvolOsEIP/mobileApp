@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/pages/evaluation_page.dart';
+import 'package:mobile_app/widgets/island.dart';
 import 'package:mobile_app/utils/navbar.dart';
 import 'package:mobile_app/pages/course_page.dart';
 import 'package:mobile_app/utils/colors.dart';
 import 'package:mobile_app/services/roadmap_service.dart';
 import 'package:mobile_app/widgets/ConnectionBetweenHexa.dart';
-import 'package:mobile_app/widgets/island.dart';
 
 /// A stateless widget that represents the roadmap page.
 ///
@@ -179,20 +179,22 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
                         child: Row(
                           mainAxisAlignment: _getAlignment(course['courseIndex']),
                           children: [
-                            IslandWidget(
-                              keyRef: hexKeys[index],
-                              title: course['title'],
-                              hexLabel: course['courseIndex'].toString(),
-                              description: course['description'],
-                              onTapAction: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CoursePage(courseId: course['courseId']),
+                            Container(
+                              key: hexKeys[index],
+                              child : HexagonItem(
+                                title: course['title'],
+                                hexLabel: course['courseIndex'].toString(),
+                                description: course['description'],
+                                onTapAction: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CoursePage(courseId: course['courseId']),
+                                  ),
                                 ),
+                                buttonText: "Commencer",
+                                state: course['state'],
                               ),
-                              buttonText: "Commencer",
-                              state: course['state'],
-                            ),
+                            )
                           ],
                         ),
                       );
@@ -203,22 +205,24 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            IslandWidget(
-                              keyRef: evalKey,
-                              title: widget.evaluation['title'],
-                              hexLabel: "Eval",
-                              description: widget.evaluation['summary'],
-                              onTapAction: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EvaluationPage(
-                                    evaluationId: widget.evaluation['evaluationId'],
-                                    score: widget.evaluation['scorePercentage'],
+                            Container(
+                              key: evalKey,
+                              child: HexagonItem(
+                                title: widget.evaluation['title'],
+                                hexLabel: "Eval",
+                                description: widget.evaluation['summary'],
+                                onTapAction: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EvaluationPage(
+                                      evaluationId: widget.evaluation['evaluationId'],
+                                      score: widget.evaluation['scorePercentage'],
+                                    ),
                                   ),
                                 ),
+                                buttonText: "Regarder",
+                                state: widget.evaluation['state'],
                               ),
-                              buttonText: "Regarder",
-                              state: widget.evaluation['state'],
                             )
                           ],
                         )
