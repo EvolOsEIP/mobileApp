@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexagon/hexagon.dart';
 
 class HexagonItem extends StatelessWidget {
+  final String hexLabel;
   final String title;
   final String description;
   final VoidCallback onTapAction;
@@ -10,6 +11,7 @@ class HexagonItem extends StatelessWidget {
   final String buttonText;
 
   const HexagonItem({super.key,
+    required this.hexLabel,
     required this.title,
     required this.description,
     required this.onTapAction,
@@ -65,7 +67,7 @@ class HexagonItem extends StatelessWidget {
         elevation: 10,
         child: Center(
           child: Text(
-            title,
+            hexLabel,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,

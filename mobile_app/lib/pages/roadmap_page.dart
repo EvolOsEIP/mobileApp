@@ -182,6 +182,7 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
                             IslandWidget(
                               keyRef: hexKeys[index],
                               title: course['title'],
+                              hexLabel: course['courseIndex'].toString(),
                               description: course['description'],
                               onTapAction: () => Navigator.push(
                                 context,
@@ -205,6 +206,7 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
                             IslandWidget(
                               keyRef: evalKey,
                               title: widget.evaluation['title'],
+                              hexLabel: "Eval",
                               description: widget.evaluation['summary'],
                               onTapAction: () => Navigator.push(
                                 context,

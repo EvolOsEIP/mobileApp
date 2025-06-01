@@ -3,6 +3,7 @@ import 'package:mobile_app/utils/hexagon_item.dart';
 import 'package:mobile_app/utils/colors.dart';
 
 class IslandWidget extends StatelessWidget {
+  final String hexLabel;
   final String title;
   final String description;
   final VoidCallback onTapAction;
@@ -12,6 +13,7 @@ class IslandWidget extends StatelessWidget {
 
   const IslandWidget({
     super.key,
+    required this.hexLabel,
     required this.title,
     required this.description,
     required this.onTapAction,
@@ -53,6 +55,7 @@ class IslandWidget extends StatelessWidget {
     return Container(
       key: keyRef,
       child: HexagonItem(
+        hexLabel : hexLabel,
         title: title,
         description: description,
         onTapAction: onTapAction,
