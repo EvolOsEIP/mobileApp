@@ -121,6 +121,7 @@ class RoadmapWidget extends StatefulWidget {
 class _RoadmapWidgetState extends State<RoadmapWidget> {
   final GlobalKey _stackKey = GlobalKey();
   final List<GlobalKey> hexKeys = [];
+  final GlobalKey evalKey = GlobalKey();
   List<Offset> hexPositions = [];
 
   @override
@@ -138,7 +139,7 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
     final stackBox = _stackKey.currentContext?.findRenderObject() as RenderBox?;
     if (stackBox == null) return [];
 
-    return hexKeys.map((key) {
+    final positions = hexKeys.map((key) {
       final context = key.currentContext;
       if (context != null) {
         final box = context.findRenderObject() as RenderBox;
@@ -147,6 +148,15 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
       }
       return Offset.zero;
     }).toList();
+
+    final eval = evalKey.currentContext;
+    if (eval != null) {
+      final box = eval.findRenderObject() as RenderBox;
+      final globCenter = box.localToGlobal(box.size.center(Offset.zero));
+      final localOffset = stackBox.globalToLocal(globCenter);
+      positions.add(localOffset);
+    }
+    return positions;
   }
 
   @override
@@ -193,22 +203,25 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            HexagonItem(
-                              title: widget.evaluation['title'],
-                              description: widget.evaluation['summary'],
-                              onTapAction: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EvaluationPage(
-                                    evaluationId: widget.evaluation['evaluationId'],
-                                    score: widget.evaluation['scorePercentage'],
+                            Container(
+                            key: evalKey,
+                              child: HexagonItem(
+                                title: widget.evaluation['title'],
+                                description: widget.evaluation['summary'],
+                                onTapAction: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EvaluationPage(
+                                      evaluationId: widget.evaluation['evaluationId'],
+                                      score: widget.evaluation['scorePercentage'],
+                                    ),
                                   ),
                                 ),
+                                hexColor: CustomColors.orangeAccent,
+                                borderColor: const Color.fromRGBO(255, 165, 0, 1),
+                                buttonText: "Regarder",
                               ),
-                              hexColor: CustomColors.orangeAccent,
-                              borderColor: const Color.fromRGBO(255, 165, 0, 1),
-                              buttonText: "Regarder",
-                            ),
+                            )
                           ],
                         )
                     ),
