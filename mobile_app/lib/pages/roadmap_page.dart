@@ -8,10 +8,10 @@ import 'package:mobile_app/services/roadmap_service.dart';
 
 import 'package:mobile_app/services/dataCaching.dart';
 
+import 'package:mobile_app/widgets/ConnectionBetweenHexa.dart';
 /// Enum to define the alignment of the hexagon items.
 enum HexagonAlignment { left, center, right }
 
-import 'package:mobile_app/widgets/ConnectionBetweenHexa.dart';
 
 
 /// A stateless widget that represents the roadmap page.
@@ -77,6 +77,7 @@ class RoadmapSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(this.module);
     return Column(
       children: [
         // Divider with the module name
@@ -236,7 +237,7 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
                                   ),
                                 ),
                                 buttonText: "Regarder",
-                                state: widget.evaluation['state'],
+                                state: 2,//widget.evaluation['state'],
                               ),
                             )
                           ],

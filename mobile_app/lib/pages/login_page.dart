@@ -12,6 +12,21 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Check if the user is already logged in
+    final tokenService = CachingStorageService();
+    tokenService.getFromCache('token').then((token) {
+      if (token != null) {
+            fetchFromApi(
+          '/auth/test',
+          headers: {'Authorization': "Bearer " + token.toString()}).then((response) {
+            if (response.toString().contains('Exception')) {
+              tokenService.clearFromCache('token');
+            } else {
+              Navigator.pushNamed(context, '/roadmap');
+            }
+          });
+    }
+    });
     return Scaffold(
       body: Center(
         child: Padding(

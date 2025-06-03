@@ -10,10 +10,10 @@ class ModuleService {
       final cachedModules = await cachingService.getFromCache("roadmap");
       final token = await cachingService.getFromCache("token");
 
-      if (cachedModules != null) {
-        print("Loading modules from cache");
-        return jsonDecode(cachedModules);
-      }
+      // if (cachedModules != null) {
+      //   print("Loading modules from cache");
+      //   return jsonDecode(cachedModules);
+      // }
 
       print(token.toString());
       // Fetch modules from the API

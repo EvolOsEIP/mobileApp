@@ -29,7 +29,7 @@ Future<List<dynamic>> fetchFromApi(String endpoint,
     if (kDebugMode) {
       print('Error: $e');
     }
-    return [];
+    return [e.toString()];
   }
 }
 
