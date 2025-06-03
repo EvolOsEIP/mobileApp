@@ -8,6 +8,7 @@
             {
                 "courseId": 1,
                 "courseIndex": 1,
+                "state": 0,
                 "title": "Des lettres",
                 "description": "Débuter avec son clavier: d'une simple lettre à des mots.",
                 "courseLevel": "Eclaireur",
@@ -16,6 +17,43 @@
             {
               "courseId": 2,
               "courseIndex": 2,
+              "state": 0,
+              "title": "Passons aux ponctuations",
+              "description": "Pour faire des phrases il nous faut plus que des lettres.",
+              "courseLevel": "Eclaireur",
+              "closingMessage": "Félicitation tu as fini ton cours!"
+            },
+            {
+              "courseId": 3,
+              "courseIndex": 3,
+              "state": 0,
+              "title": "Passons aux ponctuations",
+              "description": "Pour faire des phrases il nous faut plus que des lettres.",
+              "courseLevel": "Eclaireur",
+              "closingMessage": "Félicitation tu as fini ton cours!"
+            },
+            {
+              "courseId": 4,
+              "courseIndex": 4,
+              "state": 1,
+              "title": "Passons aux ponctuations",
+              "description": "Pour faire des phrases il nous faut plus que des lettres.",
+              "courseLevel": "Eclaireur",
+              "closingMessage": "Félicitation tu as fini ton cours!"
+            },
+            {
+              "courseId": 5,
+              "courseIndex": 5,
+              "state": 2,
+              "title": "Passons aux ponctuations",
+              "description": "Pour faire des phrases il nous faut plus que des lettres.",
+              "courseLevel": "Eclaireur",
+              "closingMessage": "Félicitation tu as fini ton cours!"
+            },
+            {
+              "courseId": 6,
+              "courseIndex": 6,
+              "state": 2,
               "title": "Passons aux ponctuations",
               "description": "Pour faire des phrases il nous faut plus que des lettres.",
               "courseLevel": "Eclaireur",
@@ -23,13 +61,14 @@
             }
         ],
         "evaluation": {
-            "evaluationId": 1,
-            "title": "Evaluation demo ",
-            "summary": "Ceci est une fausse évalutation qui a pour but de montrer à quoi celle-ci peut resssembler.",
-            "assistantDiag": "",
-            "badgeId": 1,
-            "scorePercentage": -1,
-            "badgeEarned": false
+          "evaluationId": 1,
+          "state": 2,
+          "title": "Evaluation demo ",
+          "summary": "Ceci est une fausse évalutation qui a pour but de montrer à quoi celle-ci peut resssembler.",
+          "assistantDiag": "",
+          "badgeId": 1,
+          "scorePercentage": -1,
+          "badgeEarned": false
         }
     },
     {
@@ -40,6 +79,7 @@
           {
             "courseId": 3,
             "courseIndex": 1,
+            "state": 0,
             "title": "Apprendre les gestes tactiles.",
             "description": "tapper, glisser, maintenir…",
             "courseLevel": "Explorateur"
@@ -47,6 +87,7 @@
         ],
       "evaluation": {
         "evaluationId": 2,
+        "state": 0,
         "title": "Evaluation demo 2",
         "summary": "Ceci est une fausse évalutation qui a pour but de montrer à quoi celle-ci peut resssembler.",
         "assistantDiag": "",
