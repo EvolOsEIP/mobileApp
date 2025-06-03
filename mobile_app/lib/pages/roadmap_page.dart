@@ -5,7 +5,14 @@ import 'package:mobile_app/utils/navbar.dart';
 import 'package:mobile_app/pages/course_page.dart';
 import 'package:mobile_app/utils/colors.dart';
 import 'package:mobile_app/services/roadmap_service.dart';
+
+import 'package:mobile_app/services/dataCaching.dart';
+
+/// Enum to define the alignment of the hexagon items.
+enum HexagonAlignment { left, center, right }
+
 import 'package:mobile_app/widgets/ConnectionBetweenHexa.dart';
+
 
 /// A stateless widget that represents the roadmap page.
 ///
@@ -42,7 +49,8 @@ class RoadmapPage extends StatelessWidget {
                 Image.asset('assets/images/logo.png', height: 100),
                 const SizedBox(height: 20),
                 // Mapping through each module and creating a roadmap section
-                ...snapshot.data!.map((module) => RoadmapSection(module: module)),
+                ...snapshot.data!
+                    .map((module) => RoadmapSection(module: module)),
               ],
             ),
           );
@@ -53,7 +61,7 @@ class RoadmapPage extends StatelessWidget {
         padding: EdgeInsets.all(10.0),
         child: CustomNavbar(
             profileImageUrl:
-            "https://randomuser.me/api/portraits/women/44.jpg"),
+                "https://randomuser.me/api/portraits/women/44.jpg"),
       ),
     );
   }
@@ -75,7 +83,8 @@ class RoadmapSection extends StatelessWidget {
         DividerWidget(title: module['moduleName']),
         const SizedBox(height: 10),
         // Displays the courses and evaluation within the module
-        RoadmapWidget(courses: module['courses'], evaluation: module['evaluation']),
+        RoadmapWidget(
+            courses: module['courses'], evaluation: module['evaluation']),
         const SizedBox(height: 10)
       ],
     );
@@ -94,12 +103,17 @@ class DividerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Expanded(child: Divider(thickness: 1, color: CustomColors.primary)),
+        const Expanded(
+            child: Divider(thickness: 1, color: CustomColors.primary)),
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(title,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: CustomColors.primary))),
-        const Expanded(child: Divider(thickness: 1,color: CustomColors.primary)),
+                style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: CustomColors.primary))),
+        const Expanded(
+            child: Divider(thickness: 1, color: CustomColors.primary)),
       ],
     );
   }
@@ -112,7 +126,8 @@ class RoadmapWidget extends StatefulWidget {
   final List<dynamic> courses;
   final dynamic evaluation;
 
-  const RoadmapWidget({super.key, required this.courses, required this.evaluation});
+  const RoadmapWidget(
+      {super.key, required this.courses, required this.evaluation});
 
   @override
   State<RoadmapWidget> createState() => _RoadmapWidgetState();

@@ -10,6 +10,9 @@ import 'package:mobile_app/pages/splash_screen.dart';
 import 'package:mobile_app/pages/profile_page.dart';
 import 'package:mobile_app/pages/success_page.dart';
 
+import 'package:mobile_app/pages/login_page.dart';
+import 'package:mobile_app/pages/register_page.dart';
+
 void main() async {
   try {
     await dotenv.load(fileName: ".env");
@@ -29,14 +32,17 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Evolos',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const SplashScreen(),
-      initialRoute: '/',
+      home: LoginPage(),
+      initialRoute: '/login',
       routes: {
         '/roadmap': (context) => RoadmapPage(),
-        '/evaluation': (context) => const EvaluationPage(evaluationId: 1, score: 0),
+        '/evaluation': (context) =>
+            const EvaluationPage(evaluationId: 1, score: 0),
         '/course': (context) => const CoursePage(courseId: 1),
         '/profile': (context) => const ProfilePage(),
-        '/success': (context) => const SuccessPage()
+        '/success': (context) => const SuccessPage(),
+        '/login': (context) => LoginPage(),
+        '/register': (context) => RegisterPage(),
       },
     );
   }
