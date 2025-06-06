@@ -12,7 +12,7 @@ class CourseService {
     try {
       List<dynamic> step = await fetchFromApi(
           '/api/courses/$courseId/steps',
-          headers: {'Authorization': dotenv.env['API_KEY'].toString()});
+          headers: {'Authorization': "Bearer " + dotenv.env['API_KEY'].toString()});
       if (step.isEmpty) {
         step = await fetchFromJson('assets/json/courses_pages.json');
       }

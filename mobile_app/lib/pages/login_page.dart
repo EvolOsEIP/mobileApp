@@ -74,6 +74,7 @@ class LoginPage extends StatelessWidget {
                         if (response != null) {
                           // Store the token in local storage
                           final tokenService = CachingStorageService();
+                          tokenService.clearFromCache('token');
                           await tokenService.saveInCache(response['token'], 'token');
                           // Navigate to the roadmap page
                           Navigator.pushNamed(context, '/roadmap');
