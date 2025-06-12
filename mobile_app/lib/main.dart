@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mobile_app/pages/form_page.dart';
 
 import 'package:mobile_app/pages/roadmap_page.dart';
 import 'package:mobile_app/pages/course_page.dart';
@@ -33,12 +34,13 @@ class MyApp extends StatelessWidget {
       title: 'Evolos',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: LoginPage(),
-      initialRoute: '/login',
+      initialRoute: '/form',
       routes: {
         '/roadmap': (context) => RoadmapPage(),
         '/evaluation': (context) =>
             const EvaluationPage(evaluationId: 1, score: 0),
         '/course': (context) => const CoursePage(courseId: 1),
+        '/form': (context) => OnboardingForm(),
         '/profile': (context) => const ProfilePage(),
         '/success': (context) => const SuccessPage(),
         '/login': (context) => LoginPage(),

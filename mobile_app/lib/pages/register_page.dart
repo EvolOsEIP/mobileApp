@@ -79,7 +79,7 @@ class RegisterPage extends StatelessWidget {
                         if (response['success']) {
                           final tokenService = CachingStorageService();
                           await tokenService.saveInCache(response['token'], 'token');
-                          Navigator.pushNamed(context, '/roadmap');
+                          Navigator.pushNamed(context, '/form');
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(response['message'])),
