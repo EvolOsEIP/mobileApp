@@ -22,6 +22,15 @@ class RoadmapPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cachingService = CachingStorageService();
+    cachingService.getFromCache('token').then((token) {
+      if (token != null) {
+        print("Token from cache: " + token.toString());
+      } else {
+        print("No token found in cache.");
+      }
+    });
+    // cachingService.clearFromCache('token'); // Clear the cache for testing purposes
     return Scaffold(
       body: FutureBuilder<List<dynamic>>(
         future: moduleService.fetchModules(),
@@ -83,7 +92,7 @@ class RoadmapSection extends StatelessWidget {
         // Displays the courses and evaluation within the module
         if (module['courses'] != null && module['courses'].isNotEmpty)
           RoadmapWidget(
-              courses: module['courses'], evaluation: module['evaluation']),
+              courses: module['courses'], evaluation: module['evaluation'] == null ? {'title': 'Aucune évaluation', 'summary': '', 'evaluationId': '', 'scorePercentage': 0} : module['evaluation']),
  
         const SizedBox(height: 10)
       ],
