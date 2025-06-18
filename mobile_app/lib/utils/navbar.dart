@@ -1,5 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:mobile_app/services/dataCaching.dart';
 import 'package:mobile_app/utils/colors.dart';
+
+getProfile() async {
+  final cachingService = CachingStorageService();
+  final profile = await cachingService.getFromCache('profile');
+
+  return profile.toString(); // Default image
+}
 
 class CustomNavbar extends StatelessWidget {
   final String profileImageUrl;
@@ -13,13 +23,23 @@ class CustomNavbar extends StatelessWidget {
     double iconSize = screenWidth * 0.07;
     double avatarSize = screenWidth * 0.07;
 
+    dynamic userProfile = null;
+    final cachingService = CachingStorageService();
+    cachingService.getFromCache('profile').then((profile) {
+      if (profile != null) {
+        userProfile = jsonEncode(profile);
+        print("Profile from cache: " + jsonDecode(userProfile).toString());
+      } else {
+        print("No profile found in cache.");
+      }
+    });
+
     return Container(
       padding:
           EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(
-            navbarHeight * 0.5),
+        borderRadius: BorderRadius.circular(navbarHeight * 0.5),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
@@ -38,12 +58,10 @@ class CustomNavbar extends StatelessWidget {
                 Navigator.pushNamed(context, '/profile');
               }
             },
-            child:
-            ClipRRect(
-              borderRadius:
-                  BorderRadius.circular(avatarSize * 0.5),
-              child: Image.asset(
-                'assets/images/44.jpg',
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(avatarSize * 0.5),
+              child: Image.network(
+                "http://clementlagier.fr:3000/api/images/image-123456789.jpg",
                 width: avatarSize,
                 height: avatarSize,
                 fit: BoxFit.cover,

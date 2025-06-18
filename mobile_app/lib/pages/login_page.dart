@@ -71,17 +71,28 @@ class LoginPage extends StatelessWidget {
                         'email': emailController.text,
                         'passwordHash': passwordController.text
                       }).then((response) async {
-                        if (response != null) {
+                        if (response != null && !response.isEmpty) {
                           // Store the token in local storage
+                          final token = response['token'];
                           final tokenService = CachingStorageService();
                           tokenService.clearFromCache('token');
-                          await tokenService.saveInCache(response['token'], 'token');
+                          await tokenService.saveInCache(token, 'token');
+                          // Store the profile in local storage
+                          fetchFromApi('/api/profile/me', headers: {
+                            'Authorization': "Bearer " + token.toString()
+                          }).then((response) {
+                            if (response != null) {
+                              tokenService.clearFromCache('profile');
+                              tokenService.saveInCache(response.toString(), 'profile');
+                          }});
                           // Navigate to the roadmap page
                           Navigator.pushNamed(context, '/roadmap');
-                        } else if (response == null) {
+                        } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Erreur de connexion'),
+                              content: Text('Email ou mot de passe incorrect'),
+                              duration: Duration(seconds: 2),
+                              backgroundColor: Colors.red,  
                             ),
                           );
                         }

@@ -7,6 +7,7 @@ import 'package:mobile_app/pages/form_page.dart';
 import 'package:mobile_app/pages/roadmap_page.dart';
 import 'package:mobile_app/pages/course_page.dart';
 import 'package:mobile_app/pages/evaluation_page.dart';
+import 'package:mobile_app/pages/settings_page.dart';
 import 'package:mobile_app/pages/splash_screen.dart';
 import 'package:mobile_app/pages/profile_page.dart';
 import 'package:mobile_app/pages/success_page.dart';
@@ -34,14 +35,15 @@ class MyApp extends StatelessWidget {
       title: 'Evolos',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: LoginPage(),
-      initialRoute: '/form',
+      initialRoute: '/login',
       routes: {
         '/roadmap': (context) => RoadmapPage(),
         '/evaluation': (context) =>
             const EvaluationPage(evaluationId: 1, score: 0),
         '/course': (context) => const CoursePage(courseId: 1),
         '/form': (context) => OnboardingForm(),
-        '/profile': (context) => const ProfilePage(),
+        '/profile': (context) => ProfilePage(),
+        '/settings': (context) => SettingsPage(),
         '/success': (context) => const SuccessPage(),
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),

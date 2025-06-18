@@ -38,7 +38,7 @@ class _CoursePage extends State<CoursePage> {
   /// Flag to check if course data has been loaded successfully.
   bool isDataLoaded = false;
 
-  final CourseService _courseService = CourseService();
+  final ApiService _apiService = ApiService();
 
   /// Loads the course data and updates the state with the appropriate content.
   ///
@@ -47,7 +47,7 @@ class _CoursePage extends State<CoursePage> {
   /// widgets such as instructions and actions.
   Future<void> loadData() async {
     try {
-      List<dynamic> jsonData = await _courseService.fetchSteps(widget.courseId);
+      List<dynamic> jsonData = await _apiService.fetch("courses/${widget.courseId}/steps", "assets/json/courses_pages.json");
 
       if (jsonData.isNotEmpty) {
         Map<String, dynamic> step = jsonData[currentStep];
@@ -173,6 +173,8 @@ class _CoursePage extends State<CoursePage> {
   /// [widgetData] is a map containing the widget's data (e.g., type, description, etc.).
   /// [context] is the current build context of the widget.
   Widget displayWidget(Map<String, dynamic> widgetData, BuildContext context) {
+    print("################# WIDGET DATA #################");
+    print(widgetData);
     switch (widgetData["type"]) {
       case "image":
         return imageWidget(

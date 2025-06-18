@@ -15,7 +15,7 @@ Future<List<dynamic>> fetchFromJson(String filePath) async {
   }
 }
 
-Future<List<dynamic>> fetchFromApi(String endpoint,
+dynamic fetchFromApi(String endpoint,
     {Map<String, String>? headers}) async {
   var url = Uri.http(dotenv.env["HOST_URL"].toString(), endpoint);
   try {
@@ -27,7 +27,17 @@ Future<List<dynamic>> fetchFromApi(String endpoint,
     }
   } catch (e) {
     if (kDebugMode) {
-      print('Error: $e');
+      if (e.toString().contains('SocketException')) {
+        print('Network error: Unable to connect to the server.');
+      } else if (e.toString().contains('TimeoutException')) {
+        print('Request timed out. Please try again later.');
+      } else if (e.toString().contains('token')) {
+        print('Authentication error: Please check your token or login again.');
+        BuildContext context = headers?['context'] as BuildContext;
+        Navigator.pushReplacementNamed(context, '/login');
+      } else {
+        print('Error fetching data: $e from endpoint: $endpoint');
+      }
     }
     return [e.toString()];
   }
