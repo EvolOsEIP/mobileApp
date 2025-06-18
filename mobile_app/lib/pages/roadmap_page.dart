@@ -22,15 +22,6 @@ class RoadmapPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cachingService = CachingStorageService();
-    cachingService.getFromCache('token').then((token) {
-      if (token != null) {
-        print("Token from cache: " + token.toString());
-      } else {
-        print("No token found in cache.");
-      }
-    });
-    // cachingService.clearFromCache('token'); // Clear the cache for testing purposes
     return Scaffold(
       body: FutureBuilder<List<dynamic>>(
         future: moduleService.fetchModules(),
