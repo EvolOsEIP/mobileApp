@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 Widget imageWidget(BuildContext context, String imagePath, String description) {
   return Column(
     children: [
-      Image.asset(
-        imagePath,
+      Image.network(
+        "http://clementlagier.fr:3000/api/images/image-123456789.jpg",
         fit: BoxFit.contain,
         height: MediaQuery.of(context).size.height * 0.25,
         width: double.infinity,

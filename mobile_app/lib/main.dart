@@ -2,10 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mobile_app/pages/form_page.dart';
 
 import 'package:mobile_app/pages/roadmap_page.dart';
 import 'package:mobile_app/pages/course_page.dart';
 import 'package:mobile_app/pages/evaluation_page.dart';
+import 'package:mobile_app/pages/settings_page.dart';
 import 'package:mobile_app/pages/splash_screen.dart';
 import 'package:mobile_app/pages/profile_page.dart';
 import 'package:mobile_app/pages/success_page.dart';
@@ -39,7 +41,9 @@ class MyApp extends StatelessWidget {
         '/evaluation': (context) =>
             const EvaluationPage(evaluationId: 1, score: 0),
         '/course': (context) => const CoursePage(courseId: 1),
-        '/profile': (context) => const ProfilePage(),
+        '/form': (context) => OnboardingForm(),
+        '/profile': (context) => ProfilePage(),
+        '/settings': (context) => SettingsPage(),
         '/success': (context) => const SuccessPage(),
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),

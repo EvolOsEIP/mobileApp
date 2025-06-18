@@ -12,15 +12,12 @@ import 'package:mobile_app/widgets/ConnectionBetweenHexa.dart';
 /// Enum to define the alignment of the hexagon items.
 enum HexagonAlignment { left, center, right }
 
-
-
 /// A stateless widget that represents the roadmap page.
 ///
 /// The roadmap page displays a list of modules and their courses, as well as evaluations.
 /// It fetches module data asynchronously from the `ModuleService`.
 class RoadmapPage extends StatelessWidget {
   final ModuleService moduleService = ModuleService();
-
   RoadmapPage({super.key});
 
   @override
@@ -77,7 +74,7 @@ class RoadmapSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(this.module);
+    // print(this.module);
     return Column(
       children: [
         // Divider with the module name
@@ -110,6 +107,9 @@ class DividerWidget extends StatelessWidget {
             child: Divider(thickness: 1, color: CustomColors.primary)),
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            // Ajust the Text to fit the title if too long 
+             
+
             child: Text(title,
                 style: const TextStyle(
                     fontSize: 20,
@@ -210,7 +210,7 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
                                   ),
                                 ),
                                 buttonText: "Commencer",
-                                state: course['state'],
+                                state: course['courseIndex'] == 1 && course['state'] == 2 ? 0 : course['state'],
                               ),
                             )
                           ],
