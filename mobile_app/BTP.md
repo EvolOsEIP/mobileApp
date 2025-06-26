@@ -203,10 +203,20 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 
 ### **3. Success Criteria**
 
-[Define the metrics and conditions that determine if the beta version is successful.]
+To consider this mobile beta phase successful, the following criteria should be met:
 
-People likes to spend time on our application,
-Partners / trainers judged helpful and recommend the use of our application for the digital illiteracy.
+- At least 70% of testers have fully completed one module, meaning all its courses and the final evaluation.
+
+- At least 50% of testers have started or completed half of the second module.
+
+- Over 50% response rate to the in-app feedback form, providing valuable insights on course experience and user satisfaction.
+
+- Testers demonstrate an understanding of the course progression, evaluation logic, and overall app structure.
+
+- The application is perceived as a useful tool to develop digital skills by both learners and testers.
+
+- Feedback confirms the system of courses and evaluations provides a structured, engaging, and accessible learning experience.
+
 
 ### **4. Known Issues & Limitations**
 
@@ -433,7 +443,15 @@ This part concerns the web dashboard design to create and managing courses, trac
 
 ### **3. Success Criteria**
 
-The associations think the admin dashboard is useful
+The web dashboard beta will be considered successful if:
+
+- Trainers/association members can create modules, courses, and evaluations independently without significant confusion or blocking issues.
+
+- The content creation workflow (modules → courses → evaluations) is clearly understood and used as intended.
+
+- The dashboard successfully displays user progress and activity summaries, and these insights are considered relevant by testers.
+
+- At least some responses are collected via form, email, or oral feedback following the outreach campaign to 20 partner associations.
 
 ---
 
@@ -453,4 +471,12 @@ The associations think the admin dashboard is useful
 
 ## **5. Conclusion**
 
-[Summarize the importance of this Beta Test Plan and what the team expects to achieve with it.]
+This Beta Test Plan aims to validate the core foundations of EvolOs, across both its mobile application and web dashboard. The goal is to demonstrate the real-life usability of our platform in helping learners acquire essential digital skills, while giving trainers the tools to create, manage, and track training paths.
+
+By gathering feedback from early testers, we aim to:
+
+  - Identify critical bugs or usability issues,
+
+  - Validate key features and user flows,
+
+- Showcase EvolOs' maturity to potential partners and supporters.
