@@ -17,16 +17,16 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 
 | **Feature Name** | **Description** | **Priority (High/Medium/Low)** | **Changes Since Tech3** |
 | --- | --- | --- | --- |
-| Roadmap Island | Main screen inspired by Duolingo's roadmap where each "island" represents a course or an evaluation.<br/>Users must complete all islands to unlock the final evaluation. | High | Improvement of UI design inspired from Duolingo's roadmap to improve user experience |
-| Courses | Training zones to develop specific skill through interactive actions or theoretical questions. | High |  |
-| Evaluations | Final step of a module mixing theory and practice questions. Includes a life system to assess progress and motivate users. | High |  |
-| Profile | Lets users view and update personal information and track their current level. | High |  |
-| Authentication | Allows users to create an EvolOs account or log with OAuth2. Optional for basic use, but required for synchronization progress or trainer tracking. | Medium | [Modifications or additions] |
-| Welcome form | Initial form shown on first launch to adapt content based on the user's skill level: beginner, intermediate, and may be more advanced profile in future versions. | Medium |  |
-| Feedback form | Little question to assess how the user felt during a course. Result are shared with trainers to provide qualitative insights beyond numerical progress. | Low |  |
-| Awards system | Badge system to encourage progress. Users can view earned and locked achievements. | Low |  |
-| Assistant | Screen helper that introduces app features step-by-step and offers contextual help throughout the user journey. | Low |  |
-| App rating prompt | Invite the user to rate Evolos app on the store after completing a module on the roadmap. | Low |  |
+| Roadmap Island | Main screen inspired by Duolingo's roadmap where each "island" represents a course or an evaluation.<br/>Users must complete all islands to unlock the final evaluation. | High | New feature since we moved to mobile app |
+| Courses | Training zones to develop specific skill through interactive actions or theoretical questions. | High | New feature since we moved to mobile app  |
+| Evaluations | Final step of a module mixing theory and practice questions. Includes a life system to assess progress and motivate users. | High | New feature since we moved to mobile app |
+| Profile | Lets users view and update personal information and track their current level. | High | modified to migrate from an OS to a mobile app  |
+| Authentication | Allows users to create an EvolOs account or log with OAuth2. Optional for basic use, but required for synchronization progress or trainer tracking. | Medium | modified to migrate from an OS to a mobile app |
+| Welcome form | Initial form shown on first launch to adapt content based on the user's skill level: beginner, intermediate, and may be more advanced profile in future versions. | Medium | modified to migrate from an OS to a mobile app  |
+| Feedback form | Little question to assess how the user felt during a course. Result are shared with trainers to provide qualitative insights beyond numerical progress. | Low | New feature since we moved to mobile app |
+| Awards system | Badge system to encourage progress. Users can view earned and locked achievements. | Low | modified to migrate from an OS to a mobile app |
+| Assistant | Screen helper that introduces app features step-by-step and offers contextual help throughout the user journey. | Low | modified to migrate from an OS to a mobile app |
+| App rating prompt | Invite the user to rate Evolos app on the store after completing a module on the roadmap. | Low | New feature since we moved to mobile app |
 
 ---
 
@@ -43,8 +43,10 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 
 ### **Scenario 1: *Courses***
 
-**Role Involved:** *Regular User***Objective:** *Verify that the user can open a course, complete all its steps, receive appropriate error messages and optionally give a feedback at the end.***Preconditions:** *None***Test Steps:**
-
+- **Role Involved:** *Regular User*
+- **Objective:** *Verify that the user can open a course, complete all its steps, receive appropriate error messages and optionally give a feedback at the end.*
+- **Preconditions:** *None*
+- **Test Steps:**
 1. *Open the app and navigate to the roadmap screen.*
 2. *Tap on an available (unlocked) course island.*
 3. *Try to answer the first step incorrectly.*
@@ -52,6 +54,7 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 5. *Repeat the process, with wrong answer or not, until all course steps are completed.*
 6. *View the final congratulatory message and the feedback question.*
 7. *Choose a rating using the 5 stars system (or skip).*
+
 - **Expected Outcome:**
     - *The course loads correctly.*
     - *The user cannot skip a step without providing the correct answer.*
@@ -66,11 +69,11 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 - **Objective:** Verify the user can browse islands, distinguish locked/unlocked ones, view descriptions, and access only authorized content.
 - **Preconditions:** None
 - **Test Steps:**
-    1. Open the app and access the roadmap screen.
-    2. Tap on an unlocked (available) island.
-    3. Verify that the description of the course and it can be launched.
-    4. Quit, and tap on a locked island.
-    5. Observe the island description and the message indicating the prerequisite is not met.
+1. Open the app and access the roadmap screen.
+2. Tap on an unlocked (available) island.
+3. Verify that the description of the course and it can be launched.
+4. Quit, and tap on a locked island.
+5. Observe the island description and the message indicating the prerequisite is not met.
 - **Expected Outcome:**
   - All islands are visible on the roadmap.
   - Unlocked islands can be accessed and started.
@@ -83,14 +86,14 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 - **Objective:** Ensure the evaluation system works properly, including lives, scoring, and retry options.
 - **Preconditions:** User has completed all courses necessary to unlock the evaluation.
 - **Test Steps:**
-    1. Click on an unlocked evaluation island.
-    2. Read the evaluation instructions and start the evaluation.
-    3. Answer one question correctly.
-    4. Another question with one mistake and observe the life.
-    5. Skip one question.
-    6. Continue until the end.
-    7. View the final result screen (score + stars).
-    8. Choose to retry the evaluation.
+1. Click on an unlocked evaluation island.
+2. Read the evaluation instructions and start the evaluation.
+3. Answer one question correctly.
+4. Another question with one mistake and observe the life.
+5. Skip one question.
+6. Continue until the end.
+7. View the final result screen (score + stars).
+8. Choose to retry the evaluation.
 - **Expected Outcome:** 
   - User sees evaluation rules (e.g number of lives).
   - Each incorrect answer removes a life.
@@ -105,11 +108,11 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 - **Objective:** Verify that the user can view and edit profile information, and see progression level.
 - **Preconditions:** None
 - **Test Steps:**
-    1. Open the app and navigate to the profile page.
-    2. Check the displayed information: name, email, profile picture.
-    3. Editing one of the fields (e.g name or email).
-    4. Observe the update.
-    5. Observe the progression level.
+1. Open the app and navigate to the profile page.
+2. Check the displayed information: name, email, profile picture.
+3. Editing one of the fields (e.g name or email).
+4. Observe the update.
+5. Observe the progression level.
 - **Expected Outcome:** 
   - User can view and update personal information.
   - Changes are saved.
@@ -121,10 +124,10 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 - **Objective:** Ensure user can log in using email/password or Google, and errors are correctly handled.
 - **Preconditions:** None
 - **Test Steps:**
-    1. Try logging in with invalid credentials.
-    2. Observe the error message. 
-    3. Log in successfully using correct email/password or Google.
-    4. Check if the information on the profile match with the information of your email or Google account.
+1. Try logging in with invalid credentials.
+2. Observe the error message. 
+3. Log in successfully using correct email/password or Google.
+4. Check if the information on the profile match with the information of your email or Google account.
 - **Expected Outcome:** 
   - Incorrect login attempts show a retry message.
   - Successful login loads correct profile.
@@ -137,11 +140,11 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 - **Objective:** Verify that the onboarding form collects useful data and assigns an appropriate level.
 - **Preconditions:** First launch of the app.
 - **Test Steps:**
-    1. Open the app for the first time.
-    2. Fill in the welcome form (age, interests, etc.).
-    3. Answer the self-evaluation and technical test.
-    4. Submit the form.
-    5. Observe the assigned user level.
+1. Open the app for the first time.
+2. Fill in the welcome form (age, interests, etc.).
+3. Answer the self-evaluation and technical test.
+4. Submit the form.
+5. Observe the assigned user level.
 - **Expected Outcome:**
   - Form collects personal and technical data.
   - User level is calculated based on answers.
@@ -153,9 +156,9 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 - **Objective:** Check that user can submit feedback after a course and that it is sent to trainers.
 - **Preconditions:** User has completed a course.
 - **Test Steps:**
-    1. Complete a course.
-    2. Rate the course using stars and optionally add a free comment.
-    3. Submit the feedback.
+1. Complete a course.
+2. Rate the course using stars and optionally add a free comment.
+3. Submit the feedback.
 - **Expected Outcome:**
   - User can give feedback after relevant courses.
   - Rating and comments are recorded and shared with trainers.
@@ -166,10 +169,10 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 - **Objective:** Validate badge notifications, earned achievements, and tracking.
 - **Preconditions:** User has completed a module with an associated badge.
 - **Test Steps:**
-    1. Complete a course or evaluation that unlocks a badge.
-    2. Observe the badge notification popup.
-    3. Navigate to the award page.
-    4. Verify the new badge appears as unlocked.
+1. Complete a course or evaluation that unlocks a badge.
+2. Observe the badge notification popup.
+3. Navigate to the award page.
+4. Verify the new badge appears as unlocked.
 - **Expected Outcome:**
   - Notifications appear upon unlocking.
   - User can see both earned and locked badges.
@@ -180,8 +183,8 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 - **Objective:** Ensure the assistant shows contextual help at appropriate times.
 - **Preconditions:** 
 - **Test Steps:**
-    1. Access a page for the first time.
-    2. Observe the assistant’s explanation popup.
+1. Access a page for the first time.
+2. Observe the assistant’s explanation popup.
 - **Expected Outcome:**
   - Assistant shows guidance for new features/pages.
 
@@ -191,9 +194,9 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 - **Objective:** Check that user can submit feedback to us.
 - **Preconditions:** Complete a module.
 - **Test Steps:**
-  1. Finish all courses and evaluation in a module.
-  2. Observe the rating prompt.
-  3. Choose “Rate now” → verify redirection to app store.
+1. Finish all courses and evaluation in a module.
+2. Observe the rating prompt.
+3. Choose “Rate now” → verify redirection to app store.
 - **Expected Outcome:**
   - Prompt appears after module completion.
   - User can choose to rate now, later, or never.
@@ -223,9 +226,9 @@ To consider this mobile beta phase successful, the following criteria should be 
 
 | **Issue**                                   | **Description**                                                                                | **Impact** | **Planned Fix? (Yes/No)** |
 |---------------------------------------------|------------------------------------------------------------------------------------------------|------------|---------------------------|
-| Course and Evaluation status not functional | The logic for determining whether a course or evaluation is accessible is not yet implemented. | High       | Yes                       |
-| Feedback rating system missing              | The 5 stars feedback systeme shown at the end of a course is not yet implemented.              | Medium     | Yes                       |
-| Profile page                                | Information can't be editing                                                                   | Low        | Yes                       |
+| Welcome form | The UX is still not affected by all the result of the welcome form. | High       | Yes                       |
+| Feedback rating system missing              | The 5 stars feedback system shown at the end of a course is not yet  fully implemented.              | Medium     | Yes                       |
+| Profile page                                | not all preferences set in the settings can affect the UX. (linked with the welcome form issue)    | Low        | Yes                       |
 
 
 ---
@@ -238,14 +241,14 @@ This part concerns the web dashboard design to create and managing courses, trac
 
 | **Feature Name**               | **Description**                                              | **Priority (High/Medium/Low)** | **Changes Since Tech3** |
 | ------------------------------ | ------------------------------------------------------------ | ------------------------------ | ----------------------- |
-| Module creation                | Admin must be able to create module. A module must contain at least 3 courses and exactly 1 evaluation and at list one reward. | High                           |                         |
-| Course and Evaluation creation | Admin must be able to create a course or an evaluation. They must contain at least 6 steps with clear instructions. | High                           |                         |
-| User Progression Tracking      | Trainers must be able to view the learners affiliated with them via a card-based interface displaying essential information (name, competencies). | High                           |                         |
-| Image uploading                | During course or evaluation creation, trainers should be able to upload images that are stored in the database and displayed within step widgets. | High                           |                         |
-| Authentication & OAuth2        | Users should be able to log in with an EvolOs account or by using OAuth2 with a google account | Medium                         |                         |
-| Evaluation creation            | Admin must be able to create an evaluation that tests the skills taught in the module. It must include clear instructions and various types of questions. | High                           |                         |
-| Users' data tracking           | Admins can access dashboards displaying user progress, completed courses, time spent, and assessment results. Enables performance analysis and follow-ups. | High                           |                         |
-| Content Visibility             | Allows admins to define the visibility status of a module, a course or an evaluation(e.g Private, Restricted or Public).<br/>Private: content only visible by creator;<br/>Restricted: content visible by internal collaborators;<br/>Public: visible to all learners via the application. | Low                            |                         |
+| Module creation                | Admin must be able to create module. A module must contain at least 3 courses and exactly 1 evaluation and at list one reward. | High                           |          New feature to complete EvolOs environnement               |
+| Course and Evaluation creation | Admin must be able to create a course or an evaluation. They must contain at least 6 steps with clear instructions. | High                           |                       New feature to complete EvolOs environnement  |
+| User Progression Tracking      | Trainers must be able to view the learners affiliated with them via a card-based interface displaying essential information (name, competencies). | High                           |          New feature to complete EvolOs environnement               |
+| Image uploading                | During course or evaluation creation, trainers should be able to upload images that are stored in the database and displayed within step widgets. | High                           |           New feature to complete EvolOs environnement              |
+| Authentication & OAuth2        | Users should be able to log in with an EvolOs account or by using OAuth2 with a google account | Medium                         |              New feature to complete EvolOs environnement           |
+| Evaluation creation            | Admin must be able to create an evaluation that tests the skills taught in the module. It must include clear instructions and various types of questions. | High                           |          New feature to complete EvolOs environnement               |
+| Users' data tracking           | Admins can access dashboards displaying user progress, completed courses, time spent, and assessment results. Enables performance analysis and follow-ups. | High                           |         New feature to complete EvolOs environnement                |
+| Content Visibility             | Allows admins to define the visibility status of a module, a course or an evaluation(e.g Private, Restricted or Public).<br/>Private: content only visible by creator;<br/>Restricted: content visible by internal collaborators;<br/>Public: visible to all learners via the application. | Low                            |            New feature to complete EvolOs environnement             |
 
 ---
 
