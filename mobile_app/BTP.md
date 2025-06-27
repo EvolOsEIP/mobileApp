@@ -246,11 +246,10 @@ This part concerns the web dashboard design to create and managing courses, trac
 ---
 
 ### **2. Beta Testing Scenarios**
+### **2.1 User Roles**
 
-### **2.1 User Roles **
-
-| **Role Name**             | **Description**                                              |
-| ------------------------- | ------------------------------------------------------------ |
+| **Role Name** | **Description** |
+| --- | --- |
 | Admin                     | Users with full privileges on the dashboard. They can create and manage modules, courses and evaluations. Admins can also track learner progress. This role is typically assigned to someone designated by associations. |
 | Regular user (= Trainers) | Trainers cannot create content, only track user progress affiliated to them. |
 
