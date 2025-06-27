@@ -23,9 +23,9 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 | Profile | Lets users view and update personal information and track their current level. | High | modified to migrate from an OS to a mobile app  |
 | Authentication | Allows users to create an EvolOs account or log with OAuth2. Optional for basic use, but required for synchronization progress or trainer tracking. | Medium | modified to migrate from an OS to a mobile app |
 | Welcome form | Initial form shown on first launch to adapt content based on the user's skill level: beginner, intermediate, and may be more advanced profile in future versions. | Medium | modified to migrate from an OS to a mobile app  |
+| Assistant | Screen helper that introduces app features step-by-step and offers contextual help throughout the user journey. | Medium | modified to migrate from an OS to a mobile app |
 | Feedback form | Little question to assess how the user felt during a course. Result are shared with trainers to provide qualitative insights beyond numerical progress. | Low | New feature since we moved to mobile app |
 | Awards system | Badge system to encourage progress. Users can view earned and locked achievements. | Low | modified to migrate from an OS to a mobile app |
-| Assistant | Screen helper that introduces app features step-by-step and offers contextual help throughout the user journey. | Low | modified to migrate from an OS to a mobile app |
 | App rating prompt | Invite the user to rate Evolos app on the store after completing a module on the roadmap. | Low | New feature since we moved to mobile app |
 
 ---
