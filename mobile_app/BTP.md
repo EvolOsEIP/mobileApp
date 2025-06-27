@@ -184,10 +184,11 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 - **Objective:** Ensure the assistant shows contextual help at appropriate times.
 - **Preconditions:** 
 - **Test Steps:**
-1. Access a page for the first time.
-2. Observe the assistant’s explanation popup.
+1. Access to the first course on the roadmap.
+2. Observe the assistant’s explanation popup and click on the dialog box to get to the next assistant's dialog.
 - **Expected Outcome:**
-  - Assistant shows guidance for new features/pages.
+  - Assistant shows guidance at the begining of the course.
+  - dialogs are skipped when clicking on the dialog box
 
 ---
 
@@ -290,12 +291,12 @@ This part concerns the web dashboard design to create and managing courses, trac
 
 **Test Steps:**
 
-1. *Navigate to the "Course" section of the dashboard.*
-2. *Click on "Create Course" button.*
+1. *Navigate to the "Modules" section of the dashboard.*
+2. *Click on the module you want to create the course in button.*
 3. *Fill in the course name field.*
 4. *Enter a description explaining the course's purpose and competencies it covers.*
 5. *Enter the approximated duration of the course.*
-6. *Provide the instruction of the new course.*
+6. *Provide the instruction of the new course. (at least 6 steps mustbe created)*
 7. *Click on the "Save" button.*
 8. *Observe the confirmation message and instructions related to course and evaluation requirements.*
 
@@ -331,20 +332,25 @@ This part concerns the web dashboard design to create and managing courses, trac
 
 ### **Scenario 4: *Users' data tracking***
 
-**Role Involved:** *Regular user*
+**Role Involved:** *Admin* and *Regular user*
 
-**Objective:** *Ensure that an user can view and analyze user progress.*
+**Objective:** *Ensure that a user can view and make changes on followed learners.*
 
-**Preconditions:** *Some users must already have activity history (courses/evaluations completed).*
+**Preconditions:** *Some learners must already be followed.*
 
 **Test Steps:**
 
-1. Navigate to the "User Tracking" section of the dashboard.
-2. Browse the list of users and select one.
-3. View the user's activity summary: completed courses, time spent, and assessment scores.
-4. Filter users by progress level or specific modules.
-5. See the user's feedback
+1. Navigate to the "Home page" section of the dashboard.
+2. Browse the list of learners and select one.
+3. View the learners's details.
+4. check the learners feedbacks.
+5. try to delete a learner.
 
+**Expected Outcome:**
+
+- User can view accurate and structured user data.
+- User can unfollow a learner.
+- User can have the feedbacks from learners on his courses.   
 ### **Scenario 5: *Content Visibility***
 
 **Role Involved:** *Admin*
@@ -370,13 +376,6 @@ This part concerns the web dashboard design to create and managing courses, trac
 - When set to **Public**, learners can view the content through the mobile app.
 - Changes are saved and take effect immediately.
 - Access is correctly enforced depending on the visibility status.
-
-**Expected Outcome:**
-
-- User can view accurate and structured user data.
-- Filters and search features work as expected.
-- Activity summaries display correct information (number of completed steps, scores, durations, etc.).
-- User can use this data for follow-up or reporting.
 
 ### **Scenario 6: *Image Uploading***
 
@@ -405,13 +404,13 @@ This part concerns the web dashboard design to create and managing courses, trac
 
 
 
-### **Scenario 7: *Authentication and OAuth2***
+### **Scenario 7: *Authentication ***
 
 **Role Involved:** A regular user
 
-**Objective:** *Ensure users can log in with either an EvolOs account (email/password) or using Google OAuth2, and that authentication works correctly across roles.*
+**Objective:** *Ensure users can log in with either an EvolOs account (email/password) and that authentication works correctly across roles.*
 
-**Preconditions:** *User has an existing EvolOs account or Google account.*
+**Preconditions:** *User has an existing EvolOs account.*
 
 **Test Steps:**
 
@@ -419,16 +418,13 @@ This part concerns the web dashboard design to create and managing courses, trac
 2. Attempt login with invalid email and password.
 3. Observe error message.
 4. Try again with valid EvolOs account credentials.
-5. Log out and repeat the process using the "Sign in with Google" option.
-6. Authorize Google OAuth2 access and confirm.
-7. After login, verify the user's role and available access.
+7. After login, verify the user's role and available accessing the HomePage.
 
 **Expected Outcome:**
 
 - Login page provides both email/password fields and a Google OAuth2 button.
 - Invalid credentials return a clear error message.
 - Valid login with EvolOs account redirects to the dashboard with proper permissions.
-- Google login opens OAuth window and correctly authenticates the user.
 - After login, user data (e.g. name, email) is fetched and role is correctly applied.
 - Sessions persist correctly across reloads.
 
@@ -455,8 +451,8 @@ The web dashboard beta will be considered successful if:
 | **Issue**                                  | **Description**                                              | **Impact** | **Planned Fix? (Yes/No)** |
 | ------------------------------------------ | ------------------------------------------------------------ | ---------- | ------------------------- |
 | Badges not implemented                     | Each module should have at least one badge                   | Medium     | Yes                       |
-| Content Visibility feature not implemented | The admin should be able to change the visibility of a course (Public, private, etc) | High       | Yes                       |
-| Authentification & OAuth2 not implemented  | Every user should be able to register or to login by using regular login or OAuth2 | High       | Yes                       |
+| Content Visibility feature not fully implemented | The admin should be able to change the visibility of a course (Public, private, etc) | High       | Yes                       |
+| OAuth2 with google not implemented  | Every user should be able to register or to login by using Goggle OAuth2 | High       | Yes                       |
 
 ---
 
