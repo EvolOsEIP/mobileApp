@@ -118,7 +118,7 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
   - User can view and update personal information.
   - Changes are saved.
   - The user's progression level is update based on completed modules (e.g if you complete a courses you'll see the 'xp' of the progression level increase).
-  - preferences can be seen by clicking on "settings" but cannot be changed yet. 
+  - Preferences can be seen by clicking on "settings" but cannot be changed yet. 
 
 ### **Scenario 5: Authentication**
 
@@ -128,12 +128,11 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 - **Test Steps:**
 1. Try logging in with invalid credentials.
 2. Observe the error message. 
-3. Log in successfully using correct email/password or Google.
-4. Check if the information on the profile match with the information of your email or Google account.
+3. Log in successfully using correct email/password.
+4. Check if the information on the profile match with your information (e.g email address, name....).
 - **Expected Outcome:** 
   - Incorrect login attempts show a retry message.
   - Successful login loads correct profile.
-  - OAuth (Google) login works if selected
 
 
 ### **Scenario 6: Welcome Form**
@@ -150,7 +149,7 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 - **Expected Outcome:**
   - Form collects personal and technical data.
   - User level is calculated based on answers.
-  - User is attributed appropriate level. (e.g, if you don't know anything you will have "aventurier" role or "explorateur" if you know all).
+  - User is attributed appropriate level. (e.g, if you don't know anything you will have "éclaireur" role or "conquérant" if you know all).
 
 ### **Scenario 7: Feedback Form**
 
@@ -171,7 +170,7 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 - **Objective:** Validate badge notifications, earned achievements, and tracking.
 - **Preconditions:** User has completed a module with an associated badge.
 - **Test Steps:**
-1. Complete a course or evaluation that unlocks a badge.
+1. Complete an evaluation that unlocks a badge.
 2. Observe the badge notification popup.
 3. Navigate to the award page.
 4. Verify the new badge appears as unlocked.
@@ -229,9 +228,11 @@ To consider this mobile beta phase successful, the following criteria should be 
 | **Issue**                                   | **Description**                                                                                | **Impact** | **Planned Fix? (Yes/No)** |
 |---------------------------------------------|------------------------------------------------------------------------------------------------|------------|---------------------------|
 | Welcome form | The UX is still not affected by all the result of the welcome form. | High       | Yes                       |
+| Modules                          |  advanced modules for "conquérant" and "explorateur" level are not created yet as we don't have any feedback from professionnals   | Medium        | Yes                       |
 | Feedback rating system missing              | The 5 stars feedback system shown at the end of a course is not yet  fully implemented.              | Medium     | Yes                       |
 | Courses/Evaluation                          | some widgets for the courses/evaluations are still not fully implemented (e.g zooming, screenshots and miscellaneous interaction widgets)    | Medium        | Yes                       |
 | Profile page                                | not all preferences set in the settings can affect the UX. (linked with the welcome form issue)    | Low        | Yes                       |
+| OAuth with Google                                | not implemented yet    | Low        | Yes                       |
 
 
 ---
