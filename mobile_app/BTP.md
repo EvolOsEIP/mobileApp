@@ -228,6 +228,7 @@ To consider this mobile beta phase successful, the following criteria should be 
 |---------------------------------------------|------------------------------------------------------------------------------------------------|------------|---------------------------|
 | Welcome form | The UX is still not affected by all the result of the welcome form. | High       | Yes                       |
 | Feedback rating system missing              | The 5 stars feedback system shown at the end of a course is not yet  fully implemented.              | Medium     | Yes                       |
+| Courses/Evaluation                          | some widgets for the courses/evaluations are still not fully implemented (e.g zooming, screenshots and miscellaneous interaction widgets)    | Medium        | Yes                       |
 | Profile page                                | not all preferences set in the settings can affect the UX. (linked with the welcome form issue)    | Low        | Yes                       |
 
 
