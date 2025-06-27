@@ -12,6 +12,7 @@ class ApiService {
   Future<List<dynamic>> fetch(String endpoint, String jsonToLoad) async {
     final cachingService = CachingStorageService();
     final token = await cachingService.getFromCache("token");
+    print("################# FETCHING DATA #################");
 
     if (token == null) {
       if (kDebugMode) {
@@ -21,6 +22,7 @@ class ApiService {
     }
 
     try {
+      print("Fetching data from API at endpoint: $endpoint");
       List<dynamic> data = await fetchFromApi(
           '/api/$endpoint',
           headers: {'Authorization': "Bearer " + token.toString()});

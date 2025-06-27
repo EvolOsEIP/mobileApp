@@ -5,7 +5,7 @@ import 'package:mobile_app/utils/fetchData.dart';
 import 'package:mobile_app/widgets/actions_widgets.dart';
 import 'package:mobile_app/widgets/confirm_exit_widget.dart';
 import 'package:mobile_app/widgets/instructions_widgets.dart';
-import 'package:mobile_app/services/course_service.dart';
+import 'package:mobile_app/services/api_service.dart';
 
 /// A stateful widget representing a course page.
 ///

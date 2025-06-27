@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/utils/fetchData.dart';
@@ -8,6 +10,7 @@ import 'package:mobile_app/widgets/instructions_widgets.dart';
 import 'package:mobile_app/services/evaluation_service.dart';
 import 'package:mobile_app/utils/stars.dart';
 import 'package:mobile_app/widgets/evaluation_widgets.dart';
+import 'package:mobile_app/services/api_service.dart';
 
 /// A stateful widget representing an evaluation page.
 ///
@@ -46,7 +49,8 @@ class _EvaluationPage extends State<EvaluationPage> {
   /// This method fetches the evaluation steps, instructions, and actions, then updates the state.
   Future<void> loadData() async {
     try {
-      List<dynamic> jsonData = await _evaluationService.fetchSteps(widget.evaluationId);
+      // List<dynamic> jsonData = await _evaluationService.fetchSteps(widget.evaluationId);
+      List<dynamic> jsonData = await ApiService().fetch("evaluations/${widget.evaluationId}/steps", "assets/json/evaluations_pages.json");
       if (jsonData.isNotEmpty && currentStep < jsonData.length) {
         Map<String, dynamic> step = jsonData[currentStep];
         setState(() {
@@ -74,6 +78,7 @@ class _EvaluationPage extends State<EvaluationPage> {
 
     // Load data only if it has not been loaded yet.
     if (!isDataLoaded) {
+      print("loading data.....");
       loadData();
     }
   }

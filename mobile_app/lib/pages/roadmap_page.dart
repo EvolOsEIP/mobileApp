@@ -22,6 +22,8 @@ class RoadmapPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final tokenService = CachingStorageService();
+    // tokenService.clearFromCache('token');
     return Scaffold(
       body: FutureBuilder<List<dynamic>>(
         future: moduleService.fetchModules(),
@@ -233,13 +235,13 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => EvaluationPage(
-                                      evaluationId: widget.evaluation['evaluationId'],
-                                      score: widget.evaluation['scorePercentage'],
+                                      evaluationId: widget.evaluation['evaluationid'],
+                                      score: 1.0,//widget.evaluation['scorePercentage'],
                                     ),
                                   ),
                                 ),
                                 buttonText: "Regarder",
-                                state: 2,//widget.evaluation['state'],
+                                state: 1,//widget.evaluation['state'],
                               ),
                             )
                           ],
