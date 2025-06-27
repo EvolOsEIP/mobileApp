@@ -189,20 +189,6 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 - **Expected Outcome:**
   - Assistant shows guidance for new features/pages.
 
-### **Scenario 10: App rating prompt**
-
-- **Role Involved:** Regular User
-- **Objective:** Check that user can submit feedback to us.
-- **Preconditions:** Complete a module.
-- **Test Steps:**
-1. Finish all courses and evaluation in a module.
-2. Observe the rating prompt.
-3. Choose “Rate now” → verify redirection to app store.
-- **Expected Outcome:**
-  - Prompt appears after module completion.
-  - User can choose to rate now, later, or never.
-  - Correct redirection or storage of response occurs.
-
 ---
 
 ### **3. Success Criteria**
@@ -233,6 +219,8 @@ To consider this mobile beta phase successful, the following criteria should be 
 | Courses/Evaluation                          | some widgets for the courses/evaluations are still not fully implemented (e.g zooming, screenshots and miscellaneous interaction widgets)    | Medium        | Yes                       |
 | Profile page                                | not all preferences set in the settings can affect the UX. (linked with the welcome form issue)    | Low        | Yes                       |
 | OAuth with Google                                | not implemented yet    | Low        | Yes                       |
+| app rating form                                | not implemented yet    | Low        | Yes                       |
+
 
 
 ---
