@@ -49,7 +49,9 @@ class RoadmapPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 // Mapping through each module and creating a roadmap section
                 ...snapshot.data!
-                    .map((module) => RoadmapSection(module: module)),
+                  .asMap()
+                  .entries
+                  .map((entry) => RoadmapSection(module: entry.value, moduleIndex: entry.key)),
               ],
             ),
           );
@@ -71,8 +73,9 @@ class RoadmapPage extends StatelessWidget {
 /// It displays a module's name, a list of courses, and any associated evaluation.
 class RoadmapSection extends StatelessWidget {
   final dynamic module;
+  final int moduleIndex;
 
-  const RoadmapSection({super.key, required this.module});
+  const RoadmapSection({super.key, required this.module, required this.moduleIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +88,7 @@ class RoadmapSection extends StatelessWidget {
         // Displays the courses and evaluation within the module
         if (module['courses'] != null && module['courses'].isNotEmpty)
           RoadmapWidget(
-              courses: module['courses'], evaluation: module['evaluation'] == null ? {'title': 'Aucune évaluation', 'summary': '', 'evaluationId': '', 'scorePercentage': 0} : module['evaluation']),
+              courses: module['courses'], evaluation: module['evaluation'] == null ? {'title': 'Aucune évaluation', 'summary': '', 'evaluationId': '', 'scorePercentage': 0} : module['evaluation'], moduleIndex: moduleIndex),
  
         const SizedBox(height: 10)
       ],
@@ -130,9 +133,10 @@ class DividerWidget extends StatelessWidget {
 class RoadmapWidget extends StatefulWidget {
   final List<dynamic> courses;
   final dynamic evaluation;
+  final int moduleIndex;
 
   const RoadmapWidget(
-      {super.key, required this.courses, required this.evaluation});
+      {super.key, required this.courses, required this.evaluation, required this.moduleIndex});
 
   @override
   State<RoadmapWidget> createState() => _RoadmapWidgetState();
@@ -194,6 +198,7 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
                   children: [
                     ...List.generate(widget.courses.length, (index) {
                       final course = widget.courses[index];
+                      final moduleIndex = widget.moduleIndex;
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
                         child: Row(
@@ -212,7 +217,7 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
                                   ),
                                 ),
                                 buttonText: "Commencer",
-                                state: course['courseIndex'] == 1 && course['state'] == 2 ? 0 : course['state'],
+                                state: course['courseIndex'] == 1 && course['state'] == 2 && moduleIndex == 0 ? 0 : course['state'],
                               ),
                             )
                           ],
@@ -241,7 +246,7 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
                                   ),
                                 ),
                                 buttonText: "Regarder",
-                                state: 1,//widget.evaluation['state'],
+                                state: widget.evaluation['state'],
                               ),
                             )
                           ],

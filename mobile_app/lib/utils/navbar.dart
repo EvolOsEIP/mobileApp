@@ -29,7 +29,6 @@ class CustomNavbar extends StatelessWidget {
     cachingService.getFromCache('profile').then((profile) {
       if (profile != null) {
         userProfile = jsonEncode(profile);
-        print("Profile from cache: " + jsonDecode(userProfile).toString());
       } else {
         print("No profile found in cache.");
       }

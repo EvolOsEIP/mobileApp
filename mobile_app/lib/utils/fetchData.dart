@@ -60,6 +60,23 @@ dynamic postToApi(String endpoint, Object? body) async {
   }
 }
 
+dynamic putToApi(String endpoint, Object? body,
+    {Map<String, String>? headers}) async {
+  var url = Uri.http(dotenv.env["HOST_URL"].toString(), endpoint);
+  try {
+    final response = await http.put(url, body: body, headers: headers)
+        .timeout(const Duration(seconds: 5));
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception(jsonDecode(response.body));
+    }
+  } catch (e) {
+    print('Error: $e');
+    return [];
+  }
+}
+
 Widget buildLoadingIndicator(String textToDisplay) {
   return Center(
     child: Column(
