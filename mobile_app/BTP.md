@@ -113,10 +113,12 @@ This part of the Beta Test Plan focuses on the EvolOs mobile application, which 
 3. Editing one of the fields (e.g name or email).
 4. Observe the update.
 5. Observe the progression level.
+6. See preferences by clicking on "settings" button.
 - **Expected Outcome:** 
   - User can view and update personal information.
   - Changes are saved.
   - The user's progression level is update based on completed modules (e.g if you complete a courses you'll see the 'xp' of the progression level increase).
+  - preferences can be seen by clicking on "settings" but cannot be changed yet. 
 
 ### **Scenario 5: Authentication**
 
