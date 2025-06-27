@@ -460,11 +460,7 @@ The web dashboard beta will be considered successful if:
 | **Issue**                                  | **Description**                                              | **Impact** | **Planned Fix? (Yes/No)** |
 | ------------------------------------------ | ------------------------------------------------------------ | ---------- | ------------------------- |
 | Badges not implemented                     | Each module should have at least one badge                   | Medium     | Yes                       |
-| Fields not checked                         | Not checking if all fields are filled                        | High       | Yes                       |
-| User's datas not tracked                   | The admin should be able to track the users' datas via the admin dashboard | High       | Yes                       |
-| Creation of evaluations not implemented    | The admin should be able to create at least one evaluation per module | High       | Yes                       |
 | Content Visibility feature not implemented | The admin should be able to change the visibility of a course (Public, private, etc) | High       | Yes                       |
-| Image Uploading not implemented            | While creating a course, the admin should be able to upload an image for the course | High       | Yes                       |
 | Authentification & OAuth2 not implemented  | Every user should be able to register or to login by using regular login or OAuth2 | High       | Yes                       |
 
 ---
