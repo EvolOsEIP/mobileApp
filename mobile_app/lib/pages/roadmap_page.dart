@@ -51,7 +51,7 @@ class RoadmapPage extends StatelessWidget {
                 ...snapshot.data!
                   .asMap()
                   .entries
-                  .map((entry) => RoadmapSection(module: entry.value, moduleIndex: entry.key)),
+                  .map((entry) => RoadmapSection(module: entry.value, moduleIndex: entry.key, roadmap:snapshot.data )),
               ],
             ),
           );
@@ -74,11 +74,31 @@ class RoadmapPage extends StatelessWidget {
 class RoadmapSection extends StatelessWidget {
   final dynamic module;
   final int moduleIndex;
+  final dynamic roadmap;
 
-  const RoadmapSection({super.key, required this.module, required this.moduleIndex});
+  const RoadmapSection({super.key, required this.module, required this.moduleIndex, required this.roadmap});
 
   @override
   Widget build(BuildContext context) {
+    int nextModuleId = -1;
+    print("roadmap length: " + roadmap.length.toString());
+    if (roadmap.length > moduleIndex + 1) {
+      for (int i = 0; i < roadmap.length; i++) {
+        if (moduleIndex == i) {
+          print(roadmap[i + 1]);
+          nextModuleId = roadmap[i + 1]['moduleId'];
+        }
+      }
+    }
+    print("next module id" + nextModuleId.toString());
+
+    // for (int i = 0; i < roadmap.length; i++) {
+    // if (moduleIndex == i) {
+    //   print(roadmap[i + 1]);
+    //   nextModuleId = roadmap["moduleId"];
+    // }
+    // }
+    // print("roadmap: " + roadmap.toString());
     // print(this.module);
     return Column(
       children: [
@@ -88,8 +108,18 @@ class RoadmapSection extends StatelessWidget {
         // Displays the courses and evaluation within the module
         if (module['courses'] != null && module['courses'].isNotEmpty)
           RoadmapWidget(
-              courses: module['courses'], evaluation: module['evaluation'] == null ? {'title': 'Aucune évaluation', 'summary': '', 'evaluationId': '', 'scorePercentage': 0} : module['evaluation'], moduleIndex: moduleIndex),
- 
+              courses: module['courses'],
+              evaluation: module['evaluation'] == null
+                  ? {
+                      'title': 'Aucune évaluation',
+                      'summary': '',
+                      'evaluationId': '',
+                      'scorePercentage': 0
+                    }
+                  : module['evaluation'],
+              moduleState: module['moduleState'],
+              moduleIndex: moduleIndex,moduleId: module['moduleId'],  nextModuleId: nextModuleId),
+
         const SizedBox(height: 10)
       ],
     );
@@ -112,8 +142,7 @@ class DividerWidget extends StatelessWidget {
             child: Divider(thickness: 1, color: CustomColors.primary)),
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            // Ajust the Text to fit the title if too long 
-             
+            // Ajust the Text to fit the title if too long
 
             child: Text(title,
                 style: const TextStyle(
@@ -133,10 +162,20 @@ class DividerWidget extends StatelessWidget {
 class RoadmapWidget extends StatefulWidget {
   final List<dynamic> courses;
   final dynamic evaluation;
+  final int moduleState;
   final int moduleIndex;
+  final int nextModuleId;
+  final int moduleId;
+
 
   const RoadmapWidget(
-      {super.key, required this.courses, required this.evaluation, required this.moduleIndex});
+      {super.key,
+      required this.courses,
+      required this.evaluation,
+      required this.moduleState,
+      required this.nextModuleId,
+      required this.moduleId,
+      required this.moduleIndex});
 
   @override
   State<RoadmapWidget> createState() => _RoadmapWidgetState();
@@ -187,75 +226,82 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0),
-        child: Stack(
-          key: _stackKey,
-            children: [
-              Positioned.fill(
-                child: CustomPaint(
-                  painter: HexConnectionPainter(hexPositions),
-              )),
-              Column(
+        child: Stack(key: _stackKey, children: [
+          Positioned.fill(
+              child: CustomPaint(
+            painter: HexConnectionPainter(hexPositions),
+          )),
+          Column(children: [
+            ...List.generate(widget.courses.length, (index) {
+              final course = widget.courses[index];
+              final moduleState = widget.moduleState;
+              final moduleIndex = widget.moduleIndex;
+
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Row(
+                  mainAxisAlignment: _getAlignment(course['courseIndex']),
                   children: [
-                    ...List.generate(widget.courses.length, (index) {
-                      final course = widget.courses[index];
-                      final moduleIndex = widget.moduleIndex;
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: Row(
-                          mainAxisAlignment: _getAlignment(course['courseIndex']),
-                          children: [
-                            Container(
-                              key: hexKeys[index],
-                              child : HexagonItem(
-                                title: course['title'],
-                                hexLabel: course['courseIndex'].toString(),
-                                description: course['description'],
-                                onTapAction: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CoursePage(courseId: course['courseId']),
-                                  ),
-                                ),
-                                buttonText: "Commencer",
-                                state: course['courseIndex'] == 1 && course['state'] == 2 && moduleIndex == 0 ? 0 : course['state'],
-                              ),
-                            )
-                          ],
+                    Container(
+                      key: hexKeys[index],
+                      child: HexagonItem(
+                        title: course['title'],
+                        hexLabel: course['courseIndex'].toString(),
+                        description: course['description'],
+                        onTapAction: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                CoursePage(courseId: course['courseId']),
+                          ),
                         ),
-                      );
-                    }),
-                    const SizedBox(height: 20),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              key: evalKey,
-                              child: HexagonItem(
-                                title: widget.evaluation['title'],
-                                hexLabel: "Eval",
-                                description: widget.evaluation['summary'],
-                                onTapAction: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => EvaluationPage(
-                                      evaluationId: widget.evaluation['evaluationid'],
-                                      score: 1.0,//widget.evaluation['scorePercentage'],
-                                    ),
-                                  ),
-                                ),
-                                buttonText: "Regarder",
-                                state: widget.evaluation['state'],
-                              ),
-                            )
-                          ],
-                        )
-                    ),
-                  ]
-              ),
-    ]
-    ));
+                        buttonText: "Commencer",
+                        state: course['courseIndex'] == 1 &&
+                                    course['state'] == 2 &&
+                                    moduleState != 2 ||
+                                course['courseIndex'] == 1 &&
+                                    course['state'] == 2 &&
+                                    moduleIndex == 0
+                            ? 0
+                            : course['state'],
+                      ),
+                    )
+                  ],
+                ),
+              );
+            }),
+            const SizedBox(height: 20),
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      key: evalKey,
+                      child: HexagonItem(
+                        title: widget.evaluation['title'],
+                        hexLabel: "Eval",
+                        description: widget.evaluation['summary'],
+                        onTapAction: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EvaluationPage(
+                              evaluationId: widget.evaluation['evaluationid'],
+                              score:
+                                  1.0, //widget.evaluation['scorePercentage'],
+                              moduleId: widget.moduleId,
+                              nextModuleId: widget.nextModuleId
+                            ),
+                          ),
+                        ),
+                        buttonText: "Regarder",
+                        state: widget.moduleState == 0 ? 0 : widget.evaluation['state'],
+                      ),
+                    )
+                  ],
+                )),
+          ]),
+        ]));
   }
 
   /// Returns the alignment for the hexagon items based on the provided `alignment` value.
