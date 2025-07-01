@@ -69,7 +69,7 @@ class LoginPage extends StatelessWidget {
                     if (_formKey.currentState!.validate()) {
                       postToApi('/auth/login', {
                         'email': emailController.text,
-                        'passwordHash': passwordController.text
+                        'password': passwordController.text
                       }).then((response) async {
                         if (response != null && !response.isEmpty) {
                           // Store the token in local storage

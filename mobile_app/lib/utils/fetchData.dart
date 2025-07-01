@@ -47,7 +47,7 @@ dynamic postToApi(String endpoint, Object? body) async {
   var url = Uri.http(dotenv.env["HOST_URL"].toString(), endpoint);
   try {
     final response =
-        await http.post(url, body: body).timeout(const Duration(seconds: 5));
+        await http.post(url, body: body).timeout(const Duration(milliseconds: 500));
     // print(response.body);
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
@@ -65,7 +65,7 @@ dynamic putToApi(String endpoint, Object? body,
   var url = Uri.http(dotenv.env["HOST_URL"].toString(), endpoint);
   try {
     final response = await http.put(url, body: body, headers: headers)
-        .timeout(const Duration(seconds: 5));
+        .timeout(const Duration(milliseconds: 500));
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {

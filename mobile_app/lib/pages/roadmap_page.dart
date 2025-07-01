@@ -5,8 +5,9 @@ import 'package:mobile_app/utils/navbar.dart';
 import 'package:mobile_app/pages/course_page.dart';
 import 'package:mobile_app/utils/colors.dart';
 import 'package:mobile_app/services/roadmap_service.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile_app/services/dataCaching.dart';
+import 'package:mobile_app/services/api_service.dart';
 
 import 'package:mobile_app/widgets/ConnectionBetweenHexa.dart';
 /// Enum to define the alignment of the hexagon items.
@@ -18,6 +19,7 @@ enum HexagonAlignment { left, center, right }
 /// It fetches module data asynchronously from the `ModuleService`.
 class RoadmapPage extends StatelessWidget {
   final ModuleService moduleService = ModuleService();
+  final ApiService _apiService = ApiService();
   RoadmapPage({super.key});
 
   @override
@@ -26,7 +28,8 @@ class RoadmapPage extends StatelessWidget {
     // tokenService.clearFromCache('token');
     return Scaffold(
       body: FutureBuilder<List<dynamic>>(
-        future: moduleService.fetchModules(),
+        future: _apiService.fetch("roadmap", 'assets/json/offline_modules.json'),
+
         builder: (context, snapshot) {
           // If the data is still loading
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -40,12 +43,15 @@ class RoadmapPage extends StatelessWidget {
           else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text('No modules available'));
           }
+          print("roadmap data: " + snapshot.data.toString());
           // Display the roadmap content
           return SingleChildScrollView(
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                Image.asset('assets/images/logo.png', height: 100),
+                Image.network(
+                "http://" + dotenv.env["HOST_URL"].toString() + "/api/images/logo.png",
+                  height: 100),
                 const SizedBox(height: 20),
                 // Mapping through each module and creating a roadmap section
                 ...snapshot.data!
@@ -90,7 +96,7 @@ class RoadmapSection extends StatelessWidget {
         }
       }
     }
-    print("next module id" + nextModuleId.toString());
+    print("next module id " + nextModuleId.toString());
 
     // for (int i = 0; i < roadmap.length; i++) {
     // if (moduleIndex == i) {
@@ -114,10 +120,11 @@ class RoadmapSection extends StatelessWidget {
                       'title': 'Aucune évaluation',
                       'summary': '',
                       'evaluationId': '',
-                      'scorePercentage': 0
+                      'scorePercentage': 0,
+                      'state': 2
                     }
                   : module['evaluation'],
-              moduleState: module['moduleState'],
+              moduleState: module['moduleState'] == null  ? 0 : module['moduleState'],
               moduleIndex: moduleIndex,moduleId: module['moduleId'],  nextModuleId: nextModuleId),
 
         const SizedBox(height: 10)
@@ -186,6 +193,7 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
   final List<GlobalKey> hexKeys = [];
   final GlobalKey evalKey = GlobalKey();
   List<Offset> hexPositions = [];
+  Size? _previousSize;
 
   @override
   void initState() {
@@ -225,53 +233,66 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30.0),
-        child: Stack(key: _stackKey, children: [
-          Positioned.fill(
-              child: CustomPaint(
-            painter: HexConnectionPainter(hexPositions),
-          )),
-          Column(children: [
-            ...List.generate(widget.courses.length, (index) {
-              final course = widget.courses[index];
-              final moduleState = widget.moduleState;
-              final moduleIndex = widget.moduleIndex;
+      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            final newSize = _stackKey.currentContext?.size;
+            if (newSize != null && newSize != _previousSize) {
+              _previousSize = newSize;
+              setState(() {
+                hexPositions = _getHexPositions();
+              });
+            }
+          });
 
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Row(
-                  mainAxisAlignment: _getAlignment(course['courseIndex']),
-                  children: [
-                    Container(
-                      key: hexKeys[index],
-                      child: HexagonItem(
-                        title: course['title'],
-                        hexLabel: course['courseIndex'].toString(),
-                        description: course['description'],
-                        onTapAction: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                CoursePage(courseId: course['courseId']),
+          return Stack(key: _stackKey, children: [
+            Positioned.fill(
+              child: CustomPaint(
+                painter: HexConnectionPainter(hexPositions),
+              ),
+            ),
+            Column(children: [
+              ...List.generate(widget.courses.length, (index) {
+                final course = widget.courses[index];
+                final moduleState = widget.moduleState;
+                final moduleIndex = widget.moduleIndex;
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Row(
+                    mainAxisAlignment: _getAlignment(course['courseIndex']),
+                    children: [
+                      Container(
+                        key: hexKeys[index],
+                        child: HexagonItem(
+                          title: course['title'],
+                          hexLabel: course['courseIndex'].toString(),
+                          description: course['description'],
+                          onTapAction: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  CoursePage(courseId: course['courseId']),
+                            ),
                           ),
+                          buttonText: "Commencer",
+                          state: course['courseIndex'] == 1 &&
+                                      course['state'] == 2 &&
+                                      moduleState != 2 ||
+                                  course['courseIndex'] == 1 &&
+                                      course['state'] == 2 &&
+                                      moduleIndex == 0
+                              ? 1
+                              : course['state'],
                         ),
-                        buttonText: "Commencer",
-                        state: course['courseIndex'] == 1 &&
-                                    course['state'] == 2 &&
-                                    moduleState != 2 ||
-                                course['courseIndex'] == 1 &&
-                                    course['state'] == 2 &&
-                                    moduleIndex == 0
-                            ? 0
-                            : course['state'],
-                      ),
-                    )
-                  ],
-                ),
-              );
-            }),
-            const SizedBox(height: 20),
-            Padding(
+                      )
+                    ],
+                  ),
+                );
+              }),
+              const SizedBox(height: 20),
+              Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -287,26 +308,28 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
                           MaterialPageRoute(
                             builder: (context) => EvaluationPage(
                               evaluationId: widget.evaluation['evaluationid'],
-                              score:
-                                  1.0, //widget.evaluation['scorePercentage'],
+                              score: 1.0,
                               moduleId: widget.moduleId,
-                              nextModuleId: widget.nextModuleId
+                              nextModuleId: widget.nextModuleId,
                             ),
                           ),
                         ),
                         buttonText: "Regarder",
-                        state: widget.moduleState == 0 ? 0 : widget.evaluation['state'],
+                        state: widget.moduleState == 0
+                            ? 0
+                            : widget.evaluation['state'],
                       ),
                     )
                   ],
-                )),
-          ]),
-        ]));
+                ),
+              ),
+            ]),
+          ]);
+        },
+      ),
+    );
   }
 
-  /// Returns the alignment for the hexagon items based on the provided `alignment` value.
-  ///
-  /// This method decides whether the hexagon items should be aligned to the left, center, or right based on the alignment passed.
   MainAxisAlignment _getAlignment(int index) {
     final pattern = [
       MainAxisAlignment.start,
