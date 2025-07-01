@@ -7,6 +7,8 @@ class HexConnectionPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (points.length < 2) return;
+
     for (int i = 0; i < points.length - 1; i++) {
       final start = points[i];
       final end = points[i + 1];
@@ -23,7 +25,6 @@ class HexConnectionPainter extends CustomPainter {
         ..moveTo(start.dx, start.dy)
         ..quadraticBezierTo(controlPoint.dx, controlPoint.dy, end.dx, end.dy);
 
-      // Ombre
       final shadowPaint = Paint()
         ..color = Colors.grey.withOpacity(0.2)
         ..style = PaintingStyle.stroke
@@ -32,7 +33,6 @@ class HexConnectionPainter extends CustomPainter {
 
       canvas.drawPath(path.shift(const Offset(2, 2)), shadowPaint);
 
-      // Trait principal
       final linePaint = Paint()
         ..color = Colors.blue
         ..style = PaintingStyle.stroke
@@ -44,5 +44,8 @@ class HexConnectionPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant HexConnectionPainter oldDelegate) {
+    return oldDelegate.points != points;
+  }
 }
+

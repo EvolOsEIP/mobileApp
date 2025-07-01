@@ -40,4 +40,65 @@ class ApiService {
       return fetchFromJson(jsonToLoad);
     }
   }
+
+  Future<List<dynamic>> put(String endpoint, Map<String, dynamic> data) async {
+    final cachingService = CachingStorageService();
+    final token = await cachingService.getFromCache("token");
+    print("################# PUTTING DATA #################");
+
+    if (token == null) {
+      if (kDebugMode) {
+        print("No token found, cannot put data.");
+      }
+      return [];
+    }
+
+    try {
+      print("Putting data to API at endpoint: $endpoint");
+      List<dynamic> response = await putToApi(
+          '/api/$endpoint',
+          data,
+          headers: {'Authorization': "Bearer " + token.toString()});
+
+      print("################# PUT RESPONSE #################");
+      print("Response for ${endpoint}: ${response}");
+      return response;
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error putting data to API: $e");
+      }
+      return [];
+    }
+  }
+
+  Future<List<dynamic>> post(String endpoint, Map<String, dynamic> data) async {
+    final cachingService = CachingStorageService();
+    final token = await cachingService.getFromCache("token");
+    print("################# POSTING DATA #################");
+
+    if (token == null) {
+      if (kDebugMode) {
+        print("No token found, cannot post data.");
+      }
+      return [];
+    }
+
+    try {
+      print("Posting data to API at endpoint: $endpoint");
+      List<dynamic> response = await postToApi(
+          '/api/$endpoint',
+          data,
+          );
+
+      print("################# POST RESPONSE #################");
+      print("Response for ${endpoint}: ${response}");
+      return response;
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error posting data to API: $e");
+      }
+      return [];
+    }
+  }
+  
 }

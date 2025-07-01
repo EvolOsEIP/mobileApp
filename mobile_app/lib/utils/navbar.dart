@@ -29,7 +29,6 @@ class CustomNavbar extends StatelessWidget {
     cachingService.getFromCache('profile').then((profile) {
       if (profile != null) {
         userProfile = jsonEncode(profile);
-        print("Profile from cache: " + jsonDecode(userProfile).toString());
       } else {
         print("No profile found in cache.");
       }
@@ -62,7 +61,8 @@ class CustomNavbar extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(avatarSize * 0.5),
               child: Image.network(
-                "http://" + dotenv.env["HOST_URL"].toString() + "/api/images/step1.png",
+                "https://i.pravatar.cc/150?img=3",
+                // "http://" + dotenv.env["HOST_URL"].toString() + "/api/images/step1.png",
                 width: avatarSize,
                 height: avatarSize,
                 fit: BoxFit.cover,

@@ -87,13 +87,23 @@ class _CoursePage extends State<CoursePage> {
   /// a completion dialog.
   ///
   /// [life] can be used for managing lives or other gameplay elements, if applicable.
-  void nextStep(int? life) {
+  void nextStep(int? life) async {
     if (currentStep < allSteps - 1) {
       setState(() {
         currentStep++;
       });
       loadData();
     } else {
+      List<dynamic> response = await _apiService.put("courses/${widget.courseId}/complete", {});
+      if (response.isNotEmpty && response[0] == "success") {
+        if (kDebugMode) {
+          print("Course completed successfully.");
+        }
+      } else {
+        if (kDebugMode) {
+          print("Error completing course: $response");
+        }
+      }
       _showCompletionDialog();
     }
   }
@@ -173,8 +183,6 @@ class _CoursePage extends State<CoursePage> {
   /// [widgetData] is a map containing the widget's data (e.g., type, description, etc.).
   /// [context] is the current build context of the widget.
   Widget displayWidget(Map<String, dynamic> widgetData, BuildContext context) {
-    print("################# WIDGET DATA #################");
-    print(widgetData);
     switch (widgetData["type"]) {
       case "image":
         return imageWidget(
