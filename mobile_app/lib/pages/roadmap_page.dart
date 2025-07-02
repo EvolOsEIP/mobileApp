@@ -24,8 +24,8 @@ class RoadmapPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final tokenService = CachingStorageService();
-    // tokenService.clearFromCache('token');
+    final tokenService = CachingStorageService();
+    tokenService.clearFromCache('token');
     return Scaffold(
       body: FutureBuilder<List<dynamic>>(
         future: _apiService.fetch("roadmap", 'assets/json/offline_modules.json'),

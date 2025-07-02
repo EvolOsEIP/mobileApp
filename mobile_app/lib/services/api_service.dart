@@ -71,7 +71,7 @@ class ApiService {
     }
   }
 
-  Future<List<dynamic>> post(String endpoint, Map<String, dynamic> data) async {
+  Future<List<dynamic>> post(String endpoint, Map<String, dynamic> data, ) async {
     final cachingService = CachingStorageService();
     final token = await cachingService.getFromCache("token");
     print("################# POSTING DATA #################");
@@ -87,7 +87,7 @@ class ApiService {
       print("Posting data to API at endpoint: $endpoint");
       List<dynamic> response = await postToApi(
           '/api/$endpoint',
-          data,
+          data, {'Authorization': "Bearer " + token.toString()}
           );
 
       print("################# POST RESPONSE #################");

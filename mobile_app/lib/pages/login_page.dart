@@ -70,7 +70,7 @@ class LoginPage extends StatelessWidget {
                       postToApi('/auth/login', {
                         'email': emailController.text,
                         'password': passwordController.text
-                      }).then((response) async {
+                      }, {}).then((response) async {
                         if (response != null && !response.isEmpty) {
                           // Store the token in local storage
                           final token = response['token'];
