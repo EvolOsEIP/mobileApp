@@ -12,7 +12,6 @@ class ApiService {
   Future<List<dynamic>> fetch(String endpoint, String jsonToLoad) async {
     final cachingService = CachingStorageService();
     final token = await cachingService.getFromCache("token");
-    print("################# FETCHING DATA #################");
 
     if (token == null) {
       if (kDebugMode) {
@@ -22,13 +21,10 @@ class ApiService {
     }
 
     try {
-      print("Fetching data from API at endpoint: $endpoint");
-      List<dynamic> data = await fetchFromApi(
+      dynamic data = await fetchFromApi(
           '/api/$endpoint',
           headers: {'Authorization': "Bearer " + token.toString()});
 
-      print("################# JSON DATA #################");
-      print("jsonData for course ${endpoint}: ${data}");
       if (data.isEmpty) {
         data = await fetchFromJson(jsonToLoad);
       }
@@ -41,7 +37,7 @@ class ApiService {
     }
   }
 
-  Future<List<dynamic>> put(String endpoint, Map<String, dynamic> data) async {
+  Future<dynamic> put(String endpoint, Map<String, dynamic> data) async {
     final cachingService = CachingStorageService();
     final token = await cachingService.getFromCache("token");
     print("################# PUTTING DATA #################");
@@ -55,7 +51,7 @@ class ApiService {
 
     try {
       print("Putting data to API at endpoint: $endpoint");
-      List<dynamic> response = await putToApi(
+      dynamic response = await putToApi(
           '/api/$endpoint',
           data,
           headers: {'Authorization': "Bearer " + token.toString()});

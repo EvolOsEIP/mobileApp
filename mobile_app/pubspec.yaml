@@ -75,6 +75,8 @@ flutter:
     - assets/images/broken_heart.svg
     - assets/images/modules/1_basics/ch1/course1/
     - assets/images/achievements.png
+    - assets/images/default.png
+
 
     - assets/json/courses_pages.json
     - assets/json/success.json

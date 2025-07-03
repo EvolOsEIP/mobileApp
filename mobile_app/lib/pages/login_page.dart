@@ -76,6 +76,7 @@ class LoginPage extends StatelessWidget {
                           final token = response['token'];
                           final tokenService = CachingStorageService();
                           tokenService.clearFromCache('token');
+                          tokenService.clearFromCache('token');
                           await tokenService.saveInCache(token, 'token');
                           // Store the profile in local storage
                           fetchFromApi('/api/profile/me', headers: {

@@ -37,9 +37,7 @@ class SettingsPage extends StatelessWidget {
 
     bottomNavigationBar: const Padding(
         padding: EdgeInsets.all(10.0),
-        child: CustomNavbar(
-            profileImageUrl:
-                "https://randomuser.me/api/portraits/women/44.jpg"),
+        child: CustomNavbar()
       )
     );
   }

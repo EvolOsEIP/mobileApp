@@ -149,9 +149,7 @@ class _SuccessPageState extends State<SuccessPage> {
       ),
       bottomNavigationBar: const Padding(
         padding: EdgeInsets.all(10.0), // Marge autour de la navbar
-        child: CustomNavbar(
-            profileImageUrl:
-                "https://randomuser.me/api/portraits/women/44.jpg"),
+        child: CustomNavbar()
       ),
     );
   }

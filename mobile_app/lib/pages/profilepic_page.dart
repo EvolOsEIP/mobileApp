@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobile_app/services/api_service.dart';
 import 'dart:convert';
 import 'package:mobile_app/utils/fetchData.dart';
 import 'package:mobile_app/services/dataCaching.dart';
@@ -20,6 +21,7 @@ const ProfilePicturePage({Key? key}) : super(key: key);
 class _ProfilePicturePageState extends State<ProfilePicturePage> {
   File? _imageFile;
   final ImagePicker _picker = ImagePicker();
+  String? profilePicUrl = "";
 
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(source: source, imageQuality: 80);
@@ -55,6 +57,7 @@ class _ProfilePicturePageState extends State<ProfilePicturePage> {
 
     if (resBody.statusCode >= 200 && resBody.statusCode < 300) {
       final decoded = jsonDecode(resBody.body);
+      profilePicUrl = decoded['filename'];
       print(decoded);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Image envoyée avec succès !")),
@@ -118,7 +121,33 @@ class _ProfilePicturePageState extends State<ProfilePicturePage> {
             const SizedBox(height: 30),
             ElevatedButton(
                   onPressed: () {
-                      
+                      ApiService apiService = ApiService();
+                      apiService.put(
+                        'profile/me/profile-pic',
+                        {
+                          "profilePicUrl": profilePicUrl,
+                        },
+                      ).then((response) {
+                        if (response.isNotEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Profil mis à jour avec succès !")),
+                          );
+                          final tokenService = CachingStorageService();
+                          final token = tokenService.getFromCache('token');
+                           fetchFromApi('/api/profile/me', headers: {
+                            'Authorization': "Bearer " + token.toString()
+                          }).then((response) {
+                            if (response != null) {
+                              tokenService.clearFromCache('profile');
+                              tokenService.saveInCache(response.toString(), 'profile');
+                          }});
+                          Navigator.pushReplacementNamed(context, '/roadmap');
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Erreur lors de la mise à jour du profil.")),
+                          );
+                        }
+                      });
                   },
                   child: const Text("S'inscrire"),
                 )
