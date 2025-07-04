@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile_app/pages/form_page.dart';
+import 'package:mobile_app/pages/profilepic_page.dart';
 
 import 'package:mobile_app/pages/roadmap_page.dart';
 import 'package:mobile_app/pages/course_page.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         '/course': (context) => const CoursePage(courseId: 1),
         '/form': (context) => OnboardingForm(),
         '/profile': (context) => ProfilePage(),
+        '/profilepic': (context) => ProfilePicturePage(),
         '/settings': (context) => SettingsPage(),
         '/success': (context) => const SuccessPage(),
         '/login': (context) => LoginPage(),

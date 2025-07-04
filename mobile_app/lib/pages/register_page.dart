@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/services/dataCaching.dart';
-import 'package:mobile_app/utils/fetchData.dart';
+import 'package:mobile_app/pages/form_page.dart';
 
 class RegisterPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -65,35 +64,18 @@ class RegisterPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      print("Email: ${emailController.text}");
-                      print("Mot de passe: ${passwordController.text}");
-                      postToApi('/auth/register', {
-                        'username': emailController.text.split('@')[0],
-                        'email': emailController.text,
-                        'passwordHash': passwordController.text,
-                        'role': 'learner'
-                      }).then((response) async {
-                        print(response);
-                        if (response['success']) {
-                          final tokenService = CachingStorageService();
-                          await tokenService.saveInCache(response['token'], 'token');
-                          Navigator.pushNamed(context, '/form');
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(response['message'])),
-                          );
-                        }
-                      }).catchError((error) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Erreur de connexion')),
-                        );
-                      });
-                    }
-                  },
-                  child: const Text("S'inscrire"),
-                ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OnboardingForm(userProfile: {
+                            "email": emailController.text,
+                            "password": passwordController.text,
+                          }),
+                        ),
+                      );
+                    },
+                    child: const Text("Continuer")),
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context); // Retour à la page de login

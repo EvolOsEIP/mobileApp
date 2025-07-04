@@ -16,4 +16,9 @@ class CachingStorageService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(key);
   }
+  
+  Future<void> clearCache() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
 }

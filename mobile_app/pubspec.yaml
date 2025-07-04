@@ -31,6 +31,7 @@ dependencies:
   flutter_svg: ^2.0.17
   flutter:
     sdk: flutter
+  image_picker: ^1.0.7
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -74,6 +75,8 @@ flutter:
     - assets/images/broken_heart.svg
     - assets/images/modules/1_basics/ch1/course1/
     - assets/images/achievements.png
+    - assets/images/default.png
+
 
     - assets/json/courses_pages.json
     - assets/json/success.json

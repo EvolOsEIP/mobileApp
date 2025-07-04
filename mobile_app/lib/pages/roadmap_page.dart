@@ -43,7 +43,7 @@ class RoadmapPage extends StatelessWidget {
           else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text('No modules available'));
           }
-          print("roadmap data: " + snapshot.data.toString());
+          // print("roadmap data: " + snapshot.data.toString());
           // Display the roadmap content
           return SingleChildScrollView(
             child: Column(
@@ -66,9 +66,7 @@ class RoadmapPage extends StatelessWidget {
       // Bottom navigation bar
       bottomNavigationBar: const Padding(
         padding: EdgeInsets.all(10.0),
-        child: CustomNavbar(
-            profileImageUrl:
-                "https://randomuser.me/api/portraits/women/44.jpg"),
+        child: CustomNavbar()
       ),
     );
   }
@@ -87,7 +85,6 @@ class RoadmapSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int nextModuleId = -1;
-    print("roadmap length: " + roadmap.length.toString());
     if (roadmap.length > moduleIndex + 1) {
       for (int i = 0; i < roadmap.length; i++) {
         if (moduleIndex == i) {
@@ -96,7 +93,6 @@ class RoadmapSection extends StatelessWidget {
         }
       }
     }
-    print("next module id " + nextModuleId.toString());
 
     // for (int i = 0; i < roadmap.length; i++) {
     // if (moduleIndex == i) {

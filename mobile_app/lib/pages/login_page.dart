@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/utils/fetchData.dart';
 import 'package:mobile_app/services/dataCaching.dart';
+import 'dart:convert';
 
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -70,11 +71,12 @@ class LoginPage extends StatelessWidget {
                       postToApi('/auth/login', {
                         'email': emailController.text,
                         'password': passwordController.text
-                      }).then((response) async {
+                      }, {}).then((response) async {
                         if (response != null && !response.isEmpty) {
                           // Store the token in local storage
                           final token = response['token'];
                           final tokenService = CachingStorageService();
+                          tokenService.clearFromCache('token');
                           tokenService.clearFromCache('token');
                           await tokenService.saveInCache(token, 'token');
                           // Store the profile in local storage
@@ -83,7 +85,7 @@ class LoginPage extends StatelessWidget {
                           }).then((response) {
                             if (response != null) {
                               tokenService.clearFromCache('profile');
-                              tokenService.saveInCache(response.toString(), 'profile');
+                              tokenService.saveInCache(jsonEncode(response), 'profile');
                           }});
                           // Navigate to the roadmap page
                           Navigator.pushNamed(context, '/roadmap');
