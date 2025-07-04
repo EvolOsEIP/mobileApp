@@ -1,0 +1,142 @@
+\doxysection{lib/utils/assistant.dart File Reference}
+\hypertarget{assistant_8dart}{}\label{assistant_8dart}\index{lib/utils/assistant.dart@{lib/utils/assistant.dart}}
+{\ttfamily import dart;}\newline
+{\ttfamily import package;}\newline
+{\ttfamily import material.\+dart;}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classStatefulWidget}{Stateful\+Widget}}
+\begin{DoxyCompactList}\small\item\em A \doxylink{classStatefulWidget}{Stateful\+Widget} to display a list of chapters in a unit. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{assistant_8dart_ab339d53d3945a16dfdd20004616a8ddc}{init\+State}} ()
+\item 
+override void \mbox{\hyperlink{assistant_8dart_acc340fabce6d1fd6056b3c2e871d98d2}{dispose}} ()
+\item 
+void \mbox{\hyperlink{assistant_8dart_ae242e77e67ec34174ba0121a5e55f444}{\+\_\+start\+Typing\+Effect}} (String text)
+\begin{DoxyCompactList}\small\item\em Starts the typing animation for the provided text. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{assistant_8dart_a75be822d63115932a52f702d0fe1c082}{\+\_\+start\+Blinking\+Effect}} ()
+\begin{DoxyCompactList}\small\item\em Starts the blinking animation for the displayed text. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{assistant_8dart_affe2ebfc52f604f5ca8de5555a054656}{\+\_\+on\+Tap}} ()
+\begin{DoxyCompactList}\small\item\em Handles the user tap gesture to skip typing or move to the next dialog. \end{DoxyCompactList}\item 
+override Widget \mbox{\hyperlink{assistant_8dart_ab022cbdb8080a3d9d6ccf33cead2b33a}{build}} (Build\+Context context)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+class Assistant extends \mbox{\hyperlink{classStatefulWidget}{Stateful\+Widget}} \mbox{\hyperlink{assistant_8dart_a6472cb62de11ad362bf13221a6b0944d}{current\+Dialog\+Index}} = 0
+\begin{DoxyCompactList}\small\item\em The index of the currently displayed dialog in the list. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{assistant_8dart_a5d50bba09663b672394f102d22dad323}{displayed\+Text}} = "{}"{}
+\begin{DoxyCompactList}\small\item\em The text currently being displayed, updated incrementally for typing effect. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{assistant_8dart_ac0a766824cf90331e9bc42d462cb2623}{is\+Typing}} = false
+\begin{DoxyCompactList}\small\item\em Indicates if the typing animation is currently in progress. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{assistant_8dart_a2f7636df8b2a22914ee5e8a96139b655}{is\+Blinking}} = false
+\begin{DoxyCompactList}\small\item\em Indicates if the blinking effect is currently visible. \end{DoxyCompactList}\item 
+Timer \mbox{\hyperlink{assistant_8dart_a9912f635126d801a388d00f1e29ca710}{blink\+Timer}} = Timer(Duration.\+zero, () \{\})
+\begin{DoxyCompactList}\small\item\em A timer used to handle the blinking effect. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{assistant_8dart_affe2ebfc52f604f5ca8de5555a054656}\index{assistant.dart@{assistant.dart}!\_onTap@{\_onTap}}
+\index{\_onTap@{\_onTap}!assistant.dart@{assistant.dart}}
+\doxysubsubsection{\texorpdfstring{\_onTap()}{\_onTap()}}
+{\footnotesize\ttfamily \label{assistant_8dart_affe2ebfc52f604f5ca8de5555a054656} 
+void \+\_\+on\+Tap (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Handles the user tap gesture to skip typing or move to the next dialog. 
+
+\Hypertarget{assistant_8dart_a75be822d63115932a52f702d0fe1c082}\index{assistant.dart@{assistant.dart}!\_startBlinkingEffect@{\_startBlinkingEffect}}
+\index{\_startBlinkingEffect@{\_startBlinkingEffect}!assistant.dart@{assistant.dart}}
+\doxysubsubsection{\texorpdfstring{\_startBlinkingEffect()}{\_startBlinkingEffect()}}
+{\footnotesize\ttfamily \label{assistant_8dart_a75be822d63115932a52f702d0fe1c082} 
+void \+\_\+start\+Blinking\+Effect (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Starts the blinking animation for the displayed text. 
+
+\Hypertarget{assistant_8dart_ae242e77e67ec34174ba0121a5e55f444}\index{assistant.dart@{assistant.dart}!\_startTypingEffect@{\_startTypingEffect}}
+\index{\_startTypingEffect@{\_startTypingEffect}!assistant.dart@{assistant.dart}}
+\doxysubsubsection{\texorpdfstring{\_startTypingEffect()}{\_startTypingEffect()}}
+{\footnotesize\ttfamily \label{assistant_8dart_ae242e77e67ec34174ba0121a5e55f444} 
+void \+\_\+start\+Typing\+Effect (\begin{DoxyParamCaption}\item[{String}]{text}{}\end{DoxyParamCaption})}
+
+
+
+Starts the typing animation for the provided text. 
+
+\Hypertarget{assistant_8dart_ab022cbdb8080a3d9d6ccf33cead2b33a}\index{assistant.dart@{assistant.dart}!build@{build}}
+\index{build@{build}!assistant.dart@{assistant.dart}}
+\doxysubsubsection{\texorpdfstring{build()}{build()}}
+{\footnotesize\ttfamily \label{assistant_8dart_ab022cbdb8080a3d9d6ccf33cead2b33a} 
+override Widget build (\begin{DoxyParamCaption}\item[{Build\+Context}]{context}{}\end{DoxyParamCaption})}
+
+\Hypertarget{assistant_8dart_acc340fabce6d1fd6056b3c2e871d98d2}\index{assistant.dart@{assistant.dart}!dispose@{dispose}}
+\index{dispose@{dispose}!assistant.dart@{assistant.dart}}
+\doxysubsubsection{\texorpdfstring{dispose()}{dispose()}}
+{\footnotesize\ttfamily \label{assistant_8dart_acc340fabce6d1fd6056b3c2e871d98d2} 
+override void dispose (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{assistant_8dart_ab339d53d3945a16dfdd20004616a8ddc}\index{assistant.dart@{assistant.dart}!initState@{initState}}
+\index{initState@{initState}!assistant.dart@{assistant.dart}}
+\doxysubsubsection{\texorpdfstring{initState()}{initState()}}
+{\footnotesize\ttfamily \label{assistant_8dart_ab339d53d3945a16dfdd20004616a8ddc} 
+override void init\+State (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{assistant_8dart_a9912f635126d801a388d00f1e29ca710}\index{assistant.dart@{assistant.dart}!blinkTimer@{blinkTimer}}
+\index{blinkTimer@{blinkTimer}!assistant.dart@{assistant.dart}}
+\doxysubsubsection{\texorpdfstring{blinkTimer}{blinkTimer}}
+{\footnotesize\ttfamily \label{assistant_8dart_a9912f635126d801a388d00f1e29ca710} 
+Timer blink\+Timer = Timer(Duration.\+zero, () \{\})}
+
+
+
+A timer used to handle the blinking effect. 
+
+\Hypertarget{assistant_8dart_a6472cb62de11ad362bf13221a6b0944d}\index{assistant.dart@{assistant.dart}!currentDialogIndex@{currentDialogIndex}}
+\index{currentDialogIndex@{currentDialogIndex}!assistant.dart@{assistant.dart}}
+\doxysubsubsection{\texorpdfstring{currentDialogIndex}{currentDialogIndex}}
+{\footnotesize\ttfamily \label{assistant_8dart_a6472cb62de11ad362bf13221a6b0944d} 
+class Assistant extends \mbox{\hyperlink{classStatefulWidget}{Stateful\+Widget}} current\+Dialog\+Index = 0}
+
+
+
+The index of the currently displayed dialog in the list. 
+
+\Hypertarget{assistant_8dart_a5d50bba09663b672394f102d22dad323}\index{assistant.dart@{assistant.dart}!displayedText@{displayedText}}
+\index{displayedText@{displayedText}!assistant.dart@{assistant.dart}}
+\doxysubsubsection{\texorpdfstring{displayedText}{displayedText}}
+{\footnotesize\ttfamily \label{assistant_8dart_a5d50bba09663b672394f102d22dad323} 
+String displayed\+Text = "{}"{}}
+
+
+
+The text currently being displayed, updated incrementally for typing effect. 
+
+\Hypertarget{assistant_8dart_a2f7636df8b2a22914ee5e8a96139b655}\index{assistant.dart@{assistant.dart}!isBlinking@{isBlinking}}
+\index{isBlinking@{isBlinking}!assistant.dart@{assistant.dart}}
+\doxysubsubsection{\texorpdfstring{isBlinking}{isBlinking}}
+{\footnotesize\ttfamily \label{assistant_8dart_a2f7636df8b2a22914ee5e8a96139b655} 
+bool is\+Blinking = false}
+
+
+
+Indicates if the blinking effect is currently visible. 
+
+\Hypertarget{assistant_8dart_ac0a766824cf90331e9bc42d462cb2623}\index{assistant.dart@{assistant.dart}!isTyping@{isTyping}}
+\index{isTyping@{isTyping}!assistant.dart@{assistant.dart}}
+\doxysubsubsection{\texorpdfstring{isTyping}{isTyping}}
+{\footnotesize\ttfamily \label{assistant_8dart_ac0a766824cf90331e9bc42d462cb2623} 
+bool is\+Typing = false}
+
+
+
+Indicates if the typing animation is currently in progress. 
+

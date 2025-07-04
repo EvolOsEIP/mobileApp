@@ -1,0 +1,285 @@
+\doxysection{lib/pages/course\+\_\+page.dart File Reference}
+\hypertarget{course__page_8dart}{}\label{course__page_8dart}\index{lib/pages/course\_page.dart@{lib/pages/course\_page.dart}}
+{\ttfamily import dart;}\newline
+{\ttfamily import package;}\newline
+{\ttfamily import material.\+dart;}\newline
+{\ttfamily import utils;}\newline
+{\ttfamily import assistant.\+dart;}\newline
+{\ttfamily import course\+\_\+page\+\_\+utils.\+dart;}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classStatefulWidget}{Stateful\+Widget}}
+\begin{DoxyCompactList}\small\item\em A \doxylink{classStatefulWidget}{Stateful\+Widget} to display a list of chapters in a unit. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{course__page_8dart_ab339d53d3945a16dfdd20004616a8ddc}{init\+State}} ()
+\begin{DoxyCompactList}\small\item\em Initialize the widget. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{course__page_8dart_acc340fabce6d1fd6056b3c2e871d98d2}{dispose}} ()
+\begin{DoxyCompactList}\small\item\em Clean the resources used by the widget. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{course__page_8dart_a673a0da9acac183db73fa397f8b2de12}{did\+Change\+Dependencies}} ()
+\begin{DoxyCompactList}\small\item\em Updates the course and chapter data when dependencies change. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{course__page_8dart_a28b3685c222ccdcd08d5e9edbc875e44}{\+\_\+next\+Instruction}} ()
+\begin{DoxyCompactList}\small\item\em To go to another step. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{course__page_8dart_a1233cbc904949cf4555784d01eb63b32}{\+\_\+show\+Completion\+Dialog}} ()
+\begin{DoxyCompactList}\small\item\em Displays a pop-\/up when the course is completed. \end{DoxyCompactList}\item 
+override Widget \mbox{\hyperlink{course__page_8dart_ab022cbdb8080a3d9d6ccf33cead2b33a}{build}} (Build\+Context context)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+class Course\+Page extends \mbox{\hyperlink{classStatefulWidget}{Stateful\+Widget}} \mbox{\hyperlink{course__page_8dart_aa9c08628499f0c197193f3c11eee84e2}{dialogs}}
+\begin{DoxyCompactList}\small\item\em Dialogs used by the Assistant. \end{DoxyCompactList}\item 
+dynamic \mbox{\hyperlink{course__page_8dart_aed79e6b4cacaffe35a9158cf85c5afd9}{current\+Instruction}}
+\begin{DoxyCompactList}\small\item\em Instruction used to give the task to do to the user. \end{DoxyCompactList}\item 
+dynamic \mbox{\hyperlink{course__page_8dart_a1942655380c634cc071f3daad564ab25}{description\+Instruction}}
+\begin{DoxyCompactList}\small\item\em Description more details of the instruction for the user. \end{DoxyCompactList}\item 
+dynamic \mbox{\hyperlink{course__page_8dart_a897873861ac98d83bf0c62f829620f54}{expectations}}
+\begin{DoxyCompactList}\small\item\em Expectation for the current step. \end{DoxyCompactList}\item 
+dynamic \mbox{\hyperlink{course__page_8dart_a1155db17e310592cdaa65ec5b23acc62}{chapter}}
+\begin{DoxyCompactList}\small\item\em Data of the current chapter. \end{DoxyCompactList}\item 
+dynamic \mbox{\hyperlink{course__page_8dart_aa5311147e25d59e5a9c8ec9d7ac1371d}{course}}
+\begin{DoxyCompactList}\small\item\em Data of the current course. \end{DoxyCompactList}\item 
+dynamic \mbox{\hyperlink{course__page_8dart_a0184527e20a111a6791dc3220c75af67}{args}}
+\begin{DoxyCompactList}\small\item\em ??? \end{DoxyCompactList}\item 
+dynamic \mbox{\hyperlink{course__page_8dart_a02677f9af516ad0dcb56721fd98208b7}{current\+Instruction\+Image}}
+\begin{DoxyCompactList}\small\item\em Image used for the courses content. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{course__page_8dart_a0121fdee23cc2709b872002250397c2c}{error\+Message}} = \textquotesingle{}\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em Error message display if the user\textquotesingle{}s answer is not correct. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{course__page_8dart_a8a4a0edf01dd5335a94c1ec336e96232}{current\+Dialog\+Index}} = 0
+\begin{DoxyCompactList}\small\item\em Index for the dialogs of the assistant. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{course__page_8dart_adb2f5c92e0ca878961a591e94b89ab11}{current\+Instruction\+Index}} = 0
+\begin{DoxyCompactList}\small\item\em Index for the current Instruction. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{course__page_8dart_a5d50bba09663b672394f102d22dad323}{displayed\+Text}} = "{}"{}
+\begin{DoxyCompactList}\small\item\em ??? \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{course__page_8dart_ac0a766824cf90331e9bc42d462cb2623}{is\+Typing}} = false
+\begin{DoxyCompactList}\small\item\em Boolean to know if the assistant is writing or not. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{course__page_8dart_a2f7636df8b2a22914ee5e8a96139b655}{is\+Blinking}} = false
+\begin{DoxyCompactList}\small\item\em ??? \end{DoxyCompactList}\item 
+Timer \mbox{\hyperlink{course__page_8dart_a9912f635126d801a388d00f1e29ca710}{blink\+Timer}} = Timer(Duration.\+zero, () \{\})
+\begin{DoxyCompactList}\small\item\em ??? \end{DoxyCompactList}\item 
+final \mbox{\hyperlink{course__page_8dart_a193e0c171154e19cdf16adcdf363b767}{\+\_\+input\+Controller}} = Text\+Editing\+Controller()
+\begin{DoxyCompactList}\small\item\em Controller to check the field input. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{course__page_8dart_a28b3685c222ccdcd08d5e9edbc875e44}\index{course\_page.dart@{course\_page.dart}!\_nextInstruction@{\_nextInstruction}}
+\index{\_nextInstruction@{\_nextInstruction}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{\_nextInstruction()}{\_nextInstruction()}}
+{\footnotesize\ttfamily \label{course__page_8dart_a28b3685c222ccdcd08d5e9edbc875e44} 
+void \+\_\+next\+Instruction (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+To go to another step. 
+
+When the \textquotesingle{}Next\textquotesingle{} button is pressed this method is call. Check if the user answer is correct before to go to another step. If yes \+: load the next instruction or display the ended message. If no \+: call the function to set the error message. \Hypertarget{course__page_8dart_a1233cbc904949cf4555784d01eb63b32}\index{course\_page.dart@{course\_page.dart}!\_showCompletionDialog@{\_showCompletionDialog}}
+\index{\_showCompletionDialog@{\_showCompletionDialog}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{\_showCompletionDialog()}{\_showCompletionDialog()}}
+{\footnotesize\ttfamily \label{course__page_8dart_a1233cbc904949cf4555784d01eb63b32} 
+void \+\_\+show\+Completion\+Dialog (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Displays a pop-\/up when the course is completed. 
+
+The pop-\/up shows a completion message from the course content and redirects to the courses list. \Hypertarget{course__page_8dart_ab022cbdb8080a3d9d6ccf33cead2b33a}\index{course\_page.dart@{course\_page.dart}!build@{build}}
+\index{build@{build}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{build()}{build()}}
+{\footnotesize\ttfamily \label{course__page_8dart_ab022cbdb8080a3d9d6ccf33cead2b33a} 
+override Widget build (\begin{DoxyParamCaption}\item[{Build\+Context}]{context}{}\end{DoxyParamCaption})}
+
+\Hypertarget{course__page_8dart_a673a0da9acac183db73fa397f8b2de12}\index{course\_page.dart@{course\_page.dart}!didChangeDependencies@{didChangeDependencies}}
+\index{didChangeDependencies@{didChangeDependencies}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{didChangeDependencies()}{didChangeDependencies()}}
+{\footnotesize\ttfamily \label{course__page_8dart_a673a0da9acac183db73fa397f8b2de12} 
+override void did\+Change\+Dependencies (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Updates the course and chapter data when dependencies change. 
+
+\Hypertarget{course__page_8dart_acc340fabce6d1fd6056b3c2e871d98d2}\index{course\_page.dart@{course\_page.dart}!dispose@{dispose}}
+\index{dispose@{dispose}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{dispose()}{dispose()}}
+{\footnotesize\ttfamily \label{course__page_8dart_acc340fabce6d1fd6056b3c2e871d98d2} 
+override void dispose (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Clean the resources used by the widget. 
+
+Delete the listener to avoid memory link \Hypertarget{course__page_8dart_ab339d53d3945a16dfdd20004616a8ddc}\index{course\_page.dart@{course\_page.dart}!initState@{initState}}
+\index{initState@{initState}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{initState()}{initState()}}
+{\footnotesize\ttfamily \label{course__page_8dart_ab339d53d3945a16dfdd20004616a8ddc} 
+override void init\+State (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Initialize the widget. 
+
+Add a listener to check the value of the input field. update the variable
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{course__page_8dart_a193e0c171154e19cdf16adcdf363b767}\index{course\_page.dart@{course\_page.dart}!\_inputController@{\_inputController}}
+\index{\_inputController@{\_inputController}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{\_inputController}{\_inputController}}
+{\footnotesize\ttfamily \label{course__page_8dart_a193e0c171154e19cdf16adcdf363b767} 
+final \+\_\+input\+Controller = Text\+Editing\+Controller()}
+
+
+
+Controller to check the field input. 
+
+\Hypertarget{course__page_8dart_a0184527e20a111a6791dc3220c75af67}\index{course\_page.dart@{course\_page.dart}!args@{args}}
+\index{args@{args}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{args}{args}}
+{\footnotesize\ttfamily \label{course__page_8dart_a0184527e20a111a6791dc3220c75af67} 
+dynamic args}
+
+
+
+??? 
+
+\Hypertarget{course__page_8dart_a9912f635126d801a388d00f1e29ca710}\index{course\_page.dart@{course\_page.dart}!blinkTimer@{blinkTimer}}
+\index{blinkTimer@{blinkTimer}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{blinkTimer}{blinkTimer}}
+{\footnotesize\ttfamily \label{course__page_8dart_a9912f635126d801a388d00f1e29ca710} 
+Timer blink\+Timer = Timer(Duration.\+zero, () \{\})}
+
+
+
+??? 
+
+\Hypertarget{course__page_8dart_a1155db17e310592cdaa65ec5b23acc62}\index{course\_page.dart@{course\_page.dart}!chapter@{chapter}}
+\index{chapter@{chapter}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{chapter}{chapter}}
+{\footnotesize\ttfamily \label{course__page_8dart_a1155db17e310592cdaa65ec5b23acc62} 
+dynamic chapter}
+
+
+
+Data of the current chapter. 
+
+\Hypertarget{course__page_8dart_aa5311147e25d59e5a9c8ec9d7ac1371d}\index{course\_page.dart@{course\_page.dart}!course@{course}}
+\index{course@{course}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{course}{course}}
+{\footnotesize\ttfamily \label{course__page_8dart_aa5311147e25d59e5a9c8ec9d7ac1371d} 
+dynamic course}
+
+
+
+Data of the current course. 
+
+\Hypertarget{course__page_8dart_a8a4a0edf01dd5335a94c1ec336e96232}\index{course\_page.dart@{course\_page.dart}!currentDialogIndex@{currentDialogIndex}}
+\index{currentDialogIndex@{currentDialogIndex}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{currentDialogIndex}{currentDialogIndex}}
+{\footnotesize\ttfamily \label{course__page_8dart_a8a4a0edf01dd5335a94c1ec336e96232} 
+int current\+Dialog\+Index = 0}
+
+
+
+Index for the dialogs of the assistant. 
+
+\Hypertarget{course__page_8dart_aed79e6b4cacaffe35a9158cf85c5afd9}\index{course\_page.dart@{course\_page.dart}!currentInstruction@{currentInstruction}}
+\index{currentInstruction@{currentInstruction}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{currentInstruction}{currentInstruction}}
+{\footnotesize\ttfamily \label{course__page_8dart_aed79e6b4cacaffe35a9158cf85c5afd9} 
+dynamic current\+Instruction}
+
+
+
+Instruction used to give the task to do to the user. 
+
+\Hypertarget{course__page_8dart_a02677f9af516ad0dcb56721fd98208b7}\index{course\_page.dart@{course\_page.dart}!currentInstructionImage@{currentInstructionImage}}
+\index{currentInstructionImage@{currentInstructionImage}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{currentInstructionImage}{currentInstructionImage}}
+{\footnotesize\ttfamily \label{course__page_8dart_a02677f9af516ad0dcb56721fd98208b7} 
+dynamic current\+Instruction\+Image}
+
+
+
+Image used for the courses content. 
+
+\Hypertarget{course__page_8dart_adb2f5c92e0ca878961a591e94b89ab11}\index{course\_page.dart@{course\_page.dart}!currentInstructionIndex@{currentInstructionIndex}}
+\index{currentInstructionIndex@{currentInstructionIndex}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{currentInstructionIndex}{currentInstructionIndex}}
+{\footnotesize\ttfamily \label{course__page_8dart_adb2f5c92e0ca878961a591e94b89ab11} 
+int current\+Instruction\+Index = 0}
+
+
+
+Index for the current Instruction. 
+
+\Hypertarget{course__page_8dart_a1942655380c634cc071f3daad564ab25}\index{course\_page.dart@{course\_page.dart}!descriptionInstruction@{descriptionInstruction}}
+\index{descriptionInstruction@{descriptionInstruction}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{descriptionInstruction}{descriptionInstruction}}
+{\footnotesize\ttfamily \label{course__page_8dart_a1942655380c634cc071f3daad564ab25} 
+dynamic description\+Instruction}
+
+
+
+Description more details of the instruction for the user. 
+
+\Hypertarget{course__page_8dart_aa9c08628499f0c197193f3c11eee84e2}\index{course\_page.dart@{course\_page.dart}!dialogs@{dialogs}}
+\index{dialogs@{dialogs}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{dialogs}{dialogs}}
+{\footnotesize\ttfamily \label{course__page_8dart_aa9c08628499f0c197193f3c11eee84e2} 
+class Course\+Page extends \mbox{\hyperlink{classStatefulWidget}{Stateful\+Widget}} dialogs}
+
+
+
+Dialogs used by the Assistant. 
+
+\Hypertarget{course__page_8dart_a5d50bba09663b672394f102d22dad323}\index{course\_page.dart@{course\_page.dart}!displayedText@{displayedText}}
+\index{displayedText@{displayedText}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{displayedText}{displayedText}}
+{\footnotesize\ttfamily \label{course__page_8dart_a5d50bba09663b672394f102d22dad323} 
+String displayed\+Text = "{}"{}}
+
+
+
+??? 
+
+\Hypertarget{course__page_8dart_a0121fdee23cc2709b872002250397c2c}\index{course\_page.dart@{course\_page.dart}!errorMessage@{errorMessage}}
+\index{errorMessage@{errorMessage}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{errorMessage}{errorMessage}}
+{\footnotesize\ttfamily \label{course__page_8dart_a0121fdee23cc2709b872002250397c2c} 
+String error\+Message = \textquotesingle{}\textquotesingle{}}
+
+
+
+Error message display if the user\textquotesingle{}s answer is not correct. 
+
+\Hypertarget{course__page_8dart_a897873861ac98d83bf0c62f829620f54}\index{course\_page.dart@{course\_page.dart}!expectations@{expectations}}
+\index{expectations@{expectations}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{expectations}{expectations}}
+{\footnotesize\ttfamily \label{course__page_8dart_a897873861ac98d83bf0c62f829620f54} 
+dynamic expectations}
+
+
+
+Expectation for the current step. 
+
+\Hypertarget{course__page_8dart_a2f7636df8b2a22914ee5e8a96139b655}\index{course\_page.dart@{course\_page.dart}!isBlinking@{isBlinking}}
+\index{isBlinking@{isBlinking}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{isBlinking}{isBlinking}}
+{\footnotesize\ttfamily \label{course__page_8dart_a2f7636df8b2a22914ee5e8a96139b655} 
+bool is\+Blinking = false}
+
+
+
+??? 
+
+\Hypertarget{course__page_8dart_ac0a766824cf90331e9bc42d462cb2623}\index{course\_page.dart@{course\_page.dart}!isTyping@{isTyping}}
+\index{isTyping@{isTyping}!course\_page.dart@{course\_page.dart}}
+\doxysubsubsection{\texorpdfstring{isTyping}{isTyping}}
+{\footnotesize\ttfamily \label{course__page_8dart_ac0a766824cf90331e9bc42d462cb2623} 
+bool is\+Typing = false}
+
+
+
+Boolean to know if the assistant is writing or not. 
+

@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['chapter_0',['chapter',['../course__page_8dart.html#a1155db17e310592cdaa65ec5b23acc62',1,'chapter:&#160;course_page.dart'],['../courses__list__page_8dart.html#abea1904a9b1a607f88fd7431a3b1a1a3',1,'chapter:&#160;courses_list_page.dart']]],
+  ['chapter_5flist_5fpage_2edart_1',['chapter_list_page.dart',['../chapter__list__page_8dart.html',1,'']]],
+  ['chapterlistpage_2',['ChapterListPage',['../chapter__list__page_8dart.html#a5377c1be4e054ccc6e871d31998beb6a',1,'chapter_list_page.dart']]],
+  ['colors_2edart_3',['colors.dart',['../colors_8dart.html',1,'']]],
+  ['completedmodules_4',['completedModules',['../user__progress__page_8dart.html#a399b1cdc4b3f41d415211af0d6b66bc7',1,'user_progress_page.dart']]],
+  ['course_5',['course',['../course__page_8dart.html#aa5311147e25d59e5a9c8ec9d7ac1371d',1,'course_page.dart']]],
+  ['course_5fpage_2edart_6',['course_page.dart',['../course__page_8dart.html',1,'']]],
+  ['course_5fpage_5ftest_2edart_7',['course_page_test.dart',['../course__page__test_8dart.html',1,'']]],
+  ['course_5fpage_5futils_2edart_8',['course_page_utils.dart',['../course__page__utils_8dart.html',1,'']]],
+  ['courses_5flist_5fpage_2edart_9',['courses_list_page.dart',['../courses__list__page_8dart.html',1,'']]],
+  ['courseslistpage_10',['CoursesListPage',['../courses__list__page_8dart.html#a58f3e3851830837c7917fb8bdac4cbf5',1,'courses_list_page.dart']]],
+  ['createstate_11',['createState',['../chapter__list__page_8dart.html#a47dbf2c03fdb9264887a5962f17b1869',1,'createState():&#160;chapter_list_page.dart'],['../courses__list__page_8dart.html#a5d7565006f59920af98b9af516ee51a9',1,'createState():&#160;courses_list_page.dart']]],
+  ['currentdialogindex_12',['currentDialogIndex',['../course__page_8dart.html#a8a4a0edf01dd5335a94c1ec336e96232',1,'currentDialogIndex:&#160;course_page.dart'],['../assistant_8dart.html#a6472cb62de11ad362bf13221a6b0944d',1,'currentDialogIndex:&#160;assistant.dart']]],
+  ['currentinstruction_13',['currentInstruction',['../course__page_8dart.html#aed79e6b4cacaffe35a9158cf85c5afd9',1,'course_page.dart']]],
+  ['currentinstructionimage_14',['currentInstructionImage',['../course__page_8dart.html#a02677f9af516ad0dcb56721fd98208b7',1,'course_page.dart']]],
+  ['currentinstructionindex_15',['currentInstructionIndex',['../course__page_8dart.html#adb2f5c92e0ca878961a591e94b89ab11',1,'course_page.dart']]],
+  ['customcolors_16',['CustomColors',['../classCustomColors.html',1,'']]]
+];
