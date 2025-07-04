@@ -63,15 +63,17 @@ class _CustomNavbarState extends State<CustomNavbar> {
             },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(avatarSize * 0.5),
-              child: Image.network(
-                "http://" +
-                    dotenv.env["HOST_URL"].toString() +
-                    "/api/images/" +
-                    profileImageUrl,
-                width: avatarSize,
-                height: avatarSize,
-                fit: BoxFit.cover,
-              ),
+              child: profileImageUrl == "default.png"
+                  ? Image.asset('assets/images/default.png')
+                  : Image.network(
+                      "http://" +
+                          dotenv.env["HOST_URL"].toString() +
+                          "/api/images/" +
+                          profileImageUrl,
+                      width: avatarSize,
+                      height: avatarSize,
+                      fit: BoxFit.cover,
+                    ),
             ),
           ),
           IconButton(

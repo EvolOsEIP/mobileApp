@@ -92,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   radius: 50,
                   backgroundImage: profileImageUrl == 'default.png'
                       ? const AssetImage(
-                          'assets/images/default.png') // chemin à adapter selon ton projet
+                          'assets/images/default.png')
                       : NetworkImage(
                           "http://${dotenv.env["HOST_URL"]}/api/images/$profileImageUrl",
                         ) as ImageProvider,
