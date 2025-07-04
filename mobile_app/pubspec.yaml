@@ -31,6 +31,7 @@ dependencies:
   flutter_svg: ^2.0.17
   flutter:
     sdk: flutter
+  image_picker: ^1.0.7
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -53,6 +54,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
+  shared_preferences: ^2.2.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -73,6 +75,8 @@ flutter:
     - assets/images/broken_heart.svg
     - assets/images/modules/1_basics/ch1/course1/
     - assets/images/achievements.png
+    - assets/images/default.png
+
 
     - assets/json/courses_pages.json
     - assets/json/success.json
