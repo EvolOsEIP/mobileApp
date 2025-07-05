@@ -50,7 +50,7 @@ class ApiService {
     }
 
     try {
-      print("Putting data to API at endpoint: $endpoint");
+      print("Putting data $data to API at endpoint: $endpoint");
       dynamic response = await putToApi(
           '/api/$endpoint',
           data,

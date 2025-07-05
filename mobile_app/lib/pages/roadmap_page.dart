@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:mobile_app/pages/evaluation_page.dart';
+import 'package:mobile_app/utils/fetchData.dart';
 import 'package:mobile_app/widgets/island.dart';
 import 'package:mobile_app/utils/navbar.dart';
 import 'package:mobile_app/pages/course_page.dart';
@@ -93,6 +96,63 @@ class RoadmapSection extends StatelessWidget {
         }
       }
     }
+if (nextModuleId == -1) {
+  nextModuleId = 0; // Default value if no next module is found
+// CachingStorageService cachingService = CachingStorageService();
+
+// cachingService.getFromCache('token').then((token) {
+//   if (token != null) {
+//     for (int i = 0; i < roadmap.length; i++) {
+//         print("i = " + i.toString());
+//         print("moduleId" + roadmap[i]['moduleId'].toString());
+//       if (i > 0 && moduleIndex > 0) {
+//         fetchFromApi(
+//           "/api/modules/" + roadmap[i - 1]['moduleId'].toString() + "/state",
+//           headers: {
+//             'Authorization': "Bearer " + token.toString()
+//           },
+//         ).then((previousModuleState) {
+//           if (previousModuleState != null) {
+//             print("Previous module state: " + previousModuleState['state'].toString());
+
+//             if (previousModuleState['state'] == 0) {
+//               fetchFromApi(
+//                 "/api/modules/" + roadmap[i]['moduleId'].toString() + "/state",
+//                 headers: {
+//                   'Authorization': "Bearer " + token.toString()
+//                 },
+//               ).then((currentModuleState) {
+//                 if (currentModuleState != null) {
+//                   if (currentModuleState['state'] != 1) {
+//                     print("Module state is not 1, updating...");
+//                     ApiService().put(
+//                       "modules/" + roadmap[i]['moduleId'].toString() + "/state",
+//                       {'state': "1"},
+//                     ).then((response) {
+//                       if (response != null) {
+//                         print("Module state updated successfully.");
+//                       } else {
+//                         print("Failed to update module state.");
+//                       }
+//                     });
+//                   } else {
+//                     print("Current module is already unlocked.");
+//                   }
+//                 }
+//               });
+//             } else {
+//               print("Previous module is not completed (state != 0), no update needed.");
+//             }
+//           }
+//         });
+//       }
+//     }
+//   } else {
+//     print("No token found, cannot fetch module state.");
+//   }
+// });
+}
+
 
     // for (int i = 0; i < roadmap.length; i++) {
     // if (moduleIndex == i) {
@@ -120,8 +180,11 @@ class RoadmapSection extends StatelessWidget {
                       'state': 2
                     }
                   : module['evaluation'],
-              moduleState: module['moduleState'] == null  ? 0 : module['moduleState'],
-              moduleIndex: moduleIndex,moduleId: module['moduleId'],  nextModuleId: nextModuleId),
+              moduleState:
+                  module['moduleState'] == null ? 0 : module['moduleState'],
+              moduleIndex: moduleIndex,
+              moduleId: module['moduleId'],
+              nextModuleId: nextModuleId),
 
         const SizedBox(height: 10)
       ],
@@ -169,7 +232,6 @@ class RoadmapWidget extends StatefulWidget {
   final int moduleIndex;
   final int nextModuleId;
   final int moduleId;
-
 
   const RoadmapWidget(
       {super.key,
