@@ -8,6 +8,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile_app/utils/fetchData.dart';
 import 'package:mobile_app/utils/fixPseudoJson.dart';
 import 'package:mobile_app/utils/loadProfileImage.dart';
+
 class CustomNavbar extends StatefulWidget {
   const CustomNavbar({super.key});
 
@@ -39,7 +40,8 @@ class _CustomNavbarState extends State<CustomNavbar> {
     double avatarSize = screenWidth * 0.07;
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: 10),
+      padding:
+          EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(navbarHeight * 0.5),
@@ -64,7 +66,12 @@ class _CustomNavbarState extends State<CustomNavbar> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(avatarSize * 0.5),
               child: profileImageUrl == "default.png"
-                  ? Image.asset('assets/images/default.png')
+                  ? Image.asset(
+                      'assets/images/default.png',
+                      width: avatarSize,
+                      height: avatarSize,
+                      fit: BoxFit.cover,
+                    )
                   : Image.network(
                       "http://" +
                           dotenv.env["HOST_URL"].toString() +

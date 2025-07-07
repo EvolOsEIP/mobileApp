@@ -33,8 +33,8 @@ dynamic fetchFromApi(String endpoint,
         print('Request timed out. Please try again later.');
       } else if (e.toString().contains('token')) {
         print('Authentication error: Please check your token or login again.');
-        BuildContext context = headers?['context'] as BuildContext;
-        Navigator.pushReplacementNamed(context, '/login');
+        // TODO: Pass a valid BuildContext to this function to perform navigation.
+        // Example: Navigator.pushReplacementNamed(context, '/login');
       } else {
         print('Error fetching data: $e from endpoint: $endpoint');
       }

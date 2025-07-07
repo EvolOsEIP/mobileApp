@@ -58,7 +58,7 @@ class _ProfilePicturePageState extends State<ProfilePicturePage> {
     if (resBody.statusCode >= 200 && resBody.statusCode < 300) {
       final decoded = jsonDecode(resBody.body);
       profilePicUrl = decoded['filename'];
-      print(decoded);
+      print("decoded: $decoded");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Image envoyée avec succès !")),
       );
@@ -78,70 +78,75 @@ class _ProfilePicturePageState extends State<ProfilePicturePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Ajouter une photo de profil')),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            // Aperçu de la photo
-            CircleAvatar(
-              radius: 80,
-              backgroundImage:
-                  _imageFile != null ? FileImage(_imageFile!) : null,
-              child: _imageFile == null
-                  ? Icon(Icons.person, size: 80, color: Colors.grey)
-                  : null,
-            ),
-            const SizedBox(height: 20),
+      
+appBar: AppBar(
+  title: const Text('Ajoute ta photo'),
+  centerTitle: true,
+),
 
-            // Boutons de sélection
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () => _pickImage(ImageSource.camera),
-                  icon: Icon(Icons.camera_alt),
-                  label: Text("Caméra"),
-                ),
-                const SizedBox(width: 20),
-                ElevatedButton.icon(
-                  onPressed: () => _pickImage(ImageSource.gallery),
-                  icon: Icon(Icons.photo_library),
-                  label: Text("Galerie"),
-                ),
-              ],
-            ),
-            const SizedBox(height: 30),
-
-            // Bouton d'envoi
-            ElevatedButton(
-              onPressed: _imageFile != null ? () => _uploadImage(context) : null,
-              child: Text("Enregistrer la photo"),
-            ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-                  onPressed: () {
+body: Padding(
+  padding: const EdgeInsets.all(24.0),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      CircleAvatar(
+        radius: 80,
+        backgroundImage: _imageFile != null ? FileImage(_imageFile!) : null,
+        child: _imageFile == null
+            ? const Icon(Icons.person, size: 80, color: Colors.grey)
+            : null,
+      ),
+      const SizedBox(height: 24),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton.icon(
+            onPressed: () => _pickImage(ImageSource.camera),
+            icon: const Icon(Icons.camera_alt),
+            label: const Text("Caméra"),
+          ),
+          const SizedBox(width: 20),
+          ElevatedButton.icon(
+            onPressed: () => _pickImage(ImageSource.gallery),
+            icon: const Icon(Icons.photo_library),
+            label: const Text("Galerie"),
+          ),
+        ],
+      ),
+      const SizedBox(height: 32),
+      ElevatedButton(
+        onPressed: _imageFile != null ? () => _uploadImage(context) : null,
+        child: const Text("Enregistrer la photo"),
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+        ),
+      ),
+      const SizedBox(height: 16),
+      ElevatedButton(
+        onPressed: () {
                       ApiService apiService = ApiService();
                       apiService.put(
                         'profile/me/profile-pic',
                         {
                           "profilePicUrl": profilePicUrl,
                         },
-                      ).then((response) {
+                      ).then((response) async {
                         if (response.isNotEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Profil mis à jour avec succès !")),
                           );
                           final tokenService = CachingStorageService();
-                          final token = tokenService.getFromCache('token');
+                          final token = await tokenService.getFromCache('token');
+                          print('token: $token');
                            fetchFromApi('/api/profile/me', headers: {
                             'Authorization': "Bearer " + token.toString()
                           }).then((response) {
-                            if (response != null) {
+                            if (response != null && !response.toString().contains('Forbidden')) {
+                              print("Profile updated: $response");
                               tokenService.clearFromCache('profile');
-                              tokenService.saveInCache(response.toString(), 'profile');
+                              tokenService.saveInCache(jsonEncode(response), 'profile');
+                              Navigator.pushReplacementNamed(context, '/roadmap');
                           }});
-                          Navigator.pushReplacementNamed(context, '/roadmap');
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Erreur lors de la mise à jour du profil.")),
@@ -149,11 +154,15 @@ class _ProfilePicturePageState extends State<ProfilePicturePage> {
                         }
                       });
                   },
-                  child: const Text("S'inscrire"),
-                )
-          ],
+        child: const Text("S'inscrire"),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.green,
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
         ),
       ),
+    ],
+  ),
+),
     );
   }
 }

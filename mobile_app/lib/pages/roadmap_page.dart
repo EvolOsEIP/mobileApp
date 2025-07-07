@@ -93,15 +93,23 @@ class RoadmapSection extends StatelessWidget {
         }
       }
     }
+    int previousModuleId = -1;
+    for (int i = 0; i < roadmap.length; i++) {
+      if (moduleIndex == i && i > 0) {
+        previousModuleId = roadmap[i - 1]['moduleId'];
+        if (roadmap[i - 1]['moduleState'] != null && roadmap[i - 1]['moduleState'] == 0) {
+          if (roadmap[i]['moduleState'] == null || roadmap[i]['moduleState'] == 2) {
+            ApiService().put("modules/${roadmap[i]['moduleId'].toString()}/state", {'state': "1"}).then((value) {
+              print("Module state updated to 1 for module: " + roadmap[i]['moduleId'].toString());
+            });
 
-    // for (int i = 0; i < roadmap.length; i++) {
-    // if (moduleIndex == i) {
-    //   print(roadmap[i + 1]);
-    //   nextModuleId = roadmap["moduleId"];
-    // }
-    // }
-    // print("roadmap: " + roadmap.toString());
-    // print(this.module);
+          }
+          print("#########previous module state is 0, setting to 1");
+          print("prev module: " + roadmap[i - 1].toString());
+          
+        }
+      }
+    }
     return Column(
       children: [
         // Divider with the module name

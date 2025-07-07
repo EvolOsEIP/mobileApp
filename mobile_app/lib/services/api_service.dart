@@ -57,7 +57,7 @@ class ApiService {
           headers: {'Authorization': "Bearer " + token.toString()});
 
       print("################# PUT RESPONSE #################");
-      print("Response for ${endpoint}: ${response}");
+      print("Response for /api/${endpoint}: ${response}");
       return response;
     } catch (e) {
       if (kDebugMode) {

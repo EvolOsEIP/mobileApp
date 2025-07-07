@@ -5,7 +5,6 @@ import 'dart:convert';
 
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
-
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -13,35 +12,42 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Check if the user is already logged in
     final tokenService = CachingStorageService();
     tokenService.getFromCache('token').then((token) {
       if (token != null) {
-            fetchFromApi(
-          '/auth/test',
-          headers: {'Authorization': "Bearer " + token.toString()}).then((response) {
-            if (response.toString().contains('Exception')) {
-              tokenService.clearFromCache('token');
-            } else {
-              Navigator.pushNamed(context, '/roadmap');
-            }
-          });
-    }
+        fetchFromApi('/auth/test', headers: {
+          'Authorization': "Bearer $token"
+        }).then((response) {
+          if (!response.toString().contains('Exception')) {
+            Navigator.pushReplacementNamed(context, '/roadmap');
+          } else {
+            tokenService.clearFromCache('token');
+          }
+        });
+      }
     });
+
     return Scaffold(
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
           child: Form(
             key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: ListView(
+              shrinkWrap: true,
               children: [
                 const Text(
-                  'Connexion',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  'Bienvenue',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 12),
+                const Text(
+                  'Connecte-toi pour continuer',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+                const SizedBox(height: 32),
                 TextFormField(
                   controller: emailController,
                   decoration: const InputDecoration(
@@ -52,7 +58,7 @@ class LoginPage extends StatelessWidget {
                       ? null
                       : 'Email invalide',
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
                 TextFormField(
                   controller: passwordController,
                   obscureText: true,
@@ -64,37 +70,41 @@ class LoginPage extends StatelessWidget {
                       ? null
                       : 'Mot de passe trop court',
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 32),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    textStyle: const TextStyle(fontSize: 18),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       postToApi('/auth/login', {
                         'email': emailController.text,
                         'password': passwordController.text
                       }, {}).then((response) async {
-                        if (response != null && !response.isEmpty) {
-                          // Store the token in local storage
+                        if (response != null && response.isNotEmpty) {
                           final token = response['token'];
                           final tokenService = CachingStorageService();
-                          tokenService.clearFromCache('token');
-                          tokenService.clearFromCache('token');
                           await tokenService.saveInCache(token, 'token');
-                          // Store the profile in local storage
+
                           fetchFromApi('/api/profile/me', headers: {
-                            'Authorization': "Bearer " + token.toString()
-                          }).then((response) {
-                            if (response != null) {
-                              tokenService.clearFromCache('profile');
-                              tokenService.saveInCache(jsonEncode(response), 'profile');
-                          }});
-                          // Navigate to the roadmap page
-                          Navigator.pushNamed(context, '/roadmap');
+                            'Authorization': "Bearer $token"
+                          }).then((profile) {
+                            if (profile != null) {
+                              tokenService.saveInCache(
+                                  jsonEncode(profile), 'profile');
+                              Navigator.pushReplacementNamed(
+                                  context, '/roadmap');
+                            }
+                          });
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Email ou mot de passe incorrect'),
-                              duration: Duration(seconds: 2),
-                              backgroundColor: Colors.red,  
+                              content:
+                                  Text('Email ou mot de passe incorrect.'),
+                              backgroundColor: Colors.red,
                             ),
                           );
                         }
@@ -103,12 +113,13 @@ class LoginPage extends StatelessWidget {
                   },
                   child: const Text('Se connecter'),
                 ),
+                const SizedBox(height: 12),
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/register');
                   },
                   child: const Text("Pas encore de compte ? S'inscrire"),
-                )
+                ),
               ],
             ),
           ),

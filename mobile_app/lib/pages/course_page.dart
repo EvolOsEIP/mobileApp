@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_app/services/dataCaching.dart';
 import 'package:mobile_app/widgets/basics_elements_of_a_page.dart';
 import 'package:mobile_app/utils/fetchData.dart';
 import 'package:mobile_app/widgets/actions_widgets.dart';
@@ -94,16 +95,32 @@ class _CoursePage extends State<CoursePage> {
       });
       loadData();
     } else {
-      List<dynamic> response = await _apiService.put("courses/${widget.courseId}/complete", {});
-      if (response.isNotEmpty && response[0] == "success") {
-        if (kDebugMode) {
-          print("Course completed successfully.");
+      fetchFromApi("/api/courses/${widget.courseId}/state", headers:{
+        'Authorization': "Bearer ${await CachingStorageService().getFromCache('token')}"
+      }).then((value) async {
+        print("Course state: $value");
+        if (value.isNotEmpty && value['state'] == 0) {
+          if (kDebugMode) {
+            print("Course already completed.");
+          }
+        } else {
+          List<dynamic> response =
+              await _apiService.put("courses/${widget.courseId}/complete", {});
+          if (response.isNotEmpty && response[0] == "success") {
+            if (kDebugMode) {
+              print("Course completed successfully.");
+            }
+          } else {
+            if (kDebugMode) {
+              print("Error completing course: $response");
+            }
+          }
         }
-      } else {
+      }).catchError((error) {
         if (kDebugMode) {
-          print("Error completing course: $response");
+          print("Error checking course state: $error");
         }
-      }
+      });
       _showCompletionDialog();
     }
   }
@@ -117,7 +134,8 @@ class _CoursePage extends State<CoursePage> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text("Cours complété"),
-        content: Text("Félicitation tu as terminé ton cours."), //use var to load the correct msg
+        content: Text(
+            "Félicitation tu as terminé ton cours."), //use var to load the correct msg
         actions: [
           TextButton(
             onPressed: () {
@@ -154,14 +172,14 @@ class _CoursePage extends State<CoursePage> {
                       style: const TextStyle(fontSize: 20)),
                   const SizedBox(height: 20.0),
                   ...widgetInstructions.map(
-                        (instruction) => Padding(
+                    (instruction) => Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: displayWidget(instruction, context),
                     ),
                   ),
                   const SizedBox(height: 16.0),
                   ...widgetActions.map(
-                        (action) => Padding(
+                    (action) => Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: displayWidget(action, context),
                     ),
@@ -203,7 +221,11 @@ class _CoursePage extends State<CoursePage> {
       child: Scaffold(
         appBar: buildAppBar("Cours"),
         body: isDataLoaded
-            ? buildContent(stepColumn: mainContentOfCourses(), dialogs: dialogs, onAssistantComplete: () => setState(() => dialogs = []),)
+            ? buildContent(
+                stepColumn: mainContentOfCourses(),
+                dialogs: dialogs,
+                onAssistantComplete: () => setState(() => dialogs = []),
+              )
             : buildLoadingIndicator("Chargement du cours..."),
       ),
     );

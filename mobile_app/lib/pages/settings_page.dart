@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/services/dataCaching.dart';
+import 'package:mobile_app/utils/colors.dart';
 import 'package:mobile_app/utils/navbar.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -8,35 +9,49 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Paramètres"),
-        backgroundColor: Colors.teal,
+        backgroundColor: CustomColors.dark_accent,
       ),
       body: ListView(
+        padding: EdgeInsets.all(30.0),
         children: [
+          Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
           ListTile(
+            style: ListTileStyle.drawer,
             leading: Icon(Icons.text_increase),
             title: Text("Taille du texte"),
             onTap: () {
               // À implémenter
             },
           ),
+          SizedBox(height: 20),
           ListTile(
+            style: ListTileStyle.drawer,
             leading: Icon(Icons.volume_up),
             title: Text("Activer l’assistance vocale"),
             onTap: () {
               // À implémenter
             },
           ),
+          SizedBox(height: 20),
           ListTile(
+            style: ListTileStyle.drawer,
             leading: Icon(Icons.lock),
             title: Text("Confidentialité"),
             onTap: () {
               // À implémenter
             },
           ),
+              ],
+            ),
+          ),
         ],
+        
       ),
       bottomSheet: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(30.0),
         child: SizedBox(
           width: double.infinity,
           child: ElevatedButton.icon(
@@ -45,7 +60,7 @@ class SettingsPage extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(vertical: 16),
+              padding: EdgeInsets.symmetric(vertical: 30),
             ),
             onPressed: () {
               CachingStorageService().clearCache().then((_) {
