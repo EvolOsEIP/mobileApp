@@ -15,6 +15,7 @@ class OnboardingForm extends StatefulWidget {
 }
 
 class _OnboardingFormState extends State<OnboardingForm> {
+  int currentStep = 0;
   int age = 30;
   String language = 'Français';
   bool usedDevice = false;
@@ -22,18 +23,39 @@ class _OnboardingFormState extends State<OnboardingForm> {
   List<String> difficulties = [];
   List<String> goals = [];
   List<String> accessibility = [];
+  int xpState = 0;
 
   final _ageController = TextEditingController(text: '30');
 
   final skillOptions = ['Passer un appel', 'Envoyer un message', 'Naviguer sur Internet'];
   final difficultyOptions = ['Lire l’écran', 'Utiliser les petits boutons', 'Comprendre les menus'];
   final goalOptions = ['Utiliser WhatsApp', 'Faire une démarche en ligne', 'Envoyer un mail'];
-  final accessibilityOptions = ['Texte agrandi', 'Aide audio', 'Aide d’un proche'];
+  final accessibilityOptions = ['Texte agrandi', 'Aide audio'];
 
   @override
   void dispose() {
     _ageController.dispose();
     super.dispose();
+  }
+
+  void nextStep() {
+    if (currentStep < 7) {
+      setState(() {
+        currentStep++;
+      });
+    } else {
+      submitForm(context);
+    }
+  }
+
+  void toggleSelection(String item, List<String> targetList) {
+    setState(() {
+      if (targetList.contains(item)) {
+        targetList.remove(item);
+      } else {
+        targetList.add(item);
+      }
+    });
   }
 
   void submitForm(BuildContext context) {
@@ -46,31 +68,20 @@ class _OnboardingFormState extends State<OnboardingForm> {
       'password': widget.userProfile?['password'],
       'role': 'learner',
       'age': parsedAge.toString(),
-      'language': language,
-      'usedDevice': usedDevice.toString(),
-      'skills': skills.toString(),
-      'difficulties': difficulties.toString(),
-      'goals': goals.toString(),
-      'accessibility': accessibility.toString(),
+      'language': language
+      // 'skills': skills,
+      // 'difficulties': difficulties,
+      // 'goals': goals,
+      // 'accessibility': accessibility,
     }, {}).then((response) async {
       if (response != null && response.toString().contains('success')) {
-        print("token: ${response['token']}");
         final tokenService = CachingStorageService();
         await tokenService.saveInCache(response['token'], 'token');
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePicturePage()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const ProfilePicturePage()));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(response['message'])));
       }
     }).catchError((error) {
-      fetchFromApi("api/profile/me").then((profile) {
-        if (profile.toString().contains('success')) {
-          if (profile['email'] == widget.userProfile?['email']) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePicturePage()));
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Erreur de profil : ${profile['message']}')));
-          }
-        }
-      });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Erreur lors de la création de votre compte.')),
       );
@@ -78,99 +89,162 @@ class _OnboardingFormState extends State<OnboardingForm> {
     });
   }
 
-  Widget buildSectionTitle(String title) => Padding(
-    padding: const EdgeInsets.symmetric(vertical: 12.0),
-    child: Text(
-      title,
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: CustomColors.dark_accent),
-    ),
-  );
+  Widget buildStepContent() {
+    switch (currentStep) {
+      case 0:
+        return Column(
+          children: [
+            Text("Quel est votre âge ?", style: _titleStyle()),
+            TextField(
+              controller: _ageController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(labelText: 'Âge', border: OutlineInputBorder()),
+            )
+          ],
+        );
+      case 1:
+        return Column(
+          children: [
+            Text("Langue préférée", style: _titleStyle()),
+            DropdownButtonFormField<String>(
+              value: language,
+              decoration: const InputDecoration(border: OutlineInputBorder()),
+              items: ['Français']
+                  .map((lang) => DropdownMenuItem(value: lang, child: Text(lang)))
+                  .toList(),
+              onChanged: (value) => setState(() => language = value!),
+            ),
+          ],
+        );
+      case 2:
+        return Column(
+          children: [
+            Text("A quelle fréquence utilisez vous un appareil ?", style: _titleStyle()),
+            Slider(
+              value: xpState.toDouble(),
+              onChanged: (value) => setState(() => xpState = value.toInt()),
+              min: 0,
+              max: 2,
+              divisions: 2,
+              label: ['Jamais', 'Occasionnellement', 'Régulièrement'][xpState],
+              activeColor: CustomColors.primary,
+            ),
+          ],
+        );
+      case 3:
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 50.0),
+              child: Text(
+              "De quelle aide aurez-vous besoin ?",
+              style: _titleStyle().copyWith(fontSize: 30, fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(height: 50),
+            CheckboxListTile(
+              title: const Text("Aide audio"),
+              value: usedDevice,
+              onChanged: (value) => setState(() => usedDevice = value ?? false),
+            ),
+            SizedBox(height: 30),
+            Text("Taille de texte"),
+             Slider(
+              value: xpState.toDouble(),
+              onChanged: (value) => setState(() => xpState = value.toInt()),
+              min: 0,
+              max: 2,
+              divisions: 2,
+              label: ['petit', 'moyen', 'gros'][xpState],
+              activeColor: CustomColors.primary,
+            ),
+            
+          ],
+        );
+      case 4:
+        return _buildCheckboxStep("Que savez-vous déjà faire ?", skillOptions, skills);
+      case 5:
+        return _buildCheckboxStep("Qu’est-ce qui est difficile pour vous ?", difficultyOptions, difficulties);
+      case 6:
+        return _buildCheckboxStep("Qu’aimeriez-vous apprendre ?", goalOptions, goals);
+      case 7:
+        return Column(
+          children: [
+            const Text("Tout est prêt !", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
+            const Text("Appuyez sur terminer pour valider votre inscription."),
+          ],
+        );
+      default:
+        return Container();
+    }
+  }
+
+  Widget _buildCheckboxStep(String title, List<String> options, List<String> targetList) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+         Padding(
+              padding: const EdgeInsets.only(bottom: 50.0),
+              child: Text(
+              title,
+              style: _titleStyle().copyWith(fontSize: 30, fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center,
+              ),
+            ),
+        // Text(title, style: _titleStyle()),
+        ...options.map((option) => CheckboxListTile(
+          title: Text(option),
+          value: targetList.contains(option),
+          onChanged: (_) => toggleSelection(option, targetList),
+        )),
+      ],
+    );
+  }
+
+  TextStyle _titleStyle() =>
+      const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: CustomColors.dark_accent);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Bienvenue"),
+        title: const Text("Bienvenue"),
         backgroundColor: CustomColors.dark_accent,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            buildSectionTitle("Quel est votre âge ?"),
-            TextField(
-              controller: _ageController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Âge',
-                border: OutlineInputBorder(),
-              ),
+  padding: const EdgeInsets.all(16),
+  child: Column(
+    children: [
+      Expanded(
+        child: Center( // <-- Ajout ici pour centrer verticalement
+          child: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 600),
+              child: buildStepContent(),
             ),
-            buildSectionTitle("Langue préférée"),
-            DropdownButtonFormField<String>(
-              value: language,
-              decoration: InputDecoration(border: OutlineInputBorder()),
-              items: ['Français', 'Créole', 'Anglais', 'Arabe']
-                  .map((lang) => DropdownMenuItem(value: lang, child: Text(lang)))
-                  .toList(),
-              onChanged: (value) => setState(() => language = value!),
-            ),
-            buildSectionTitle("Avez-vous déjà utilisé un appareil ?"),
-            SwitchListTile(
-              title: Text(usedDevice ? "Oui" : "Non"),
-              value: usedDevice,
-              onChanged: (val) => setState(() => usedDevice = val),
-              activeColor: CustomColors.accent,
-            ),
-            buildSectionTitle("Que savez-vous déjà faire ?"),
-            ...skillOptions.map((option) => CheckboxListTile(
-              title: Text(option),
-              value: skills.contains(option),
-              onChanged: (val) => setState(() {
-                val! ? skills.add(option) : skills.remove(option);
-              }),
-              activeColor: CustomColors.primary,
-            )),
-            buildSectionTitle("Qu’est-ce qui est difficile pour vous ?"),
-            ...difficultyOptions.map((option) => CheckboxListTile(
-              title: Text(option),
-              value: difficulties.contains(option),
-              onChanged: (val) => setState(() {
-                val! ? difficulties.add(option) : difficulties.remove(option);
-              }),
-              activeColor: CustomColors.primary,
-            )),
-            buildSectionTitle("Qu’aimeriez-vous apprendre ?"),
-            ...goalOptions.map((option) => CheckboxListTile(
-              title: Text(option),
-              value: goals.contains(option),
-              onChanged: (val) => setState(() {
-                val! ? goals.add(option) : goals.remove(option);
-              }),
-              activeColor: CustomColors.primary,
-            )),
-            buildSectionTitle("Besoin d’une aide particulière ?"),
-            ...accessibilityOptions.map((option) => CheckboxListTile(
-              title: Text(option),
-              value: accessibility.contains(option),
-              onChanged: (val) => setState(() {
-                val! ? accessibility.add(option) : accessibility.remove(option);
-              }),
-              activeColor: CustomColors.primary,
-            )),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: CustomColors.accent,
-                padding: EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              ),
-              child: Text("Continuer", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              onPressed: () => submitForm(context),
-            )
-          ],
+          ),
         ),
       ),
+      const SizedBox(height: 16),
+      ElevatedButton(
+        onPressed: nextStep,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: CustomColors.accent,
+          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 32),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+        child: Text(
+          currentStep < 7 ? "Suivant" : "Terminer",
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+      ),
+    ],
+  ),
+),
+
     );
   }
 }
+

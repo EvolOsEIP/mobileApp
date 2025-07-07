@@ -8,8 +8,9 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Paramètres"),
+        title: Text("Paramètres", style: TextStyle(fontSize: 24, color: Colors.white)),
         backgroundColor: CustomColors.dark_accent,
+        foregroundColor: Colors.white,
       ),
       body: ListView(
         padding: EdgeInsets.all(30.0),
@@ -26,7 +27,7 @@ class SettingsPage extends StatelessWidget {
               // À implémenter
             },
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 30),
           ListTile(
             style: ListTileStyle.drawer,
             leading: Icon(Icons.volume_up),
@@ -35,7 +36,7 @@ class SettingsPage extends StatelessWidget {
               // À implémenter
             },
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 30),
           ListTile(
             style: ListTileStyle.drawer,
             leading: Icon(Icons.lock),
@@ -55,11 +56,12 @@ class SettingsPage extends StatelessWidget {
         child: SizedBox(
           width: double.infinity,
           child: ElevatedButton.icon(
-            icon: Icon(Icons.logout),
-            label: Text("Se déconnecter"),
+            icon: Icon(Icons.logout, size: 20),
+            label: Text("Se déconnecter", style: TextStyle(fontSize: 20)),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
+              backgroundColor: CustomColors.orangeAccent,
+              foregroundColor: Colors.black,
+              
               padding: EdgeInsets.symmetric(vertical: 30),
             ),
             onPressed: () {

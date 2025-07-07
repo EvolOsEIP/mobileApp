@@ -12,7 +12,7 @@ class CustomColors {
   static const Color accent = Color(0xFFF6AE2D);
 
   // Dark accent color, often used for headers or focus areas
-  static const Color dark_accent = Color(0xFF227c9d);
+  static const Color dark_accent = Color(0xFF076276);
 
   static const Color orangeAccent = Color(0xFFEE570B);
 }
