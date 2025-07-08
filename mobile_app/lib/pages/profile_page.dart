@@ -125,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
 Widget build(BuildContext context) {
-  final isDefaultImage = profileImageUrl == "default.png";
+  final isDefaultImage = profileImageUrl == "default.png" || profileImageUrl.isEmpty;
   final imageWidget = GestureDetector(
     onTap: () => _pickImage(ImageSource.gallery, context),
     child: CircleAvatar(

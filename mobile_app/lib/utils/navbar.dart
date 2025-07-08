@@ -65,7 +65,7 @@ class _CustomNavbarState extends State<CustomNavbar> {
             },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(avatarSize * 0.5),
-              child: profileImageUrl == "default.png"
+              child: profileImageUrl == "default.png" || profileImageUrl.isEmpty
                   ? Image.asset(
                       'assets/images/default.png',
                       width: avatarSize,

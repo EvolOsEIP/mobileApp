@@ -122,10 +122,13 @@ class _ProfilePicturePageState extends State<ProfilePicturePage> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () async {
-                if (_imageFile != null) {
+                if (_imageFile != null && _imageFile!.path.isNotEmpty) {
                   await _uploadImage(context);
                 } 
                 ApiService apiService = ApiService();
+                if (profilePicUrl == null || profilePicUrl!.isEmpty) {
+                    Navigator.pushReplacementNamed(context, '/roadmap');
+                }
                 apiService.put(
                   'profile/me/profile-pic',
                   {
