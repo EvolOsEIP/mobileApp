@@ -40,9 +40,11 @@ class _ProfilePicturePageState extends State<ProfilePicturePage> {
 
     final cachingService = CachingStorageService();
     final token = await cachingService.getFromCache("token");
+    String apiUrl = dotenv.env["HOST_URL"].toString() 
+    ?? String.fromEnvironment('HOST_URL');
 
     final uri = Uri.parse(
-        'http://' + dotenv.env["HOST_URL"].toString() + '/upload/image');
+        'http://' + apiUrl + '/upload/image');
 
     final request = http.MultipartRequest('POST', uri)
       ..headers['Authorization'] = 'Bearer $token'

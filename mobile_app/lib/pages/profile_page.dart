@@ -28,6 +28,8 @@ class _ProfilePageState extends State<ProfilePage> {
   String profileImageUrl = "default.png";
   File? _imageFile;
   final ImagePicker _picker = ImagePicker();
+  String apiUrl = dotenv.env["HOST_URL"].toString() 
+  ?? String.fromEnvironment('HOST_URL');
 
   @override
   void initState() {
@@ -81,7 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final cachingService = CachingStorageService();
     final token = await cachingService.getFromCache("token");
 
-    final uri = Uri.parse('http://${dotenv.env["HOST_URL"]}/upload/image');
+    final uri = Uri.parse('http://${apiUrl}/upload/image');
     final request = http.MultipartRequest('POST', uri)
       ..headers['Authorization'] = 'Bearer $token'
       ..files.add(
@@ -134,7 +136,7 @@ Widget build(BuildContext context) {
           ? FileImage(_imageFile!)
           : isDefaultImage
               ? AssetImage("assets/images/default.png") as ImageProvider
-              : NetworkImage("http://${dotenv.env["HOST_URL"]}/api/images/$profileImageUrl"),
+              : NetworkImage("http://${apiUrl}/api/images/$profileImageUrl"),
       child: Align(
         alignment: Alignment.bottomRight,
         child: CircleAvatar(

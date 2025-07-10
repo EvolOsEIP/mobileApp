@@ -26,9 +26,12 @@ class RoadmapPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // final tokenService = CachingStorageService();
     // tokenService.clearFromCache('token');
+     String apiUrl = dotenv.env["HOST_URL"].toString() 
+    ?? String.fromEnvironment('HOST_URL');
     return Scaffold(
       body: FutureBuilder<List<dynamic>>(
         future: _apiService.fetch("roadmap", 'assets/json/offline_modules.json'),
+         
 
         builder: (context, snapshot) {
           // If the data is still loading
@@ -50,7 +53,7 @@ class RoadmapPage extends StatelessWidget {
               children: [
                 const SizedBox(height: 20),
                 Image.network(
-                "http://" + dotenv.env["HOST_URL"].toString() + "/api/images/logo.png",
+                "http://" + apiUrl + "/api/images/logo.png",
                   height: 100),
                 const SizedBox(height: 20),
                 // Mapping through each module and creating a roadmap section

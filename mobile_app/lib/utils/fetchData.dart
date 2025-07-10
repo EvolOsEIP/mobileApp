@@ -17,7 +17,11 @@ Future<List<dynamic>> fetchFromJson(String filePath) async {
 
 dynamic fetchFromApi(String endpoint,
     {Map<String, String>? headers}) async {
-  var url = Uri.http(dotenv.env["HOST_URL"].toString(), endpoint);
+
+  String apiUrl = dotenv.env["HOST_URL"].toString() 
+  ?? String.fromEnvironment('HOST_URL');
+
+  var url = Uri.http(apiUrl, endpoint);
   try {
     final response = await http.get(url, headers: headers).timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
@@ -44,7 +48,10 @@ dynamic fetchFromApi(String endpoint,
 }
 
 dynamic postToApi(String endpoint, Object? body, Map<String,String>? headers) async {
-  var url = Uri.http(dotenv.env["HOST_URL"].toString(), endpoint);
+   
+  String apiUrl = dotenv.env["HOST_URL"].toString() 
+  ?? String.fromEnvironment('HOST_URL');
+  var url = Uri.http(apiUrl, endpoint);
   try {
     final response =
         await http.post(url, body: body, headers: headers).timeout(const Duration(milliseconds: 500));
@@ -62,7 +69,10 @@ dynamic postToApi(String endpoint, Object? body, Map<String,String>? headers) as
 
 dynamic putToApi(String endpoint, Object? body,
     {Map<String, String>? headers}) async {
-  var url = Uri.http(dotenv.env["HOST_URL"].toString(), endpoint);
+
+  String apiUrl = dotenv.env["HOST_URL"].toString() 
+  ?? String.fromEnvironment('HOST_URL');
+  var url = Uri.http(apiUrl, endpoint);
   try {
     final response = await http.put(url, body: body, headers: headers)
         .timeout(const Duration(milliseconds: 500));
