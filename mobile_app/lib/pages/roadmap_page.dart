@@ -309,7 +309,8 @@ class _RoadmapWidgetState extends State<RoadmapWidget> {
                       child: HexagonItem(
                         title: widget.evaluation['title'],
                         hexLabel: "Eval",
-                        description: widget.evaluation['summary'],
+                        description: widget.evaluation["description"] != null && widget.evaluation['description'].isNotEmpty  ? 
+                            widget.evaluation["description"]: "Évaluation de fin de module",
                         onTapAction: () => Navigator.push(
                           context,
                           MaterialPageRoute(

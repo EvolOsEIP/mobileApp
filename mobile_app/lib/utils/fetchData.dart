@@ -54,7 +54,7 @@ dynamic postToApi(String endpoint, Object? body, Map<String,String>? headers) as
   var url = Uri.http(apiUrl, endpoint);
   try {
     final response =
-        await http.post(url, body: body, headers: headers).timeout(const Duration(milliseconds: 500));
+        await http.post(url, body: body, headers: headers).timeout(const Duration(milliseconds: 1500));
     // print(response.body);
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
@@ -75,7 +75,7 @@ dynamic putToApi(String endpoint, Object? body,
   var url = Uri.http(apiUrl, endpoint);
   try {
     final response = await http.put(url, body: body, headers: headers)
-        .timeout(const Duration(milliseconds: 500));
+        .timeout(const Duration(milliseconds: 1500));
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {

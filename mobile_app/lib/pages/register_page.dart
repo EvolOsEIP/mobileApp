@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/pages/form_page.dart';
+import 'package:mobile_app/pages/login_page.dart';
 
 class RegisterPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -88,7 +89,8 @@ class RegisterPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 TextButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => Navigator.push(context, 
+                      MaterialPageRoute(builder: (context) => LoginPage())),
                   child: const Text("Déjà un compte ? Se connecter"),
                 ),
               ],

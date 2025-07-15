@@ -22,7 +22,7 @@ Widget buildContent({
       children: [
         stepColumn,
         if (dialogs != null && dialogs.isNotEmpty)
-          buildAssistantOverlay(dialogs, onAssistantComplete),
+         buildAssistantOverlay(dialogs, onAssistantComplete),
       ],
     ),
   );
