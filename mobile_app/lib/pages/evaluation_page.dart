@@ -55,6 +55,7 @@ class _EvaluationPage extends State<EvaluationPage> {
       List<dynamic> jsonData = await ApiService().fetch("evaluations/${widget.evaluationId}/steps", "assets/json/evaluations_pages.json");
       if (jsonData.isNotEmpty && currentStep < jsonData.length) {
         Map<String, dynamic> step = jsonData[currentStep];
+        print("widgetinstructions: ${step["widgets"]["instructions"]}");
         setState(() {
           stepName = step["title"] ?? "";
           instructionDescription = step["instructions"] ?? "";
@@ -211,6 +212,7 @@ class _EvaluationPage extends State<EvaluationPage> {
   Widget displayWidget(Map<String, dynamic> widgetData, BuildContext context) {
     switch (widgetData["type"]) {
       case "image":
+        print("image widget: ${widgetData["data"]}");
         return imageWidget(
             context, widgetData["data"], widgetData["description"]);
       case "input_text":

@@ -6,10 +6,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 /// [context] - The build context.
 /// [imagePath] - The path to the image asset.
 /// [description] - A brief description of the image.
-Widget imageWidget(BuildContext context, String imagePath, String description) {
+Widget imageWidget(BuildContext context, String? imagePath, String description) {
+  print("imagePath: $imagePath");
   return Column(
     children: [
-      imagePath.isEmpty
+      imagePath == null || imagePath.isEmpty  
           ? const Text("Aucune image disponible", style: TextStyle(fontSize: 16))
           : Image.network(
          "http://" + dotenv.env["HOST_URL"].toString() +  "/api/images/" + imagePath,
